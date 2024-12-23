@@ -13,7 +13,7 @@ export default ({ env }) => {
     });
 
 
-    const bucketName = env('MINIO_BUCKET', 'my-bucket');
+    const bucketName = env('MINIO_BUCKET', 'pelican-local-env');
 
 
     const setupMinio = async () => {
@@ -124,4 +124,5 @@ export default ({ env }) => {
         },
     };
 };
+
 
