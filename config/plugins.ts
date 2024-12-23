@@ -1,9 +1,6 @@
-
-
-import Minio = require('minio');
+import Minio from 'minio';
 
 export default ({ env }) => {
-    // Инициализация клиента Minio
     const minioClient = new Minio.Client({
         endPoint: env('MINIO_ENDPOINT', 'play.min.io'),
         port: parseInt(env('MINIO_PORT', '9000'), 10),
@@ -12,9 +9,7 @@ export default ({ env }) => {
         secretKey: env('MINIO_SECRET_KEY')
     });
 
-
     const bucketName = env('MINIO_BUCKET', 'pelican-local-env');
-
 
     const setupMinio = async () => {
         try {
@@ -33,13 +28,13 @@ export default ({ env }) => {
                                 "s3:GetBucketLocation",
                                 "s3:ListBucket"
                             ],
-                            "Resource": "arn:aws:s3:::" + bucketName
+                            "Resource": `arn:aws:s3:::${bucketName}`
                         },
                         {
                             "Effect": "Allow",
                             "Principal": "*",
                             "Action": "s3:GetObject",
-                            "Resource": "arn:aws:s3:::" + bucketName + "/*"
+                            "Resource": `arn:aws:s3:::${bucketName}/*`
                         }
                     ]
                 };
@@ -48,12 +43,34 @@ export default ({ env }) => {
                 console.log(`Public access policy set for bucket ${bucketName}.`);
             } else {
                 console.log(`Bucket ${bucketName} already exists.`);
+                const policy = {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": "*",
+                            "Action": [
+                                "s3:GetBucketLocation",
+                                "s3:ListBucket"
+                            ],
+                            "Resource": `arn:aws:s3:::${bucketName}`
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Principal": "*",
+                            "Action": "s3:GetObject",
+                            "Resource": `arn:aws:s3:::${bucketName}/*`
+                        }
+                    ]
+                };
+
+                await minioClient.setBucketPolicy(bucketName, JSON.stringify(policy));
+                console.log(`Public access policy updated for bucket ${bucketName}.`);
             }
         } catch (err) {
             console.error('Error setting up Minio bucket:', err);
         }
     };
-
 
     setupMinio();
 
@@ -124,5 +141,3 @@ export default ({ env }) => {
         },
     };
 };
-
-
