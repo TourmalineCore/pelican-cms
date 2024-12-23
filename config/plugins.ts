@@ -1,4 +1,4 @@
-import Minio from 'minio';
+import Minio = require('minio');
 
 export default ({ env }) => {
     const minioClient = new Minio.Client({
