@@ -17,6 +17,7 @@
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^3.0.9",
     "@notum-cz/strapi-plugin-content-versioning": "^1.3.4",
+    "@playwright/test": "1.49.0",
     "@strapi/plugin-cloud": "4.25.11",
     "@strapi/plugin-documentation": "^4.25.18",
     "@strapi/plugin-i18n": "4.25.11",
@@ -25,14 +26,14 @@
     "@strapi/strapi": "4.25.11",
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
+    "minio": "^8.0.3",
     "pg": "^8.8.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "5.3.4",
     "strapi-plugin-init-admin-user": "^0.2.3",
     "strapi-plugin-preview-button": "^2.2.2",
-    "styled-components": "5.3.3",
-    "@playwright/test": "1.49.0"
+    "styled-components": "5.3.3"
   },
   "author": {
     "name": "A Strapi developer"
@@ -44,7 +45,5 @@
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT",
-  "devDependencies": {
-  }
+  "license": "MIT"
 }
