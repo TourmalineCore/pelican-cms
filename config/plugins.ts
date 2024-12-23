@@ -9,6 +9,7 @@ export default ({ env }) => {
         secretKey: env('MINIO_SECRET_KEY')
     });
 
+
     const bucketName = env('MINIO_BUCKET', 'pelican-local-env');
     const policy = {
         "Version": "2012-10-17",
@@ -20,25 +21,35 @@ export default ({ env }) => {
                     "s3:GetBucketLocation",
                     "s3:ListBucket"
                 ],
-                "Resource": `arn:aws:s3:::${bucketName}`
+                "Resource": "arn:aws:s3:::" + bucketName
             },
             {
                 "Effect": "Allow",
                 "Principal": "*",
                 "Action": "s3:GetObject",
-                "Resource": `arn:aws:s3:::${bucketName}/*`
+                "Resource": "arn:aws:s3:::" + bucketName + "/*"
             }
         ]
     };
 
     const setupMinio = async () => {
-        const bucketExists = await minioClient.bucketExists(bucketName);
-        if (!bucketExists) {
-            await minioClient.makeBucket(bucketName, 'us-east-1');
+        try {
+            const bucketExists = await minioClient.bucketExists(bucketName);
+            if (!bucketExists) {
+                await minioClient.makeBucket(bucketName, 'us-east-1');
+                console.log(`Bucket ${bucketName} created successfully.`);
+                await minioClient.setBucketPolicy(bucketName, JSON.stringify(policy));
+                console.log(`Public access policy set for bucket ${bucketName}.`);
+            } else {
+                await minioClient.setBucketPolicy(bucketName, JSON.stringify(policy));
+                console.log(`Bucket ${bucketName} already exists.`);
+            }
+        } catch (err) {
+            console.error('Error setting up Minio bucket:', err);
         }
+    };
 
-        await minioClient.setBucketPolicy(bucketName, JSON.stringify(policy));
-    }
+
     setupMinio();
 
     return {
