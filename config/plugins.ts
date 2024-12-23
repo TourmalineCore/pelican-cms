@@ -10,68 +10,35 @@ export default ({ env }) => {
     });
 
     const bucketName = env('MINIO_BUCKET', 'pelican-local-env');
-
-    const setupMinio = async () => {
-        try {
-            const bucketExists = await minioClient.bucketExists(bucketName);
-            if (!bucketExists) {
-                await minioClient.makeBucket(bucketName, 'us-east-1');
-                console.log(`Bucket ${bucketName} created successfully.`);
-
-                const policy = {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Principal": "*",
-                            "Action": [
-                                "s3:GetBucketLocation",
-                                "s3:ListBucket"
-                            ],
-                            "Resource": `arn:aws:s3:::${bucketName}`
-                        },
-                        {
-                            "Effect": "Allow",
-                            "Principal": "*",
-                            "Action": "s3:GetObject",
-                            "Resource": `arn:aws:s3:::${bucketName}/*`
-                        }
-                    ]
-                };
-
-                await minioClient.setBucketPolicy(bucketName, JSON.stringify(policy));
-                console.log(`Public access policy set for bucket ${bucketName}.`);
-            } else {
-                console.log(`Bucket ${bucketName} already exists.`);
-                const policy = {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Principal": "*",
-                            "Action": [
-                                "s3:GetBucketLocation",
-                                "s3:ListBucket"
-                            ],
-                            "Resource": `arn:aws:s3:::${bucketName}`
-                        },
-                        {
-                            "Effect": "Allow",
-                            "Principal": "*",
-                            "Action": "s3:GetObject",
-                            "Resource": `arn:aws:s3:::${bucketName}/*`
-                        }
-                    ]
-                };
-
-                await minioClient.setBucketPolicy(bucketName, JSON.stringify(policy));
-                console.log(`Public access policy updated for bucket ${bucketName}.`);
+    const policy = {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": [
+                    "s3:GetBucketLocation",
+                    "s3:ListBucket"
+                ],
+                "Resource": `arn:aws:s3:::${bucketName}`
+            },
+            {
+                "Effect": "Allow",
+                "Principal": "*",
+                "Action": "s3:GetObject",
+                "Resource": `arn:aws:s3:::${bucketName}/*`
             }
-        } catch (err) {
-            console.error('Error setting up Minio bucket:', err);
-        }
+        ]
     };
 
+    const setupMinio = async () => {
+        const bucketExists = await minioClient.bucketExists(bucketName);
+        if (!bucketExists) {
+            await minioClient.makeBucket(bucketName, 'us-east-1');
+        }
+
+        await minioClient.setBucketPolicy(bucketName, JSON.stringify(policy));
+    }
     setupMinio();
 
     return {
