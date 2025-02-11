@@ -62,8 +62,8 @@ jobs:
           runCmd: |
             kind create cluster --name pelican --config kind-local-config.yaml --kubeconfig ./.pelican-cluster-kubeconfig
             export KUBECONFIG=$(pwd)/.pelican-cluster-kubeconfig
-            export IMAGE_TAG=feature-158-local-env-config
-            helmfile --environment local --namespace local -f deploy/helmfile.yaml apply
+            export IMAGE_TAG="feature-158-local-env-config"
+            helmfile --environment local --namespace local -f deploy/helmfile.yaml apply -f ./ci/values-custom.yaml
           push: never
 
       - name: Checkout repository
