@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-  pull_request:
 
 env:
   GITHUB_REGISTRY: ghcr.io
@@ -28,24 +27,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Determine Docker tag
-        id: determine_tag
-        run: |
-          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-            echo "Using tag: latest"
-            echo "TAG=latest" >> $GITHUB_ENV
-          else
-            BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed -E 's/[^a-zA-Z0-9.-]+/-/g' | sed -E 's/^-//g')
-            echo "Using tag: $BRANCH_NAME"
-            echo "TAG=$BRANCH_NAME" >> $GITHUB_ENV
-          fi
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/tourmalinecore/pelican-cms:${{ env.TAG}}
+          tags: ghcr.io/tourmalinecore/pelican-cms:latest
           build-args: |
             SERVER_URL=http://localhost:40110/cms
