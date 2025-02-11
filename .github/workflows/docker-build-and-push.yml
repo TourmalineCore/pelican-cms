@@ -28,12 +28,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Determine Docker tag
+        id: determine_tag
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+            echo "Using tag: latest"
+            echo "TAG=latest" >> $GITHUB_ENV
+          else
+            echo "Using tag: ${{ github.sha }}"
+            echo "TAG=${{ github.sha}}" >> $GITHUB_ENV
+          fi
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/tourmalinecore/pelican-cms:latest
+          tags: ghcr.io/tourmalinecore/pelican-cms:${{ env.TAG }}
           build-args: |
             SERVER_URL=http://localhost:40110/cms
