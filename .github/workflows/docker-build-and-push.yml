@@ -46,6 +46,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/tourmalinecore/pelican-cms:${{ env.TAG }}
+          tags: ghcr.io/tourmalinecore/pelican-cms:${{ env.TAG}}
           build-args: |
             SERVER_URL=http://localhost:40110/cms
