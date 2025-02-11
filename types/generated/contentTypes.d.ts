@@ -1001,12 +1001,6 @@ export interface ApiNewsCollectionNewsCollection extends Schema.CollectionType {
           versioned: true;
         };
       }>;
-    description: Attribute.Text &
-      Attribute.SetPluginOptions<{
-        versions: {
-          versioned: true;
-        };
-      }>;
     image: Attribute.Media<'images'> &
       Attribute.Required &
       Attribute.SetPluginOptions<{
