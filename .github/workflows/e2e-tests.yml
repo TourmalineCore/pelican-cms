@@ -63,7 +63,7 @@ jobs:
           runCmd: |
             kind create cluster --name pelican --config kind-local-config.yaml --kubeconfig ./.pelican-cluster-kubeconfig
             export KUBECONFIG=$(pwd)/.pelican-cluster-kubeconfig
-            export CMS_BRANCH=feature/#158-local-env-config
+            export GIT_CMS_REF=feature/#158-local-env-config
             helmfile --environment local --namespace local -f deploy/helmfile.yaml apply
           push: never
 
