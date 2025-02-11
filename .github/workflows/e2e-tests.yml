@@ -56,11 +56,17 @@ jobs:
         with:
           repository: TourmalineCore/pelican-local-env
 
+      - name: Determine Docker tag
+        id: determine_tag
+        run: |
+            BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed -E 's/[^a-zA-Z0-9.-]+/-/g' | sed -E 's/^-//g')
+            echo "Using tag: $BRANCH_NAME"
+            echo "TAG=$BRANCH_NAME" >> $GITHUB_ENV
+
       - name: Deploy Local Env to Kind k8s
         uses: devcontainers/ci@v0.3
         with:
           runCmd: |
-            echo "Deploy tag ${{ env.TAG }}"
             kind create cluster --name pelican --config kind-local-config.yaml --kubeconfig ./.pelican-cluster-kubeconfig
             export KUBECONFIG=$(pwd)/.pelican-cluster-kubeconfig
             helmfile --environment local --namespace local -f deploy/helmfile.yaml apply --set image.tag=${{ env.TAG }}
