@@ -34,9 +34,10 @@ jobs:
           if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
             echo "Using tag: latest"
             echo "TAG=latest" >> $GITHUB_ENV
-          else
-            echo "Using tag: ${{ github.ref_name }}"
-            echo "TAG=${{ github.ref_name }}" >> $GITHUB_ENV
+         else
+            BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed -E 's/[^a-zA-Z0-9.-]+/-/g' | sed -E 's/^-//g')
+            echo "Using tag: $BRANCH_NAME"
+            echo "TAG=$BRANCH_NAME" >> $GITHUB_ENV
           fi
 
       - name: Build and push Docker image
