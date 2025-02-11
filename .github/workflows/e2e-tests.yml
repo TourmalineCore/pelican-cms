@@ -55,6 +55,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: TourmalineCore/pelican-local-env
+          ref: feature/#158-local-env-config
 
       - name: Deploy Local Env to Kind k8s
         uses: devcontainers/ci@v0.3
