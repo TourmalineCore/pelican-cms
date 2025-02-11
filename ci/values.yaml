@@ -3,7 +3,7 @@
 image:
   registry: ghcr.io
   repository: tourmalinecore/pelican-cms
-  tag: "latest"
+  tag: "feature-158-local-env-config"
   pullPolicy: Always
   debug: true
 
