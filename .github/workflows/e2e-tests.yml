@@ -59,7 +59,7 @@ jobs:
       - name: Determine Docker tag
         id: determine_tag
         run: |
-            BRANCH_NAME=$(echo "${{ github.ref_name }})"
+            BRANCH_NAME=$(echo "${{ github.ref_name }}")
             echo "Using tag: $BRANCH_NAME"
             echo "TAG=$BRANCH_NAME" >> $GITHUB_ENV
 
