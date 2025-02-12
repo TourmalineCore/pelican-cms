@@ -67,6 +67,17 @@ export interface SharedHero extends Schema.Component {
   };
 }
 
+export interface SharedCards extends Schema.Component {
+  collectionName: 'components_shared_cards';
+  info: {
+    displayName: 'Cards';
+    description: '';
+  };
+  attributes: {
+    cards: Attribute.Component<'card.card', true>;
+  };
+}
+
 export interface ScheduleCardTimetable extends Schema.Component {
   collectionName: 'components_shedule_card_timetables';
   info: {
@@ -105,15 +116,44 @@ export interface HeroInfoCard extends Schema.Component {
   };
 }
 
+export interface CardLabel extends Schema.Component {
+  collectionName: 'components_card_labels';
+  info: {
+    displayName: 'label';
+    description: '';
+  };
+  attributes: {
+    text: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface CardCard extends Schema.Component {
+  collectionName: 'components_card_cards';
+  info: {
+    displayName: 'card';
+    description: '';
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    description: Attribute.Text;
+    image: Attribute.Media<'images'> & Attribute.Required;
+    labels: Attribute.Component<'card.label', true>;
+    link: Attribute.String;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
       'shared.seo': SharedSeo;
       'shared.meta-social': SharedMetaSocial;
       'shared.hero': SharedHero;
+      'shared.cards': SharedCards;
       'schedule-card.timetable': ScheduleCardTimetable;
       'hero.schedule-card': HeroScheduleCard;
       'hero.info-card': HeroInfoCard;
+      'card.label': CardLabel;
+      'card.card': CardCard;
     }
   }
 }

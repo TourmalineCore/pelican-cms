@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { getStrapiUrl, saveAndPublish, uploadFile } from "../global-helpers";
+import { createHeroBlock, getStrapiUrl, saveAndPublish } from "../global-helpers";
 import axios from "axios";
 
 export async function createAndPublishContactZooPage({
@@ -13,7 +13,7 @@ export async function createAndPublishContactZooPage({
   page: Page,
   title: string,
   infoCard: {
-    title?: string,
+    title: string,
     description: string
   },
   scheduleCard: {
@@ -21,7 +21,7 @@ export async function createAndPublishContactZooPage({
     timetable: {
       days: string,
       time: string,
-      ticketsOfficeTime?: string
+      ticketsOfficeTime: string
     }[]
   }
   seo: {
@@ -36,43 +36,13 @@ export async function createAndPublishContactZooPage({
   await page.getByText(`Страница контактного зоопарка`)
     .click();
 
-  await page.getByRole('button', {
-    name: 'Add a component to blocks'
-  }).click();
-
-  await page.getByRole('button', {
-    name: 'Hero'
-  }).click();
-
-  await page.locator('id=blocks.0.title')
-    .fill(title);
-
-  await uploadFile({
+  await createHeroBlock({
     page,
-    filePath,
+    title,
+    infoCard,
+    scheduleCard,
+    filePath
   });
-
-  await page.locator('id=blocks.0.infoCard.title')
-    .fill(infoCard.title);
-
-  await page.locator('id=blocks.0.infoCard.description')
-    .fill(infoCard.description);
-
-  await page.getByText('No entry yet. Click on the button below to add one.')
-    .first()
-    .click();
-
-  await page.locator('id=blocks.0.scheduleCard.title')
-    .fill(scheduleCard.title);
-
-  await page.locator('id=blocks.0.scheduleCard.timetable.0.days')
-    .fill(scheduleCard.timetable[0].days);
-
-  await page.locator('id=blocks.0.scheduleCard.timetable.0.time')
-    .fill(scheduleCard.timetable[0].time);
-
-  await page.locator('id=blocks.0.scheduleCard.timetable.0.ticketsOfficeTime')
-    .fill(scheduleCard.timetable[0].ticketsOfficeTime);
 
   await page.getByText('No entry yet. Click on the button below to add one.')
     .last()

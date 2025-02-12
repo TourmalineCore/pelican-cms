@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_card_cards",
+  "info": {
+    "displayName": "card",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "labels": {
+      "type": "component",
+      "repeatable": true,
+      "component": "card.label"
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}

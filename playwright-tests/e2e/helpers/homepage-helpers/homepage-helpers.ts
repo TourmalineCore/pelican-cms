@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { getStrapiUrl, saveAndPublish, uploadFile } from "../global-helpers";
+import { createHeroBlock, getStrapiUrl, saveAndPublish, uploadFile } from "../global-helpers";
 import axios from "axios";
 
 export async function createAndPublishHomepage({
@@ -7,6 +7,7 @@ export async function createAndPublishHomepage({
   title,
   infoCard,
   scheduleCard,
+  cards,
   seo,
   filePath,
 }: {
@@ -16,6 +17,14 @@ export async function createAndPublishHomepage({
     title: string,
     description: string
   },
+  cards: {
+    title: string,
+    description: string,
+    link: string,
+    labels: {
+      text: string
+    }[]
+  }[],
   scheduleCard: {
     title: string,
     timetable: {
@@ -36,43 +45,22 @@ export async function createAndPublishHomepage({
   await page.getByText(`Главная страница`)
     .click();
 
-  await page.getByRole('button', {
-    name: 'Add a component to blocks'
-  }).click();
-
-  await page.getByRole('button', {
-    name: 'Hero'
-  }).click();
-
-  await page.locator('id=blocks.0.title')
-    .fill(title);
-
-  await uploadFile({
+  await createHeroBlock({
     page,
-    filePath,
+    title,
+    infoCard,
+    scheduleCard,
+    filePath
   });
 
-  await page.locator('id=blocks.0.infoCard.title')
-    .fill(infoCard.title);
-
-  await page.locator('id=blocks.0.infoCard.description')
-    .fill(infoCard.description);
-
-  await page.getByText('No entry yet. Click on the button below to add one.')
-    .first()
-    .click();
-
-  await page.locator('id=blocks.0.scheduleCard.title')
-    .fill(scheduleCard.title);
-
-  await page.locator('id=blocks.0.scheduleCard.timetable.0.days')
-    .fill(scheduleCard.timetable[0].days);
-
-  await page.locator('id=blocks.0.scheduleCard.timetable.0.time')
-    .fill(scheduleCard.timetable[0].time);
-
-  await page.locator('id=blocks.0.scheduleCard.timetable.0.ticketsOfficeTime')
-    .fill(scheduleCard.timetable[0].ticketsOfficeTime);
+  await createCardsBlock({
+    page,
+    title: cards[0].title,
+    description: cards[0].description,
+    link: cards[0].link,
+    labels: cards[0].labels[0],
+    filePath,
+  });
 
   await page.getByText('No entry yet. Click on the button below to add one.')
     .last()
@@ -85,6 +73,57 @@ export async function createAndPublishHomepage({
     .fill(seo.metaDescription);
 
   await saveAndPublish({ page });
+}
+
+async function createCardsBlock({
+  page,
+  title,
+  description,
+  link,
+  labels,
+  filePath
+}: {
+  page: Page,
+  title: string,
+  description: string,
+  link: string,
+  labels: {
+    text: string
+  },
+  filePath: string
+}) {
+  await page.getByRole('button', {
+    name: 'Add a component to blocks'
+  }).click();
+
+  await page.getByRole('button', {
+    name: 'Cards'
+  }).click();
+
+  await page.getByText('No entry yet. Click on the button below to add one.')
+    .first()
+    .click();
+
+  await page.locator('id=blocks.1.cards.0.title')
+    .fill(title);
+
+  await page.locator('id=blocks.1.cards.0.description')
+    .fill(description);
+
+  await uploadFile({
+    page,
+    filePath,
+  });
+
+  await page.locator('id=blocks.1.cards.0.link')
+    .fill(link);
+
+  await page.getByText('No entry yet. Click on the button below to add one.')
+    .first()
+    .click();
+
+  await page.locator('id=blocks.1.cards.0.labels.0.text')
+    .fill(labels.text);
 }
 
 export async function deleteHomepage() {

@@ -6,6 +6,7 @@ import { createAndPublishNews, deleteNews, getNewsWithTestPrefix } from "./helpe
 import axios from "axios";
 import { createAndPublishHomepage, deleteHomepage } from "./helpers/homepage-helpers/homepage-helpers";
 import { createAndPublishContactZooPage, deleteContactZooPage } from "./helpers/contact-zoo-page-helpers/contact-zoo-page-helpers";
+import qs from "qs";
 
 
 test.describe(`API response tests`, () => {
@@ -311,10 +312,25 @@ async function checkHomepageResponseTest({
       ticketsOfficeTime: '(вход и касса 10:00-17:00)'
     }]
   };
+
+  const cards = [
+    {
+      title: "Услуга 1",
+      description: "Описание услуги 1",
+      link: 'ссылка',
+      labels: [
+        {
+          text: "от 5 человек"
+        }
+      ]
+    }
+  ];
+
   const seo = {
     metaTitle: "Челябинский зоопарк",
     metaDescription: "Описание челябинского зоопарка, приглашаем взрослых и детей, у нас много животных!",
-  }
+  };
+
   const expectedHomepageResponse = {
     data: {
       attributes: {
@@ -322,14 +338,12 @@ async function checkHomepageResponseTest({
           {
             title,
             __component: "shared.hero",
-            infoCard: {
-              title: infoCard.title,
-              description: infoCard.description
-            },
-            scheduleCard: {
-              title: scheduleCard.title,
-              timetable: scheduleCard.timetable
-            },
+            infoCard,
+            scheduleCard,
+          },
+          {
+            __component: "shared.cards",
+            cards,
           }
         ],
         seo
@@ -342,15 +356,29 @@ async function checkHomepageResponseTest({
     title,
     infoCard,
     scheduleCard,
+    cards,
     seo,
     filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`
   });
 
+  const queryParams = {
+    populate: [
+      `blocks.infoCard`,
+      `blocks.scheduleCard`,
+      `blocks.scheduleCard.timetable`,
+      `blocks.image`,
+      `blocks.cards`,
+      `blocks.cards.labels`,
+      `seo`,
+    ],
+  };
+
   const homepageResponse = (await axios.get(getStrapiUrl({
-    path: '/api/home?populate[0]=blocks&populate[1]=blocks.infoCard&populate[2]=blocks.scheduleCard&populate[3]=blocks.scheduleCard.timetable&populate[4]=blocks.image&populate[5]=seo'
+    path: `/api/home?${qs.stringify(queryParams)}`
   }))).data;
 
   const heroBlock = homepageResponse.data.attributes.blocks.find((block) => block.__component === 'shared.hero');
+  const cardsBlock = homepageResponse.data.attributes.blocks.find((block) => block.__component === 'shared.cards');
 
   await expect({
     data: {
@@ -373,6 +401,19 @@ async function checkHomepageResponseTest({
                 }
               ]
             },
+          },
+          {
+            __component: "shared.cards",
+            cards: [
+              {
+                title: cardsBlock.cards[0].title,
+                description: cardsBlock.cards[0].description,
+                link: cardsBlock.cards[0].link,
+                labels: [{
+                  text: cardsBlock.cards[0].labels[0].text
+                }]
+              }
+            ],
           }
         ],
         seo: {
@@ -418,14 +459,8 @@ async function checkContactZooPageResponseTest({
           {
             title,
             __component: "shared.hero",
-            infoCard: {
-              title: infoCard.title,
-              description: infoCard.description
-            },
-            scheduleCard: {
-              title: scheduleCard.title,
-              timetable: scheduleCard.timetable,
-            },
+            infoCard,
+            scheduleCard,
           }
         ],
         seo
@@ -442,8 +477,18 @@ async function checkContactZooPageResponseTest({
     filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`
   });
 
+  const queryParams = {
+    populate: [
+      `blocks.infoCard`,
+      `blocks.scheduleCard`,
+      `blocks.scheduleCard.timetable`,
+      `blocks.image`,
+      `seo`,
+    ],
+  };
+
   const contactZooPageResponse = (await axios.get(getStrapiUrl({
-    path: '/api/contact-zoo?populate[0]=blocks&populate[1]=blocks.infoCard&populate[2]=blocks.scheduleCard&populate[3]=blocks.scheduleCard.timetable&populate[4]=blocks.image&populate[5]=seo'
+    path: `/api/contact-zoo?${qs.stringify(queryParams)}`
   }))).data;
 
   const heroBlock = contactZooPageResponse.data.attributes.blocks.find((block) => block.__component === 'shared.hero');

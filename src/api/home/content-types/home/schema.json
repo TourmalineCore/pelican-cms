@@ -24,7 +24,8 @@
       },
       "type": "dynamiczone",
       "components": [
-        "shared.hero"
+        "shared.hero",
+        "shared.cards"
       ]
     },
     "seo": {

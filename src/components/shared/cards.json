@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_shared_cards",
+  "info": {
+    "displayName": "Cards",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "cards": {
+      "displayName": "card",
+      "type": "component",
+      "repeatable": true,
+      "component": "card.card"
+    }
+  }
+}

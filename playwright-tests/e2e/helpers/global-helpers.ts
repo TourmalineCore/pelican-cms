@@ -131,3 +131,65 @@ export async function saveAndPublish({
 
   await page.waitForTimeout(500);
 }
+
+export async function createHeroBlock({
+  page,
+  title,
+  infoCard,
+  scheduleCard,
+  filePath,
+}: {
+  page: Page;
+  title: string,
+  infoCard: {
+    title: string,
+    description: string
+  },
+  scheduleCard: {
+    title: string,
+    timetable: {
+      days: string,
+      time: string,
+      ticketsOfficeTime: string
+    }[]
+  }
+  filePath: string
+}) {
+  await page.getByRole('button', {
+    name: 'Add a component to blocks'
+  }).click();
+
+  await page.getByRole('button', {
+    name: 'Hero'
+  }).click();
+
+  await page.locator('id=blocks.0.title')
+    .fill(title);
+
+  await uploadFile({
+    page,
+    filePath,
+  });
+
+  await page.locator('id=blocks.0.infoCard.title')
+    .fill(infoCard.title);
+
+  await page.locator('id=blocks.0.infoCard.description')
+    .fill(infoCard.description);
+
+  await page.getByText('No entry yet. Click on the button below to add one.')
+    .first()
+    .click();
+
+  await page.locator('id=blocks.0.scheduleCard.title')
+    .fill(scheduleCard.title);
+
+  await page.locator('id=blocks.0.scheduleCard.timetable.0.days')
+    .fill(scheduleCard.timetable[0].days);
+
+  await page.locator('id=blocks.0.scheduleCard.timetable.0.time')
+    .fill(scheduleCard.timetable[0].time);
+
+  await page.locator('id=blocks.0.scheduleCard.timetable.0.ticketsOfficeTime')
+    .fill(scheduleCard.timetable[0].ticketsOfficeTime);
+}
