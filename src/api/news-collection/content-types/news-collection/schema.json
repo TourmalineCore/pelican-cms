@@ -25,15 +25,6 @@
       "type": "string",
       "required": true
     },
-    "description": {
-      "pluginOptions": {
-        "versions": {
-          "versioned": true
-        }
-      },
-      "type": "text",
-      "required": false
-    },
     "image": {
       "type": "media",
       "multiple": false,
