@@ -1,9 +1,9 @@
 import { Page } from '@playwright/test';
 import {
-  E2E_SMOKE_NAME_PREFIX,
   getStrapiUrl, saveAndPublish, uploadFile
 } from '../global-helpers';
 import axios from 'axios';
+import { E2E_SMOKE_NAME_PREFIX } from '../../consts';
 
 export async function deleteDocuments() {
   const documentsResponse = (await axios.get(getStrapiUrl({ path: '/api/documents?populate=*' }))).data;

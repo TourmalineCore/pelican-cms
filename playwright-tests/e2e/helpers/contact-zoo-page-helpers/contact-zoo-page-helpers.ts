@@ -4,31 +4,30 @@ import axios from "axios";
 
 export async function createAndPublishContactZooPage({
   page,
-  title,
-  infoCard,
-  scheduleCard,
+  hero,
   seo,
-  filePath,
 }: {
   page: Page,
-  title: string,
-  infoCard: {
-    title?: string,
-    description: string
-  },
-  scheduleCard: {
+  hero: {
     title: string,
-    timetable: {
-      days: string,
-      time: string,
-      ticketsOfficeTime?: string
-    }[]
-  }
+    infoCard: {
+      title: string,
+      description: string
+    },
+    scheduleCard: {
+      title: string,
+      timetable: {
+        days: string,
+        time: string,
+        ticketsOfficeTime: string
+      }[]
+    }
+    filePath: string,
+  },
   seo: {
     metaTitle: string,
     metaDescription: string
-  }
-  filePath: string
+  },
 }) {
   await page.getByText(`Content Manager`)
     .click();
@@ -45,34 +44,34 @@ export async function createAndPublishContactZooPage({
   }).click();
 
   await page.locator('id=blocks.0.title')
-    .fill(title);
+    .fill(hero.title);
 
   await uploadFile({
     page,
-    filePath,
+    filePath: hero.filePath,
   });
 
   await page.locator('id=blocks.0.infoCard.title')
-    .fill(infoCard.title);
+    .fill(hero.infoCard.title);
 
   await page.locator('id=blocks.0.infoCard.description')
-    .fill(infoCard.description);
+    .fill(hero.infoCard.description);
 
   await page.getByText('No entry yet. Click on the button below to add one.')
     .first()
     .click();
 
   await page.locator('id=blocks.0.scheduleCard.title')
-    .fill(scheduleCard.title);
+    .fill(hero.scheduleCard.title);
 
   await page.locator('id=blocks.0.scheduleCard.timetable.0.days')
-    .fill(scheduleCard.timetable[0].days);
+    .fill(hero.scheduleCard.timetable[0].days);
 
   await page.locator('id=blocks.0.scheduleCard.timetable.0.time')
-    .fill(scheduleCard.timetable[0].time);
+    .fill(hero.scheduleCard.timetable[0].time);
 
   await page.locator('id=blocks.0.scheduleCard.timetable.0.ticketsOfficeTime')
-    .fill(scheduleCard.timetable[0].ticketsOfficeTime);
+    .fill(hero.scheduleCard.timetable[0].ticketsOfficeTime);
 
   await page.getByText('No entry yet. Click on the button below to add one.')
     .last()

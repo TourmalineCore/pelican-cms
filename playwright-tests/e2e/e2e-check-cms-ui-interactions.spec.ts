@@ -1,6 +1,7 @@
 import test, { expect, Page } from "@playwright/test";
-import { authenticate, deleteFiles, E2E_SMOKE_NAME_PREFIX, gotoCMS, gotoUI } from "./helpers/global-helpers";
+import { authenticate, deleteFiles, gotoCMS, gotoUI } from "./helpers/global-helpers";
 import { createAndPublishNews, deleteNews } from "./helpers/news-helpers/news-helpers";
+import { E2E_SMOKE_NAME_PREFIX } from "./consts";
 
 test.describe(`Checking the interaction between CMS and UI`, () => {
   let page: Page;

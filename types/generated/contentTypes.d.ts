@@ -805,7 +805,7 @@ export interface ApiContactZooContactZoo extends Schema.SingleType {
     };
   };
   attributes: {
-    blocks: Attribute.DynamicZone<['shared.hero']> &
+    blocks: Attribute.DynamicZone<['shared.hero', 'shared.text-and-media']> &
       Attribute.SetPluginOptions<{
         versions: {
           versioned: true;
@@ -950,7 +950,7 @@ export interface ApiHomeHome extends Schema.SingleType {
     };
   };
   attributes: {
-    blocks: Attribute.DynamicZone<['shared.hero']> &
+    blocks: Attribute.DynamicZone<['shared.hero', 'shared.text-and-media']> &
       Attribute.SetPluginOptions<{
         versions: {
           versioned: true;

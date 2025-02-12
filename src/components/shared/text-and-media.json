@@ -1,0 +1,42 @@
+{
+  "collectionName": "components_shared_text_and_medias",
+  "info": {
+    "displayName": "TextAndMedia",
+    "icon": "landscape",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "contentOrder": {
+      "type": "enumeration",
+      "enum": [
+        "Текст слева, видео/изображение справа",
+        "Видео/изображение слева, текст справа"
+      ],
+      "default": "Текст слева, видео/изображение справа",
+      "required": true
+    },
+    "viewFootsteps": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}
