@@ -50,8 +50,7 @@
       "customField": "plugin::ckeditor5.CKEditor"
     },
     "date": {
-      "type": "date",
-      "required": true
+      "type": "date"
     }
   }
 }

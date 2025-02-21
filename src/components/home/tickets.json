@@ -17,8 +17,13 @@
       "component": "tickets.ticket",
       "required": true
     },
+    "generalTicketsLink": {
+      "type": "string",
+      "required": true
+    },
     "subsidizedTickets": {
       "type": "component",
+      "repeatable": false,
       "component": "tickets.tickets",
       "required": true
     }

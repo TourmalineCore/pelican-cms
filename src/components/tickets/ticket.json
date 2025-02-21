@@ -30,9 +30,6 @@
       ],
       "default": "Зелёный",
       "required": true
-    },
-    "link": {
-      "type": "string"
     }
   }
 }

@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-02-20T10:02:51.800Z"
+    "x-generation-date": "2025-02-21T07:43:08.187Z"
   },
   "x-strapi-config": {
     "plugins": []
@@ -3208,9 +3208,6 @@
               "Зелёный",
               "Коричневый"
             ]
-          },
-          "link": {
-            "type": "string"
           }
         }
       },
@@ -3239,6 +3236,9 @@
             }
           },
           "note": {
+            "type": "string"
+          },
+          "link": {
             "type": "string"
           }
         }
@@ -3566,8 +3566,7 @@
               "showDate",
               "title",
               "files",
-              "category",
-              "date"
+              "category"
             ],
             "type": "object",
             "properties": {
@@ -3674,8 +3673,7 @@
           "showDate",
           "title",
           "files",
-          "category",
-          "date"
+          "category"
         ],
         "properties": {
           "id": {
@@ -5812,6 +5810,9 @@
             "items": {
               "$ref": "#/components/schemas/TicketsTicketComponent"
             }
+          },
+          "generalTicketsLink": {
+            "type": "string"
           },
           "subsidizedTickets": {
             "$ref": "#/components/schemas/TicketsTicketsComponent"
