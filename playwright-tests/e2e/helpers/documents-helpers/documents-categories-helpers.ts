@@ -47,6 +47,7 @@ export function getDocumentCategoriesWithTestPrefix({
       id?: number;
       documentId: string;
       title: string;
+      slug: string;
     }[]
   }
 }) {

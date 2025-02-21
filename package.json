@@ -32,6 +32,7 @@
     "react-router-dom": "^6.0.0",
     "strapi-plugin-init-admin-user": "^0.2.3",
     "strapi-plugin-preview-button": "^3.0.0",
+    "strapi-plugin-slugify": "^2.3.8",
     "styled-components": "^6.0.0"
   },
   "author": {

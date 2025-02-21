@@ -1,3 +1,4 @@
+
 export default ({ env }) => ({
     ...(process.env.APP_ENV !== 'no-s3' &&
     {
@@ -38,6 +39,23 @@ export default ({ env }) => ({
             },
             'x-strapi-config': {
                 plugins: [], // Plugins that need documentation generation
+            },
+        },
+    },
+    slugify: {
+        enabled: true,
+        config: {
+            shouldUpdateSlug: true,
+            slugifyWithCount: true,
+            contentTypes: {
+                'documents-category': {
+                    field: 'slug',
+                    references: 'title',
+                },
+                'news-collection': {
+                    field: 'slug',
+                    references: 'title',
+                },
             },
         },
     },
