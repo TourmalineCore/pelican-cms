@@ -59,6 +59,9 @@ jobs:
 
             kind create cluster --name pelican --config kind-local-config.yaml --kubeconfig ./.pelican-cluster-kubeconfig
             export KUBECONFIG=$(pwd)/.pelican-cluster-kubeconfig
+
+            echo "$PELICAN_CMS_BRANCH"
+
             helmfile --environment local --namespace local -f deploy/helmfile.yaml apply
           push: never
           # this variable is used by local-env helmfile to use current feature branch helm chart values.yaml file
