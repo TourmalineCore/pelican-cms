@@ -20,6 +20,9 @@
     "hasTabs": {
       "type": "boolean",
       "default": true
+    },
+    "slug": {
+      "type": "string"
     }
   }
 }

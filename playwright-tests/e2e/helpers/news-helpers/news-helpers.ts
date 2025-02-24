@@ -70,6 +70,7 @@ type NewsResponse = {
     image: {
       url: string;
       alternativeText: string;
-    }
+    },
+    slug: string;
   }[]
 }

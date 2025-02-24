@@ -30,6 +30,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
+    "slugify": "^1.6.6",
     "strapi-plugin-init-admin-user": "^0.2.3",
     "strapi-plugin-preview-button": "^3.0.0",
     "styled-components": "^6.0.0"

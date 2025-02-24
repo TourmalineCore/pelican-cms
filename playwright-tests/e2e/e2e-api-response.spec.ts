@@ -157,6 +157,7 @@ async function checkNewsResponseTest({
         title,
         description,
         innerContent: `<p>${innerContent}</p>`,
+        slug: 'e2e-smoke-v-zooparke-poyavilsya-amurskij-tigr'
       }
     ]
   };
@@ -179,6 +180,7 @@ async function checkNewsResponseTest({
         title: newsWithPrefix[0].title,
         description: newsWithPrefix[0].description,
         innerContent: newsWithPrefix[0].innerContent,
+        slug: newsWithPrefix[0].slug
       }
     ]
   })
@@ -259,6 +261,7 @@ async function checkDocumentsCategoriesResponseTest({
     data: [
       {
         title,
+        slug: 'e2e-smoke-otchyoty'
       }
     ]
   };
@@ -275,6 +278,7 @@ async function checkDocumentsCategoriesResponseTest({
     data: [
       {
         title: documentCategoriesWithPrefix[0].title,
+        slug: documentCategoriesWithPrefix[0].slug
       }
     ]
   })
