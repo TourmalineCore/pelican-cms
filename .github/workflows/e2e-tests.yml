@@ -36,7 +36,7 @@ jobs:
 
   e2e-tests:
     runs-on: ubuntu-24.04
-    # needs: push_to_registry
+    needs: push_to_registry
 
     strategy:
       fail-fast: false
