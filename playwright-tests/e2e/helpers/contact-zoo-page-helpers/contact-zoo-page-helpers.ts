@@ -1,91 +1,64 @@
 import { Page } from "@playwright/test";
-import { getStrapiUrl, saveAndPublish, uploadFile } from "../global-helpers";
+import { createHeroBlock, createImageWithButtonGridBlock, createSeo, createTextAndMediaBlock, getStrapiUrl, saveAndPublish } from "../global-helpers";
 import axios from "axios";
+import { HeroBlock, TextAndMediaBlock, ImageWithButtonGridBlock, SeoBlock } from "../types";
 
 export async function createAndPublishContactZooPage({
   page,
-  title,
-  infoCard,
-  scheduleCard,
+  hero,
+  textAndMedia,
+  imageWithButtonGrid,
   seo,
-  filePath,
 }: {
   page: Page,
-  title: string,
-  infoCard: {
-    title?: string,
-    description: string
-  },
-  scheduleCard: {
-    title: string,
-    timetable: {
-      days: string,
-      time: string,
-      ticketsOfficeTime?: string
-    }[]
-  }
-  seo: {
-    metaTitle: string,
-    metaDescription: string
-  }
-  filePath: string
+  hero: HeroBlock,
+  textAndMedia: TextAndMediaBlock,
+  imageWithButtonGrid: ImageWithButtonGridBlock,
+  seo: SeoBlock,
 }) {
-  await page.getByText(`Content Manager`)
+  await page.locator('a[aria-label="Content Manager"]')
     .click();
 
   await page.getByText(`Страница контактного зоопарка`)
     .click();
 
-  await page.getByRole('button', {
-    name: 'Add a component to blocks'
-  }).click();
-
-  await page.getByRole('button', {
-    name: 'Hero'
-  }).click();
-
-  await page.locator('id=blocks.0.title')
-    .fill(title);
-
-  await uploadFile({
+  await createHeroBlock({
     page,
-    filePath,
+    id: 0,
+    title: hero.title,
+    infoCard: hero.infoCard,
+    scheduleCard: hero.scheduleCard,
+    filePath: hero.filePath
   });
 
-  await page.locator('id=blocks.0.infoCard.title')
-    .fill(infoCard.title);
+  await createTextAndMediaBlock({
+    page,
+    id: 1,
+    title: textAndMedia.title,
+    description: textAndMedia.description,
+    filePath: textAndMedia.filePath
+  });
 
-  await page.locator('id=blocks.0.infoCard.description')
-    .fill(infoCard.description);
+  await createImageWithButtonGridBlock({
+    page,
+    id: 2,
+    title: imageWithButtonGrid.title,
+    description: imageWithButtonGrid.description,
+    link: imageWithButtonGrid.link,
+    label: imageWithButtonGrid.label,
+    largeImagePath: imageWithButtonGrid.largeImagePath,
+    smallImagePath: imageWithButtonGrid.smallImagePath,
+  });
 
-  await page.getByText('No entry yet. Click on the button below to add one.')
-    .first()
-    .click();
-
-  await page.locator('id=blocks.0.scheduleCard.title')
-    .fill(scheduleCard.title);
-
-  await page.locator('id=blocks.0.scheduleCard.timetable.0.days')
-    .fill(scheduleCard.timetable[0].days);
-
-  await page.locator('id=blocks.0.scheduleCard.timetable.0.time')
-    .fill(scheduleCard.timetable[0].time);
-
-  await page.locator('id=blocks.0.scheduleCard.timetable.0.ticketsOfficeTime')
-    .fill(scheduleCard.timetable[0].ticketsOfficeTime);
-
-  await page.getByText('No entry yet. Click on the button below to add one.')
-    .last()
-    .click();
-
-  await page.locator('id=seo.metaTitle')
-    .fill(seo.metaTitle);
-
-
-  await page.locator('id=seo.metaDescription')
-    .fill(seo.metaDescription);
+  await createSeo({
+    page,
+    metaTitle: seo.metaTitle,
+    metaDescription: seo.metaDescription
+  });
 
   await saveAndPublish({ page });
+
+  await page.waitForTimeout(1000);
 }
 
 export async function deleteContactZooPage() {

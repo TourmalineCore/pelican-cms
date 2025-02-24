@@ -7,8 +7,8 @@ export async function deleteNews() {
 
   const newsDelete = getNewsWithTestPrefix({ news: newsResponse });
 
-  newsDelete.forEach(async ({ id }) => {
-    await axios.delete(getStrapiUrl({ path: `/api/news/${id}` }));
+  newsDelete.forEach(async ({ documentId }) => {
+    await axios.delete(getStrapiUrl({ path: `/api/news/${documentId}` }));
   })
 }
 
@@ -25,7 +25,7 @@ export async function createAndPublishNews({
   innerContent: string,
   filePath: string
 }) {
-  await page.getByText(`Content Manager`)
+  await page.locator('a[aria-label="Content Manager"]')
     .click();
 
   await page.getByText(`Новости`)
@@ -35,10 +35,10 @@ export async function createAndPublishNews({
     .first()
     .click();
 
-  await page.locator('id=title')
+  await page.locator('[name="title"]')
     .fill(title);
 
-  await page.locator(`id=description`)
+  await page.locator(`[name="description"]`)
     .fill(description);
 
   await uploadFile({
@@ -57,24 +57,19 @@ export function getNewsWithTestPrefix({
 }: {
   news: NewsResponse
 }) {
-  return news.data.filter((news) => news?.attributes.title.startsWith(E2E_SMOKE_NAME_PREFIX));
+  return news.data.filter((news) => news.title.startsWith(E2E_SMOKE_NAME_PREFIX));
 }
 
 type NewsResponse = {
   data: {
     id?: number;
-    attributes?: {
-      title: string;
-      description?: string;
-      innerContent: string;
-      image: {
-        data: {
-          attributes: {
-            url: string;
-            alternativeText: string;
-          }
-        }
-      }
+    documentId: string,
+    title: string;
+    description?: string;
+    innerContent: string;
+    image: {
+      url: string;
+      alternativeText: string;
     }
   }[]
 }

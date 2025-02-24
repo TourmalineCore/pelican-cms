@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_tickets_tickets",
+  "info": {
+    "displayName": "Tickets",
+    "icon": "cube",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "ticketsList": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tickets.ticket",
+      "required": true
+    },
+    "link": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -71,7 +71,7 @@ async function e2eNewsCreateAndViewTest({
   await expect(page.getByText(description))
     .toBeVisible();
 
-  await page.getByTestId(`news-list-card`)
+  await page.getByTestId(`cards-card`)
     .first()
     .click();
 

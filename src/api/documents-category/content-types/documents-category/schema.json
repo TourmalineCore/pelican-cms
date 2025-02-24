@@ -4,7 +4,8 @@
   "info": {
     "singularName": "documents-category",
     "pluralName": "documents-categories",
-    "displayName": "Категории документов"
+    "displayName": "Категории документов",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,6 +16,10 @@
       "type": "string",
       "required": true,
       "unique": true
+    },
+    "hasTabs": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

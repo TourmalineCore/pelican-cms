@@ -13,7 +13,7 @@ export async function createAndPublishDocumentsCategory({
   page: Page,
   title: string,
 }) {
-  await page.getByText(`Content Manager`)
+  await page.locator('a[aria-label="Content Manager"]')
     .click();
 
   await page.getByText(`Категории документов`)
@@ -23,7 +23,7 @@ export async function createAndPublishDocumentsCategory({
     .first()
     .click();
 
-  await page.locator('id=title')
+  await page.locator('[name="title"]')
     .fill(title);
 
   await saveAndPublish({ page });
@@ -34,8 +34,8 @@ export async function deleteDocumentsCategories() {
 
   const documentCategoriesDelete = getDocumentCategoriesWithTestPrefix({ documentCategories: documentCategoriesResponse });
 
-  documentCategoriesDelete.forEach(async ({ id }) => {
-    await axios.delete(getStrapiUrl({ path: `/api/documents-categories/${id}` }));
+  documentCategoriesDelete.forEach(async ({ documentId }) => {
+    await axios.delete(getStrapiUrl({ path: `/api/documents-categories/${documentId}` }));
   })
 }
 
@@ -45,11 +45,10 @@ export function getDocumentCategoriesWithTestPrefix({
   documentCategories: {
     data: {
       id?: number;
-      attributes?: {
-        title: string;
-      }
+      documentId: string;
+      title: string;
     }[]
   }
 }) {
-  return documentCategories.data.filter((documentCategories) => documentCategories?.attributes.title.startsWith(E2E_SMOKE_NAME_PREFIX));
+  return documentCategories.data.filter((documentCategories) => documentCategories.title.startsWith(E2E_SMOKE_NAME_PREFIX));
 }

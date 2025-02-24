@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_home_map_cards",
+  "info": {
+    "displayName": "MapCard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "customField",
+      "options": {
+        "preset": "defaultHtml"
+      },
+      "required": true,
+      "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "note": {
+      "type": "customField",
+      "options": {
+        "preset": "defaultHtml"
+      },
+      "customField": "plugin::ckeditor5.CKEditor",
+      "required": true
+    }
+  }
+}

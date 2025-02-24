@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_shared_tickets",
+  "info": {
+    "displayName": "Tickets",
+    "icon": "cube",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "subsidizedTickets": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tickets.ticket",
+      "required": true
+    },
+    "note": {
+      "type": "text"
+    }
+  }
+}

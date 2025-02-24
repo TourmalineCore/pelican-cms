@@ -32,21 +32,26 @@
     "category": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::documents-category.documents-category"
+      "target": "api::documents-category.documents-category",
+      "required": true
     },
     "subtitle": {
       "type": "customField",
       "options": {
-        "preset": "default"
+        "preset": "defaultHtml"
       },
       "customField": "plugin::ckeditor5.CKEditor"
     },
     "description": {
       "type": "customField",
       "options": {
-        "preset": "default"
+        "preset": "defaultHtml"
       },
       "customField": "plugin::ckeditor5.CKEditor"
+    },
+    "date": {
+      "type": "date",
+      "required": true
     }
   }
 }

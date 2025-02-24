@@ -10,8 +10,8 @@ export async function deleteDocuments() {
 
   const documentsDelete = getDocumentsWithTestPrefix({ documents: documentsResponse });
 
-  documentsDelete.forEach(async ({ id }) => {
-    await axios.delete(getStrapiUrl({ path: `/api/documents/${id}` }));
+  documentsDelete.forEach(async ({ documentId }) => {
+    await axios.delete(getStrapiUrl({ path: `/api/documents/${documentId}` }));
   })
 }
 
@@ -28,9 +28,9 @@ export async function createAndPublishDocument({
   title: string,
   subtitle: string,
   description: string,
-  filePath: string
+  filePath: string,
 }) {
-  await page.getByText(`Content Manager`)
+  await page.locator('a[aria-label="Content Manager"]')
     .click();
 
   await page.getByText(`Документы`)
@@ -45,7 +45,7 @@ export async function createAndPublishDocument({
   })
     .click();
 
-  await page.locator('id=title')
+  await page.locator('[name="title"]')
     .fill(title);
 
   await page.locator(`.ck-content`)
@@ -60,9 +60,13 @@ export async function createAndPublishDocument({
     page,
     filePath,
   });
+  await page.locator('[name="category"]')
+    .click();
 
-  await page.locator('id=category')
-    .fill(categoryTitle);
+  await page.getByText(categoryTitle)
+    .first()
+    .click();
+
 
   await saveAndPublish({ page });
 }
@@ -72,22 +76,22 @@ export function getDocumentsWithTestPrefix({
 }: {
   documents: DocumentsResponse
 }) {
-  return documents.data.filter((document) => document?.attributes.title.startsWith(E2E_SMOKE_NAME_PREFIX));
+  return documents.data.filter((document) => document.title.startsWith(E2E_SMOKE_NAME_PREFIX));
 }
 
 type DocumentsResponse = {
   data: {
     id?: number;
-    attributes?: {
-      showDate: boolean,
-      title: string;
-      subtitle: string;
-      description?: string;
-      files: {
-        data: {
-          attributes: {
-            url: string;
-          }
+    documentId: string;
+    date: string,
+    showDate: boolean,
+    title: string;
+    subtitle: string;
+    description?: string;
+    files: {
+      data: {
+        attributes: {
+          url: string;
         }
       }
     }

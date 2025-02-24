@@ -41,29 +41,27 @@ export default ({ env }) => ({
             },
         },
     },
-    "content-versioning": {
-        enabled: true,
-    },
     'preview-button': {
         config: {
             contentTypes: [
-                {
-                    uid: 'api::home.home',
-                    draft: {
-                        url: env('FRONTEND_PREVIEW_URL'),
-                        query: {
-                            slug: '{slug}',
-                            version: '{versionNumber}',
-                            secret: env('PREVIEW_SECRET'),
-                        },
-                        openTarget: '_blank',
-                        alwaysVisible: true,
-                    },
-                    published: {
-                        url: env('FRONTEND_URL'),
-                        openTarget: '_blank',
-                    },
-                },
+                // Todo: comment out after adding the preview
+                // {
+                //     uid: 'api::home.home',
+                //     draft: {
+                //         url: env('FRONTEND_PREVIEW_URL'),
+                //         query: {
+                //             slug: '{slug}',
+                //             version: '{versionNumber}',
+                //             secret: env('PREVIEW_SECRET'),
+                //         },
+                //         openTarget: '_blank',
+                //         alwaysVisible: true,
+                //     },
+                //     published: {
+                //         url: env('FRONTEND_URL'),
+                //         openTarget: '_blank',
+                //     },
+                // },
             ]
         }
     },

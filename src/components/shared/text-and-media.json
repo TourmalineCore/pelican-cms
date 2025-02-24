@@ -1,0 +1,42 @@
+{
+  "collectionName": "components_shared_text_and_medias",
+  "info": {
+    "displayName": "TextAndMedia",
+    "icon": "cube",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "contentOrder": {
+      "type": "enumeration",
+      "enum": [
+        "Текст слева",
+        "Текст справа"
+      ],
+      "default": "Текст слева",
+      "required": true
+    },
+    "viewFootsteps": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "title": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_home_services",
+  "info": {
+    "displayName": "Services"
+  },
+  "options": {},
+  "attributes": {
+    "cards": {
+      "displayName": "cards",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cards",
+      "required": true
+    },
+    "phone": {
+      "type": "text",
+      "required": true
+    },
+    "email": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

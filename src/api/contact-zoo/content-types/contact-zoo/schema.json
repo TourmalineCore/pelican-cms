@@ -10,11 +10,7 @@
   "options": {
     "draftAndPublish": true
   },
-  "pluginOptions": {
-    "versions": {
-      "versioned": true
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "blocks": {
       "pluginOptions": {
@@ -24,7 +20,10 @@
       },
       "type": "dynamiczone",
       "components": [
-        "shared.hero"
+        "shared.hero",
+        "shared.text-and-media",
+        "shared.image-with-button-grid",
+        "shared.tickets"
       ],
       "required": false
     },

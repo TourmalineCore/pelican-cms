@@ -6,6 +6,8 @@ import { createAndPublishNews, deleteNews, getNewsWithTestPrefix } from "./helpe
 import axios from "axios";
 import { createAndPublishHomepage, deleteHomepage } from "./helpers/homepage-helpers/homepage-helpers";
 import { createAndPublishContactZooPage, deleteContactZooPage } from "./helpers/contact-zoo-page-helpers/contact-zoo-page-helpers";
+import qs from "qs";
+import { MOCK_HOME_SERVICES, MOCK_SEO, MOCK_HERO, MOCK_TEXT_AND_MEDIA, MOCK_IMAGE_WITH_BUTTON_GRID, MOCK_HOME_MAP_CARD } from "./helpers/mocks";
 
 
 test.describe(`API response tests`, () => {
@@ -152,11 +154,9 @@ async function checkNewsResponseTest({
   const expectedNewsResponse = {
     data: [
       {
-        attributes: {
-          title,
-          description,
-          innerContent: `<p>${innerContent}</p>`,
-        }
+        title,
+        description,
+        innerContent: `<p>${innerContent}</p>`,
       }
     ]
   };
@@ -176,18 +176,15 @@ async function checkNewsResponseTest({
   await expect({
     data: [
       {
-        attributes:
-        {
-          title: newsWithPrefix[0].attributes.title,
-          description: newsWithPrefix[0].attributes.description,
-          innerContent: newsWithPrefix[0].attributes.innerContent,
-        }
+        title: newsWithPrefix[0].title,
+        description: newsWithPrefix[0].description,
+        innerContent: newsWithPrefix[0].innerContent,
       }
     ]
   })
     .toEqual(expectedNewsResponse);
 
-  await expect(newsWithPrefix[0].attributes.image.data.attributes.url)
+  await expect(newsWithPrefix[0].image.url)
     .not
     .toBeNull();
 }
@@ -202,15 +199,15 @@ async function checkDocumentsResponseTest({
   const title = `${E2E_SMOKE_NAME_PREFIX} Договор №350474`;
   const subtitle = `Договор на поставку продукции животноводства (мясо говядина) для нужд муниципального бюджетного учреждения культуры «зоопарк»`;
   const description = `Контракт заключен по результатам электронного аукциона в рамках 223-ФЗ. Извещение №31907985126 в электронной форме размещены на сайте по адресу в сети Интернет: www.zakupki.gov.ru и на электронной площадке tender.otc.ru процедура №4442641 лот №7816638. Протокол №U4442641-7816638-3 от 07.07.2019 г.`;
+  const date = new Date();
   const expectedDocumentsResponse = {
     data: [
       {
-        attributes: {
-          showDate,
-          title,
-          subtitle: `<p>${subtitle}</p>`,
-          description: `<p>${description}</p>`,
-        }
+        date: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${(date.getDate()).toString().padStart(2, '0')}`,
+        showDate,
+        title,
+        subtitle: `<p>${subtitle}</p>`,
+        description: `<p>${description}</p>`,
       }
     ]
   };
@@ -229,24 +226,25 @@ async function checkDocumentsResponseTest({
     filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-new-document.pdf`,
   });
 
+  await page.waitForTimeout(500);
+
   const documentsResponse = (await axios.get(getStrapiUrl({ path: '/api/documents?populate=*' }))).data;
   const documentsWithPrefix = getDocumentsWithTestPrefix({ documents: documentsResponse });
 
   await expect({
     data: [
       {
-        attributes: {
-          showDate: documentsWithPrefix[0].attributes.showDate,
-          title: documentsWithPrefix[0].attributes.title,
-          subtitle: documentsWithPrefix[0].attributes.subtitle,
-          description: documentsWithPrefix[0].attributes.description,
-        }
+        date: documentsWithPrefix[0].date,
+        showDate: documentsWithPrefix[0].showDate,
+        title: documentsWithPrefix[0].title,
+        subtitle: documentsWithPrefix[0].subtitle,
+        description: documentsWithPrefix[0].description,
       }
     ]
   })
     .toEqual(expectedDocumentsResponse);
 
-  await expect(documentsWithPrefix[0].attributes.files.data[0].attributes.url)
+  await expect(documentsWithPrefix[0].files[0].url)
     .not
     .toBeNull();
 }
@@ -260,9 +258,7 @@ async function checkDocumentsCategoriesResponseTest({
   const expectedDocumentsCategoriesResponse = {
     data: [
       {
-        attributes: {
-          title,
-        }
+        title,
       }
     ]
   };
@@ -278,10 +274,7 @@ async function checkDocumentsCategoriesResponseTest({
   await expect({
     data: [
       {
-        attributes:
-        {
-          title: documentCategoriesWithPrefix[0].attributes.title,
-        }
+        title: documentCategoriesWithPrefix[0].title,
       }
     ]
   })
@@ -293,93 +286,163 @@ async function checkHomepageResponseTest({
 }: {
   page: Page
 }) {
-  const title = `${E2E_SMOKE_NAME_PREFIX} Челябинский зоопарк`;
-  const infoCard = {
-    title: '29 октября зоопарк не работает',
-    description: 'Каждый последний понедельник месяца санитарный день.'
-  };
-  const scheduleCard = {
-    title: 'График работы',
-    timetable: [{
-      days: 'Понедельник - четверг',
-      time: '10:00-18:00',
-      ticketsOfficeTime: '(вход и касса 10:00-17:00)'
-    }]
-  };
-  const seo = {
-    metaTitle: "Челябинский зоопарк",
-    metaDescription: "Описание челябинского зоопарка, приглашаем взрослых и детей, у нас много животных!",
-  }
+  const { filePath, ...expectedHero } = MOCK_HERO;
+  const { filePath: servicesFilePath, ...expectedServices } = MOCK_HOME_SERVICES;
+  const { filePath: textAndMediaFilePath, ...expectedTextAndMedia } = MOCK_TEXT_AND_MEDIA;
+  const {
+    largeImagePath: imageWithButtonGridLargeImagePath,
+    smallImagePath: imageWithButtonGridSmallImagePath,
+    ...expectedImageWithButtonGrid
+  } = MOCK_IMAGE_WITH_BUTTON_GRID;
+  const {
+    imagePath: mapCardImagePath,
+    ...expectedMapCard
+  } = MOCK_HOME_MAP_CARD;
+
   const expectedHomepageResponse = {
     data: {
-      attributes: {
-        blocks: [
-          {
-            title,
-            __component: "shared.hero",
-            infoCard: {
-              title: infoCard.title,
-              description: infoCard.description
-            },
-            scheduleCard: {
-              title: scheduleCard.title,
-              timetable: scheduleCard.timetable
-            },
-          }
-        ],
-        seo
-      }
+      blocks: [
+        expectedHero,
+        expectedServices,
+        expectedTextAndMedia,
+        expectedImageWithButtonGrid,
+        {
+          ...expectedMapCard,
+          description: `<p>${expectedMapCard.description}</p>`,
+          note: `<p>${expectedMapCard.note}</p>`
+        }
+      ],
+      seo: MOCK_SEO
     }
   };
 
   await createAndPublishHomepage({
     page,
-    title,
-    infoCard,
-    scheduleCard,
-    seo,
-    filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`
+    hero: MOCK_HERO,
+    services: MOCK_HOME_SERVICES,
+    textAndMedia: MOCK_TEXT_AND_MEDIA,
+    imageWithButtonGrid: MOCK_IMAGE_WITH_BUTTON_GRID,
+    mapCard: MOCK_HOME_MAP_CARD,
+    seo: MOCK_SEO,
   });
 
+  const queryParams = {
+    populate: [
+      `blocks.infoCard`,
+      `blocks.scheduleCard`,
+      `blocks.scheduleCard.timetable`,
+      `blocks.image`,
+      `blocks.cards`,
+      `blocks.cards.cards`,
+      `blocks.cards.cards.image`,
+      `blocks.cards.cards.labels`,
+      `blocks.media`,
+      `blocks.button`,
+      `blocks.largeImage`,
+      `blocks.smallImage`,
+      `seo`,
+    ],
+  };
+
   const homepageResponse = (await axios.get(getStrapiUrl({
-    path: '/api/home?populate[0]=blocks&populate[1]=blocks.infoCard&populate[2]=blocks.scheduleCard&populate[3]=blocks.scheduleCard.timetable&populate[4]=blocks.image&populate[5]=seo'
+    path: `/api/home?${qs.stringify(queryParams)}`
   }))).data;
 
-  const heroBlock = homepageResponse.data.attributes.blocks.find((block) => block.__component === 'shared.hero');
+  const heroBlock = homepageResponse.data.blocks.find((block) => block.__component === 'shared.hero');
+  const textAndMediaBlock = homepageResponse.data.blocks.find((block) => block.__component === 'shared.text-and-media');
+  const imageWithButtonGridBlock = homepageResponse.data.blocks.find((block) => block.__component === 'shared.image-with-button-grid');
+  const servicesBlock = homepageResponse.data.blocks.find((block) => block.__component === 'home.services');
+  const mapCardBlock = homepageResponse.data.blocks.find((block) => block.__component === 'home.map-card');
 
   await expect({
     data: {
-      attributes: {
-        blocks: [
-          {
-            title: heroBlock.title,
-            __component: heroBlock.__component,
-            infoCard: {
-              title: heroBlock.infoCard.title,
-              description: heroBlock.infoCard.description
-            },
-            scheduleCard: {
-              title: heroBlock.scheduleCard.title,
-              timetable: [
-                {
-                  days: heroBlock.scheduleCard.timetable[0].days,
-                  time: heroBlock.scheduleCard.timetable[0].time,
-                  ticketsOfficeTime: heroBlock.scheduleCard.timetable[0].ticketsOfficeTime
-                }
-              ]
-            },
+      blocks: [
+        {
+          title: heroBlock.title,
+          __component: heroBlock.__component,
+          infoCard: {
+            title: heroBlock.infoCard.title,
+            description: heroBlock.infoCard.description
+          },
+          scheduleCard: {
+            title: heroBlock.scheduleCard.title,
+            timetable: [
+              {
+                days: heroBlock.scheduleCard.timetable[0].days,
+                time: heroBlock.scheduleCard.timetable[0].time,
+                ticketsOfficeTime: heroBlock.scheduleCard.timetable[0].ticketsOfficeTime
+              }
+            ]
+          },
+        },
+        {
+          __component: servicesBlock.__component,
+          phone: servicesBlock.phone,
+          email: servicesBlock.email,
+          cards: {
+            title: servicesBlock.cards.title,
+            cards: [
+              {
+                title: servicesBlock.cards.cards[0].title,
+                description: servicesBlock.cards.cards[0].description,
+                link: servicesBlock.cards.cards[0].link,
+                labels: [{
+                  text: servicesBlock.cards.cards[0].labels[0].text
+                }]
+              }
+            ],
           }
-        ],
-        seo: {
-          metaTitle: homepageResponse.data.attributes.seo.metaTitle,
-          metaDescription: homepageResponse.data.attributes.seo.metaDescription,
+        },
+        {
+          __component: textAndMediaBlock.__component,
+          title: textAndMediaBlock.title,
+          description: textAndMediaBlock.description,
+          contentOrder: textAndMediaBlock.contentOrder,
+          viewFootsteps: textAndMediaBlock.viewFootsteps,
+        },
+        {
+          __component: imageWithButtonGridBlock.__component,
+          title: imageWithButtonGridBlock.title,
+          description: imageWithButtonGridBlock.description,
+          link: imageWithButtonGridBlock.button.link,
+          label: imageWithButtonGridBlock.button.label,
+        },
+        {
+          __component: mapCardBlock.__component,
+          title: mapCardBlock.title,
+          description: mapCardBlock.description,
+          note: mapCardBlock.note
         }
+      ],
+      seo: {
+        metaTitle: homepageResponse.data.seo.metaTitle,
+        metaDescription: homepageResponse.data.seo.metaDescription,
       }
     }
   })
     .toEqual(expectedHomepageResponse);
 
-  await expect(heroBlock.image.data.attributes.url)
+  await expect(heroBlock.image.url)
+    .not
+    .toBeNull();
+
+  await expect(servicesBlock.cards.cards[0].image.url)
+    .not
+    .toBeNull();
+
+  await expect(textAndMediaBlock.media.url)
+    .not
+    .toBeNull();
+
+  await expect(imageWithButtonGridBlock.largeImage.url)
+    .not
+    .toBeNull();
+
+  await expect(imageWithButtonGridBlock.smallImage.url)
+    .not
+    .toBeNull();
+
+  await expect(mapCardBlock.image.url)
     .not
     .toBeNull();
 }
@@ -389,93 +452,112 @@ async function checkContactZooPageResponseTest({
 }: {
   page: Page
 }) {
-  const title = `${E2E_SMOKE_NAME_PREFIX} Контактный зоопарк`;
-  const infoCard = {
-    title: 'Погодные условия',
-    description: 'При дожде, снегопаде, граде, метели детский контактный зоопарк временно закрывается для безопасности животных'
-  };
-  const scheduleCard = {
-    title: 'График работы',
-    timetable: [{
-      days: 'Понедельник - четверг',
-      time: 'Выходной',
-      ticketsOfficeTime: '(вход и касса 10:00-17:00)'
-    }]
-  };
-  const seo = {
-    metaTitle: "Контактный зоопарк",
-    metaDescription: "Описание контактного зоопарка, приглашаем взрослых и детей, у нас много животных!",
-  };
+  const { filePath, ...expectedHero } = MOCK_HERO;
+  const { filePath: textAndMediaFilePath, ...expectedTextAndMedia } = MOCK_TEXT_AND_MEDIA;
+  const {
+    largeImagePath: imageWithButtonGridLargeImagePath,
+    smallImagePath: imageWithButtonGridSmallImagePath,
+    ...expectedImageWithButtonGrid
+  } = MOCK_IMAGE_WITH_BUTTON_GRID;
+
   const expectedConcatZooPageResponse = {
     data: {
-      attributes: {
-        blocks: [
-          {
-            title,
-            __component: "shared.hero",
-            infoCard: {
-              title: infoCard.title,
-              description: infoCard.description
-            },
-            scheduleCard: {
-              title: scheduleCard.title,
-              timetable: scheduleCard.timetable,
-            },
-          }
-        ],
-        seo
-      }
+      blocks: [
+        expectedHero,
+        expectedTextAndMedia,
+        expectedImageWithButtonGrid,
+      ],
+      seo: MOCK_SEO
     }
   };
 
   await createAndPublishContactZooPage({
     page,
-    title,
-    infoCard,
-    scheduleCard,
-    seo,
-    filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`
+    hero: MOCK_HERO,
+    textAndMedia: MOCK_TEXT_AND_MEDIA,
+    imageWithButtonGrid: MOCK_IMAGE_WITH_BUTTON_GRID,
+    seo: MOCK_SEO,
   });
 
+  const queryParams = {
+    populate: [
+      `blocks.infoCard`,
+      `blocks.scheduleCard`,
+      `blocks.scheduleCard.timetable`,
+      `blocks.image`,
+      `blocks.media`,
+      `blocks.button`,
+      `blocks.largeImage`,
+      `blocks.smallImage`,
+      `seo`,
+    ],
+  };
+
   const contactZooPageResponse = (await axios.get(getStrapiUrl({
-    path: '/api/contact-zoo?populate[0]=blocks&populate[1]=blocks.infoCard&populate[2]=blocks.scheduleCard&populate[3]=blocks.scheduleCard.timetable&populate[4]=blocks.image&populate[5]=seo'
+    path: `/api/contact-zoo?${qs.stringify(queryParams)}`
   }))).data;
 
-  const heroBlock = contactZooPageResponse.data.attributes.blocks.find((block) => block.__component === 'shared.hero');
+  const heroBlock = contactZooPageResponse.data.blocks.find((block) => block.__component === 'shared.hero');
+  const textAndMediaBlock = contactZooPageResponse.data.blocks.find((block) => block.__component === 'shared.text-and-media');
+  const imageWithButtonGridBlock = contactZooPageResponse.data.blocks.find((block) => block.__component === 'shared.image-with-button-grid');
 
   await expect({
     data: {
-      attributes: {
-        blocks: [
-          {
-            title: heroBlock.title,
-            __component: heroBlock.__component,
-            infoCard: {
-              title: heroBlock.infoCard.title,
-              description: heroBlock.infoCard.description
-            },
-            scheduleCard: {
-              title: heroBlock.scheduleCard.title,
-              timetable: [
-                {
-                  days: heroBlock.scheduleCard.timetable[0].days,
-                  time: heroBlock.scheduleCard.timetable[0].time,
-                  ticketsOfficeTime: heroBlock.scheduleCard.timetable[0].ticketsOfficeTime
-                }
-              ]
-            },
-          }
-        ],
-        seo: {
-          metaTitle: contactZooPageResponse.data.attributes.seo.metaTitle,
-          metaDescription: contactZooPageResponse.data.attributes.seo.metaDescription,
-        }
+      blocks: [
+        {
+          title: heroBlock.title,
+          __component: heroBlock.__component,
+          infoCard: {
+            title: heroBlock.infoCard.title,
+            description: heroBlock.infoCard.description
+          },
+          scheduleCard: {
+            title: heroBlock.scheduleCard.title,
+            timetable: [
+              {
+                days: heroBlock.scheduleCard.timetable[0].days,
+                time: heroBlock.scheduleCard.timetable[0].time,
+                ticketsOfficeTime: heroBlock.scheduleCard.timetable[0].ticketsOfficeTime
+              }
+            ]
+          },
+        },
+        {
+          __component: textAndMediaBlock.__component,
+          title: textAndMediaBlock.title,
+          description: textAndMediaBlock.description,
+          contentOrder: textAndMediaBlock.contentOrder,
+          viewFootsteps: textAndMediaBlock.viewFootsteps,
+        },
+        {
+          __component: imageWithButtonGridBlock.__component,
+          title: imageWithButtonGridBlock.title,
+          description: imageWithButtonGridBlock.description,
+          link: imageWithButtonGridBlock.button.link,
+          label: imageWithButtonGridBlock.button.label,
+        },
+      ],
+      seo: {
+        metaTitle: contactZooPageResponse.data.seo.metaTitle,
+        metaDescription: contactZooPageResponse.data.seo.metaDescription,
       }
     }
   })
     .toEqual(expectedConcatZooPageResponse);
 
-  await expect(heroBlock.image.data.attributes.url)
+  await expect(heroBlock.image.url)
+    .not
+    .toBeNull();
+
+  await expect(textAndMediaBlock.media.url)
+    .not
+    .toBeNull();
+
+  await expect(imageWithButtonGridBlock.largeImage.url)
+    .not
+    .toBeNull();
+
+  await expect(imageWithButtonGridBlock.smallImage.url)
     .not
     .toBeNull();
 }

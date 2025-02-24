@@ -14,6 +14,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: `./playwright-tests`,
   outputDir: `./playwright-tests/playwright-test-results/e2e-tests`,
+  timeout: 120000,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -31,7 +32,6 @@ export default defineConfig({
   },
   expect: {
     // Maximum time expect() should wait for the condition to be met.
-    timeout: 10000,
   },
   /* Configure projects for major browsers */
   projects: [

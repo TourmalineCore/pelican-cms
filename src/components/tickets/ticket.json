@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_ticket_tickets",
+  "info": {
+    "displayName": "Ticket",
+    "icon": "cube",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "category": {
+      "type": "text",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": false
+    },
+    "price": {
+      "type": "string",
+      "required": true
+    },
+    "frequency": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "enumeration",
+      "enum": [
+        "Зелёный",
+        "Коричневый"
+      ],
+      "default": "Зелёный",
+      "required": true
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}
