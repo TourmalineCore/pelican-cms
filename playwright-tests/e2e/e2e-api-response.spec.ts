@@ -360,8 +360,6 @@ async function checkDocumentsResponseTest({
     filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-new-document.pdf`,
   });
 
-  await page.waitForTimeout(500);
-
   const documentsResponse = (await axios.get(getStrapiUrl({ path: '/api/documents?populate=*' }))).data;
   const documentsWithPrefix = getDocumentsWithTestPrefix({ documents: documentsResponse });
 

@@ -113,8 +113,6 @@ export async function createAndPublishHomepage({
   });
 
   await saveAndPublish({ page });
-
-  await page.waitForTimeout(1000);
 }
 
 async function createServicesBlock({
