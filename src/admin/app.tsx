@@ -118,7 +118,5 @@ export default {
     setPluginConfig(myConfig);
   },
 
-  bootstrap(app: any) {
-    console.log(app);
-  },
+  bootstrap(app: any) {},
 };

@@ -4,7 +4,7 @@ export default ({ env }) => ({
     {
         upload: {
             config: {
-                provider: 'aws-s3',
+                provider: 's3-provider',
                 providerOptions: {
                     // For kubernetes local env only
                     baseUrl: env('AWS_PUBLIC_ENDPOINT'),
