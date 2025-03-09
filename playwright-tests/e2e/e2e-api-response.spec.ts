@@ -7,9 +7,10 @@ import axios from "axios";
 import { createAndPublishHomepage, deleteHomepage } from "./helpers/homepage-helpers/homepage-helpers";
 import { createAndPublishContactZooPage, deleteContactZooPage } from "./helpers/contact-zoo-page-helpers/contact-zoo-page-helpers";
 import qs from "qs";
-import { MOCK_HOME_SERVICES, MOCK_SEO, MOCK_HERO, MOCK_TEXT_AND_MEDIA, MOCK_IMAGE_WITH_BUTTON_GRID, MOCK_HOME_MAP_CARD, MOCK_HOME_TICKETS, MOCK_TICKETS } from "./helpers/mocks";
+import { MOCK_HOME_SERVICES, MOCK_SEO, MOCK_HERO, MOCK_TEXT_AND_MEDIA, MOCK_IMAGE_WITH_BUTTON_GRID, MOCK_HOME_MAP_CARD, MOCK_HOME_TICKETS, MOCK_TICKETS, MOCK_TICKETS_POPUP } from "./helpers/mocks";
 import { createAndPublishNewsPage, deleteNewsPage } from "./helpers/news-page-helpers/news-page-helpers";
 import { createAndPublishDocumentsPage, deleteDocumentsPage } from "./helpers/documents-page-helpers/documents-page-helpers";
+import { createAndPublishHeaderSingleType, deleteHeaderSingleType } from "./helpers/header-helpers/header-helpers";
 
 
 test.describe(`API response tests`, () => {
@@ -178,6 +179,24 @@ test.describe(`API response tests`, () => {
       SHOULD get a response documents  page
       `,
       async () => await checkDocumentsPageResponseTest({ page })
+    );
+  });
+
+  test.describe(`Header Single Type response tests`, () => {
+    test.beforeEach(async () => {
+      await deleteHeaderSingleType();
+    });
+
+    test.afterEach(async () => {
+      await deleteHeaderSingleType();
+    });
+
+    test(`
+      GIVEN empty contact zoo page
+      WHEN fill out the contact zoo page
+      SHOULD get a response contact zoo page
+      `,
+      async () => await checkHeaderSingleTypeResponseTest({ page })
     );
   });
 })
@@ -751,6 +770,112 @@ async function checkContactZooPageResponseTest({
     .toBeNull();
 
   await expect(imageWithButtonGridBlock.smallImage.url)
+    .not
+    .toBeNull();
+}
+
+async function checkHeaderSingleTypeResponseTest({
+  page
+}: {
+  page: Page
+}) {
+  const {
+    accordionVisitingRules: {
+      images: ticketsPopupImagePath,
+      ...expectedAccordionVisitingRules
+    },
+    ...expectedTicketsPopup
+  } = MOCK_TICKETS_POPUP;
+
+  const expectedHeaderSingleTypeResponse = {
+    data: {
+      ticketsPopup: {
+        ...expectedTicketsPopup,
+        accordionVisitingRules: expectedAccordionVisitingRules,
+      },
+    },
+  };
+
+  await createAndPublishHeaderSingleType({
+    page,
+    ticketsPopup: MOCK_TICKETS_POPUP,
+  });
+
+  const queryParams = {
+    populate: [
+      `ticketsPopup.generalTickets`,
+      `ticketsPopup.subsidizedTicket.categories`,
+      `ticketsPopup.subsidizedTicket.button`,
+      `ticketsPopup.accordionVisitingRules.images`,
+      `ticketsPopup.accordionVisitingRules.button`,
+      `ticketsPopup.accordionTicketRefund.refundBody`,
+      `ticketsPopup.accordionTicketRefund.button`,
+      `ticketsPopup.buyTicketsButton`,
+    ],
+  };
+
+  const headerSingleTypeResponse = (await axios.get(getStrapiUrl({
+    path: `/api/header?${qs.stringify(queryParams)}`
+  }))).data;
+
+  const ticketsPopupBlock = headerSingleTypeResponse.data.ticketsPopup;
+
+  await expect({
+    data: {
+      ticketsPopup: {
+        generalTicketsLink: ticketsPopupBlock.generalTicketsLink,
+        generalTickets: [
+          {
+            id: 0,
+            category: ticketsPopupBlock.generalTickets[0].category,
+            price: ticketsPopupBlock.generalTickets[0].price,
+          },
+        ],
+        subsidizedTicket: {
+          category: ticketsPopupBlock.subsidizedTicket.category,
+          description: ticketsPopupBlock.subsidizedTicket.description,
+          categories: [
+            {
+              id: 0,
+              category: ticketsPopupBlock.subsidizedTicket.categories[0].category,
+              price: ticketsPopupBlock.subsidizedTicket.categories[0].price,
+            },
+          ],
+          button: {
+            label: ticketsPopupBlock.subsidizedTicket.button.label,
+            link: ticketsPopupBlock.subsidizedTicket.button.link,
+          },
+        },
+        accordionVisitingRules: {
+          button: {
+            label: ticketsPopupBlock.accordionVisitingRules.button.label,
+            link: ticketsPopupBlock.accordionVisitingRules.button.link,
+          },
+        },
+        accordionTicketRefund: {
+          refundHead: ticketsPopupBlock.accordionTicketRefund.refundHead,
+          refundBody: [
+            {
+              id: 0,
+              refundReason: ticketsPopupBlock.accordionTicketRefund.refundBody[0].refundReason,
+            },
+          ],
+          button: {
+            label: ticketsPopupBlock.accordionTicketRefund.button.label,
+            link: ticketsPopupBlock.accordionTicketRefund.button.link,
+          },
+        },
+        buyTicketsButton: {
+          label: ticketsPopupBlock.buyTicketsButton.label,
+          link: ticketsPopupBlock.buyTicketsButton.link,
+        },
+        note: ticketsPopupBlock.note,
+      },
+    },
+  })
+    .toEqual(expectedHeaderSingleTypeResponse);
+
+  await expect(ticketsPopupBlock.accordionVisitingRules.images[0].url)
     .not
     .toBeNull();
 }

@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "headers",
+  "info": {
+    "singularName": "header",
+    "pluralName": "headers",
+    "displayName": "Шапка сайта",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "ticketsPopup": {
+      "type": "component",
+      "repeatable": false,
+      "component": "tickets-popup.tickets-popup",
+      "required": true
+    }
+  }
+}

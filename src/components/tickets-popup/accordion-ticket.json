@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_tickets_popup_accordion_tickets",
+  "info": {
+    "displayName": "Билет с аккордеоном",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "category": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "categories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tickets-popup.category",
+      "required": true
+    },
+    "button": {
+      "type": "component",
+      "repeatable": false,
+      "component": "button.button",
+      "required": true
+    }
+  }
+}

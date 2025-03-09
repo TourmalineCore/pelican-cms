@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_tickets_popup_accordion_visiting_rules",
+  "info": {
+    "displayName": "Аккордеон \"Правила посещения\"",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "button": {
+      "type": "component",
+      "repeatable": false,
+      "component": "button.button",
+      "required": true
+    }
+  }
+}

@@ -84,3 +84,52 @@ export type MapCardBlock = {
   description: string,
   imagePath: string,
 }
+
+export type TicketsPopupBlock = {
+  generalTicketsLink: string;
+  generalTickets: {
+    id: number,
+    category: string,
+    price: string,
+    description?: string,
+  }[],
+  subsidizedTicket: {
+    category: string,
+    description: string,
+    categories: {
+      id: number,
+      category: string,
+      price: string,
+    }[],
+    button: {
+      label: string,
+      link: string,
+    },
+  },
+  accordionVisitingRules: {
+    images: {
+      url: string,
+      alternativeText: string,
+    }[],
+    button: {
+      label: string,
+      link: string,
+    },
+  },
+  accordionTicketRefund: {
+    refundHead: string,
+    refundBody: {
+      id: number,
+      refundReason: string,
+    }[],
+    button: {
+      label: string,
+      link: string,
+    },
+  },
+  buyTicketsButton: {
+    label: string,
+    link: string,
+  },
+  note: string,
+}
