@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-03-04T03:28:08.232Z"
+    "x-generation-date": "2025-03-10T08:03:05.333Z"
   },
   "x-strapi-config": {
     "plugins": []
@@ -2918,6 +2918,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/SharedTicketsComponent"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SharedCardsComponent"
                     }
                   ]
                 },
@@ -2927,7 +2930,8 @@
                     "shared.hero": "#/components/schemas/SharedHeroComponent",
                     "shared.text-and-media": "#/components/schemas/SharedTextAndMediaComponent",
                     "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
-                    "shared.tickets": "#/components/schemas/SharedTicketsComponent"
+                    "shared.tickets": "#/components/schemas/SharedTicketsComponent",
+                    "shared.cards": "#/components/schemas/SharedCardsComponent"
                   }
                 }
               },
@@ -3014,6 +3018,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/SharedTicketsComponent"
+                },
+                {
+                  "$ref": "#/components/schemas/SharedCardsComponent"
                 }
               ]
             },
@@ -3023,7 +3030,8 @@
                 "shared.hero": "#/components/schemas/SharedHeroComponent",
                 "shared.text-and-media": "#/components/schemas/SharedTextAndMediaComponent",
                 "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
-                "shared.tickets": "#/components/schemas/SharedTicketsComponent"
+                "shared.tickets": "#/components/schemas/SharedTicketsComponent",
+                "shared.cards": "#/components/schemas/SharedCardsComponent"
               }
             }
           },
@@ -3093,6 +3101,9 @@
                       },
                       {
                         "$ref": "#/components/schemas/SharedTicketsComponent"
+                      },
+                      {
+                        "$ref": "#/components/schemas/SharedCardsComponent"
                       }
                     ]
                   },
@@ -3102,7 +3113,8 @@
                       "shared.hero": "#/components/schemas/SharedHeroComponent",
                       "shared.text-and-media": "#/components/schemas/SharedTextAndMediaComponent",
                       "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
-                      "shared.tickets": "#/components/schemas/SharedTicketsComponent"
+                      "shared.tickets": "#/components/schemas/SharedTicketsComponent",
+                      "shared.cards": "#/components/schemas/SharedCardsComponent"
                     }
                   }
                 },
@@ -3886,6 +3898,186 @@
           },
           "link": {
             "type": "string"
+          }
+        }
+      },
+      "CardLabelComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "CardCardComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "image": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "documentId": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "alternativeText": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              },
+              "width": {
+                "type": "integer"
+              },
+              "height": {
+                "type": "integer"
+              },
+              "formats": {},
+              "hash": {
+                "type": "string"
+              },
+              "ext": {
+                "type": "string"
+              },
+              "mime": {
+                "type": "string"
+              },
+              "size": {
+                "type": "number",
+                "format": "float"
+              },
+              "url": {
+                "type": "string"
+              },
+              "previewUrl": {
+                "type": "string"
+              },
+              "provider": {
+                "type": "string"
+              },
+              "provider_metadata": {},
+              "related": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "folder": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "documentId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "folderPath": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "publishedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "createdBy": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "documentId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "updatedBy": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "documentId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "locale": {
+                "type": "string"
+              },
+              "localizations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CardLabelComponent"
+            }
+          },
+          "link": {
+            "type": "string"
+          }
+        }
+      },
+      "SharedCardsComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CardCardComponent"
+            }
           }
         }
       },
@@ -6040,186 +6232,6 @@
           },
           "meta": {
             "type": "object"
-          }
-        }
-      },
-      "CardLabelComponent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "text": {
-            "type": "string"
-          }
-        }
-      },
-      "CardCardComponent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "image": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "number"
-              },
-              "documentId": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "alternativeText": {
-                "type": "string"
-              },
-              "caption": {
-                "type": "string"
-              },
-              "width": {
-                "type": "integer"
-              },
-              "height": {
-                "type": "integer"
-              },
-              "formats": {},
-              "hash": {
-                "type": "string"
-              },
-              "ext": {
-                "type": "string"
-              },
-              "mime": {
-                "type": "string"
-              },
-              "size": {
-                "type": "number",
-                "format": "float"
-              },
-              "url": {
-                "type": "string"
-              },
-              "previewUrl": {
-                "type": "string"
-              },
-              "provider": {
-                "type": "string"
-              },
-              "provider_metadata": {},
-              "related": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "documentId": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
-              "folder": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "number"
-                  },
-                  "documentId": {
-                    "type": "string"
-                  }
-                }
-              },
-              "folderPath": {
-                "type": "string"
-              },
-              "createdAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "updatedAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "publishedAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "createdBy": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "number"
-                  },
-                  "documentId": {
-                    "type": "string"
-                  }
-                }
-              },
-              "updatedBy": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "number"
-                  },
-                  "documentId": {
-                    "type": "string"
-                  }
-                }
-              },
-              "locale": {
-                "type": "string"
-              },
-              "localizations": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "documentId": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "labels": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CardLabelComponent"
-            }
-          },
-          "link": {
-            "type": "string"
-          }
-        }
-      },
-      "SharedCardsComponent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "title": {
-            "type": "string"
-          },
-          "cards": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CardCardComponent"
-            }
           }
         }
       },

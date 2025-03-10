@@ -1,7 +1,7 @@
 import { Page } from "@playwright/test";
 import axios from "axios";
 import 'dotenv/config';
-import { HeroBlock, ImageWithButtonGridBlock, SeoBlock, sharedTicketsBlock, TextAndMediaBlock } from "./types";
+import { HeroBlock, ImageWithButtonGridBlock, SeoBlock, ServicesBlock, sharedTicketsBlock, TextAndMediaBlock } from "./types";
 
 export const E2E_SMOKE_NAME_PREFIX = `[E2E-SMOKE]`;
 
@@ -342,4 +342,69 @@ export async function createTicketsBlock({
 
   await page.locator(`[name="blocks.${id}.link"]`)
     .fill(link);
+}
+
+export async function createServicesBlock({
+  page,
+  id,
+  title,
+  card,
+  filePath
+}: {
+  page: Page,
+  id: number,
+  title: string,
+  card: {
+    title: string,
+    description: string,
+    link: string,
+    labels: {
+      text: string
+    },
+  }
+  filePath: ServicesBlock['filePath']
+}) {
+  await page.getByRole('button', {
+    name: 'Add a component to blocks'
+  }).click();
+
+  await page.getByRole('button', {
+    name: 'shared'
+  }).click();
+
+  await page.getByRole('button', {
+    name: 'Блок с карточками'
+  }).click();
+
+  await page.getByRole('button', {
+    name: 'Блок с карточками'
+  }).click();
+
+  await page.locator(`[name="blocks.${id}.title"]`)
+    .fill(title);
+
+  await page.getByText('No entry yet. Click to add one.')
+    .first()
+    .click();
+
+  await page.locator(`[name="blocks.${id}.cards.0.title"]`)
+    .fill(card.title);
+
+  await page.locator(`[name="blocks.${id}.cards.0.description"]`)
+    .fill(card.description);
+
+  await uploadFile({
+    page,
+    filePath,
+  });
+
+  await page.locator(`[name="blocks.${id}.cards.0.link"]`)
+    .fill(card.link);
+
+  await page.getByText('No entry yet. Click to add one.')
+    .first()
+    .click();
+
+  await page.locator(`[name="blocks.${id}.cards.0.labels.0.text"]`)
+    .fill(card.labels.text);
 }

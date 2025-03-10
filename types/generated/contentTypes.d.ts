@@ -387,6 +387,7 @@ export interface ApiContactZooContactZoo extends Struct.SingleTypeSchema {
         'shared.text-and-media',
         'shared.image-with-button-grid',
         'shared.tickets',
+        'shared.cards',
       ]
     > &
       Schema.Attribute.SetPluginOptions<{

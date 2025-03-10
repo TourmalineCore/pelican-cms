@@ -23,7 +23,8 @@
         "shared.hero",
         "shared.text-and-media",
         "shared.image-with-button-grid",
-        "shared.tickets"
+        "shared.tickets",
+        "shared.cards"
       ],
       "required": false
     },
