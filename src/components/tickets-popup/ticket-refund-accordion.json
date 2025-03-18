@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_tickets_popup_ticket_refund_accordions",
+  "info": {
+    "displayName": "Аккордеон \"Возврат билетов\"",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "refundHead": {
+      "type": "text",
+      "required": true
+    },
+    "refundBody": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tickets-popup.refund-list-item",
+      "required": true
+    },
+    "button": {
+      "type": "component",
+      "repeatable": false,
+      "component": "button.button",
+      "required": true
+    }
+  }
+}

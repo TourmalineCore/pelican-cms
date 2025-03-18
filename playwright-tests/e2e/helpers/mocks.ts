@@ -113,3 +113,59 @@ export const MOCK_TICKETS = {
   link: `https://widget.afisha.yandex.ru/w/sessions/ticketsteam-803@37605507?clientKey=3bc42fbd-a832-49aa-a269-79188e18d9e1&regionId=56`,
   note: `Билет контактного зоопарка приобретается дополнительно ко\u00A0входному билету зоопарка`,
 };
+
+export const MOCK_TICKETS_POPUP = {
+  generalTicketsLink: `https://widget.afisha.yandex.ru/w/sessions/ticketsteam-803@37605507?clientKey=3bc42fbd-a832-49aa-a269-79188e18d9e1&regionId=56`,
+  generalTickets: [
+    {
+      id: 0,
+      category: `Взрослые,\nдети от 14 лет`,
+      price: `400  ₽ / чел`,
+    },
+  ],
+  subsidizedTicket: {
+    category: `Льготный`,
+    description: `Требуется подтверждающий льготу оригинал документа, покупка только на кассе`,
+    categories: [
+      {
+        id: 0,
+        category: `Студенты`,
+        price: `200  ₽ / чел`,
+      },
+    ],
+    button: {
+      label: `Остальные льготные категории`,
+      link: `https://vk.com/topic-71671982_48253263`,
+    },
+  },
+  visitingRulesAccordion: {
+    images: [
+      {
+        url: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`,
+        alternativeText: `Нельзя кормить животных`,
+      },
+    ],
+    button: {
+      label: `Подробнее о правилах посещения`,
+      link: `http://chelzoo.ru/media/articles/2022/05/06/prikaz-221-ot-050522-o-pravilah-posescheniya-2.pdf`,
+    },
+  },
+  ticketRefundAccordion: {
+    refundHead: `Возврат билета осуществляется в следующих случаях:`,
+    refundBody: [
+      {
+        id: 0,
+        refundReason: `отмены, замены либо переноса оказания услуги по инициативе Зоопарка;`,
+      },
+    ],
+    button: {
+      label: `Подробнее о возврате билетов`,
+      link: `http://chelzoo.ru/articles/prikaz-ob-utverzhdenii-pravil-prodazhi-i-vozvrata-/`,
+    },
+  },
+  buyTicketsButton: {
+    label: `Купить билет`,
+    link: `https://widget.afisha.yandex.ru/w/sessions/ticketsteam-803@37605507?clientKey=3bc42fbd-a832-49aa-a269-79188e18d9e1&regionId=56`,
+  },
+  note: `Покупая билет, вы соглашаетесь с правилами посещения`,
+};

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_tickets_popup_categories",
+  "info": {
+    "displayName": "Категория",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "category": {
+      "type": "text",
+      "required": true
+    },
+    "price": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

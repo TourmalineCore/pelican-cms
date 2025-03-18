@@ -1,0 +1,49 @@
+{
+  "collectionName": "components_tickets_popup_tickets_popups",
+  "info": {
+    "displayName": "Всплывающее окно покупки билетов",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "generalTicketsLink": {
+      "type": "string",
+      "required": true
+    },
+    "generalTickets": {
+      "type": "component",
+      "repeatable": true,
+      "component": "tickets-popup.shortened-ticket",
+      "required": true
+    },
+    "subsidizedTicket": {
+      "type": "component",
+      "repeatable": false,
+      "component": "tickets-popup.accordion-ticket",
+      "required": true
+    },
+    "buyTicketsButton": {
+      "type": "component",
+      "repeatable": false,
+      "component": "button.button",
+      "required": true
+    },
+    "note": {
+      "type": "string",
+      "required": true
+    },
+    "visitingRulesAccordion": {
+      "type": "component",
+      "repeatable": false,
+      "component": "tickets-popup.visiting-rules-accordion",
+      "required": true
+    },
+    "ticketRefundAccordion": {
+      "type": "component",
+      "repeatable": false,
+      "component": "tickets-popup.ticket-refund-accordion",
+      "required": true
+    }
+  }
+}

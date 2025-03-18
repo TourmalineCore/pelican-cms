@@ -277,6 +277,133 @@ export interface SharedTickets extends Struct.ComponentSchema {
   };
 }
 
+export interface TicketsPopupAccordionTicket extends Struct.ComponentSchema {
+  collectionName: 'components_tickets_popup_accordion_tickets';
+  info: {
+    description: '';
+    displayName: '\u0411\u0438\u043B\u0435\u0442 \u0441 \u0430\u043A\u043A\u043E\u0440\u0434\u0435\u043E\u043D\u043E\u043C';
+    icon: 'dashboard';
+  };
+  attributes: {
+    button: Schema.Attribute.Component<'button.button', false> &
+      Schema.Attribute.Required;
+    categories: Schema.Attribute.Component<'tickets-popup.category', true> &
+      Schema.Attribute.Required;
+    category: Schema.Attribute.String & Schema.Attribute.Required;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface TicketsPopupCategory extends Struct.ComponentSchema {
+  collectionName: 'components_tickets_popup_categories';
+  info: {
+    description: '';
+    displayName: '\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F';
+    icon: 'dashboard';
+  };
+  attributes: {
+    category: Schema.Attribute.Text & Schema.Attribute.Required;
+    price: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface TicketsPopupRefundListItem extends Struct.ComponentSchema {
+  collectionName: 'components_tickets_popup_refund_list_items';
+  info: {
+    description: '';
+    displayName: '\u041F\u0440\u0430\u0432\u0438\u043B\u043E \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u0430 \u0431\u0438\u043B\u0435\u0442\u043E\u0432';
+    icon: 'dashboard';
+  };
+  attributes: {
+    refundReason: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface TicketsPopupShortenedTicket extends Struct.ComponentSchema {
+  collectionName: 'components_tickets_popup_shortened_tickets';
+  info: {
+    description: '';
+    displayName: '\u0421\u043E\u043A\u0440\u0430\u0449\u0451\u043D\u043D\u044B\u0439 \u0431\u0438\u043B\u0435\u0442';
+    icon: 'dashboard';
+  };
+  attributes: {
+    category: Schema.Attribute.Text & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
+    price: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface TicketsPopupTicketRefundAccordion
+  extends Struct.ComponentSchema {
+  collectionName: 'components_tickets_popup_ticket_refund_accordions';
+  info: {
+    description: '';
+    displayName: '\u0410\u043A\u043A\u043E\u0440\u0434\u0435\u043E\u043D "\u0412\u043E\u0437\u0432\u0440\u0430\u0442 \u0431\u0438\u043B\u0435\u0442\u043E\u0432"';
+    icon: 'dashboard';
+  };
+  attributes: {
+    button: Schema.Attribute.Component<'button.button', false> &
+      Schema.Attribute.Required;
+    refundBody: Schema.Attribute.Component<
+      'tickets-popup.refund-list-item',
+      true
+    > &
+      Schema.Attribute.Required;
+    refundHead: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface TicketsPopupTicketsPopup extends Struct.ComponentSchema {
+  collectionName: 'components_tickets_popup_tickets_popups';
+  info: {
+    description: '';
+    displayName: '\u0412\u0441\u043F\u043B\u044B\u0432\u0430\u044E\u0449\u0435\u0435 \u043E\u043A\u043D\u043E \u043F\u043E\u043A\u0443\u043F\u043A\u0438 \u0431\u0438\u043B\u0435\u0442\u043E\u0432';
+    icon: 'dashboard';
+  };
+  attributes: {
+    buyTicketsButton: Schema.Attribute.Component<'button.button', false> &
+      Schema.Attribute.Required;
+    generalTickets: Schema.Attribute.Component<
+      'tickets-popup.shortened-ticket',
+      true
+    > &
+      Schema.Attribute.Required;
+    generalTicketsLink: Schema.Attribute.String & Schema.Attribute.Required;
+    note: Schema.Attribute.String & Schema.Attribute.Required;
+    subsidizedTicket: Schema.Attribute.Component<
+      'tickets-popup.accordion-ticket',
+      false
+    > &
+      Schema.Attribute.Required;
+    ticketRefundAccordion: Schema.Attribute.Component<
+      'tickets-popup.ticket-refund-accordion',
+      false
+    > &
+      Schema.Attribute.Required;
+    visitingRulesAccordion: Schema.Attribute.Component<
+      'tickets-popup.visiting-rules-accordion',
+      false
+    > &
+      Schema.Attribute.Required;
+  };
+}
+
+export interface TicketsPopupVisitingRulesAccordion
+  extends Struct.ComponentSchema {
+  collectionName: 'components_tickets_popup_visiting_rules_accordions';
+  info: {
+    description: '';
+    displayName: '\u0410\u043A\u043A\u043E\u0440\u0434\u0435\u043E\u043D "\u041F\u0440\u0430\u0432\u0438\u043B\u0430 \u043F\u043E\u0441\u0435\u0449\u0435\u043D\u0438\u044F"';
+    icon: 'dashboard';
+  };
+  attributes: {
+    button: Schema.Attribute.Component<'button.button', false> &
+      Schema.Attribute.Required;
+    images: Schema.Attribute.Media<'images' | 'files', true> &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface TicketsTicket extends Struct.ComponentSchema {
   collectionName: 'components_ticket_tickets';
   info: {
@@ -335,6 +462,13 @@ declare module '@strapi/strapi' {
       'shared.seo': SharedSeo;
       'shared.text-and-media': SharedTextAndMedia;
       'shared.tickets': SharedTickets;
+      'tickets-popup.accordion-ticket': TicketsPopupAccordionTicket;
+      'tickets-popup.category': TicketsPopupCategory;
+      'tickets-popup.refund-list-item': TicketsPopupRefundListItem;
+      'tickets-popup.shortened-ticket': TicketsPopupShortenedTicket;
+      'tickets-popup.ticket-refund-accordion': TicketsPopupTicketRefundAccordion;
+      'tickets-popup.tickets-popup': TicketsPopupTicketsPopup;
+      'tickets-popup.visiting-rules-accordion': TicketsPopupVisitingRulesAccordion;
       'tickets.ticket': TicketsTicket;
       'tickets.tickets': TicketsTickets;
     }

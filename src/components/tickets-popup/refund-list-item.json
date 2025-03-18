@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_tickets_popup_refund_list_items",
+  "info": {
+    "displayName": "Правило возврата билетов",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "refundReason": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

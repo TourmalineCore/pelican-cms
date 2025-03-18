@@ -7,18 +7,18 @@ export default ({ env }) => ({
                 provider: 'aws-s3',
                 providerOptions: {
                     // For kubernetes local env only
-                    baseUrl: env('AWS_PUBLIC_ENDPOINT'),
+                    baseUrl: env('AWS_PUBLIC_ENDPOINT', 'http://localhost:9000/pelican-bucket'),
                     s3Options: {
                         credentials: {
-                            accessKeyId: env('AWS_ACCESS_KEY_ID'),
-                            secretAccessKey: env('AWS_ACCESS_SECRET_KEY'),
+                            accessKeyId: env('AWS_ACCESS_KEY_ID', 'admin'),
+                            secretAccessKey: env('AWS_ACCESS_SECRET_KEY', 'rootPassword'),
                         },
-                        endpoint: env('AWS_ENDPOINT'),
-                        region: env('AWS_REGION'),
+                        endpoint: env('AWS_ENDPOINT', 'http://localhost:9000'),
+                        region: env('AWS_REGION', 'us-east-1'),
                         forcePathStyle: true,
                         params: {
                             ACL: env('AWS_ACL', 'public-read'),
-                            Bucket: env('AWS_BUCKET'),
+                            Bucket: env('AWS_BUCKET', 'pelican-bucket'),
                         },
                     }
                 },
