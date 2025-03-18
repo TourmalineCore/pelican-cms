@@ -80,7 +80,7 @@ test.describe(`API response tests`, () => {
 
       await deleteDocuments();
 
-      await deleteFiles();;
+      await deleteFiles();
     });
 
     test.afterEach(async () => {
@@ -102,13 +102,13 @@ test.describe(`API response tests`, () => {
 
   test.describe(`Homepage response tests`, () => {
     test.beforeEach(async () => {
-      await deleteHomepage()
+      await deleteHomepage();
 
       await deleteFiles();
     });
 
     test.afterEach(async () => {
-      await deleteHomepage()
+      await deleteHomepage();
 
       await deleteFiles();
     });
