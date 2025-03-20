@@ -20,7 +20,7 @@ test.describe(`Checking the preview mode in CMS and UI`, () => {
   });
 
 
-  test.describe(`Preview E2E test`, () => {
+  test.describe(`Ticket popup preview in draft mode E2E test`, () => {
     test.beforeEach(async () => {
       await deleteHeaderSingleType();
 
