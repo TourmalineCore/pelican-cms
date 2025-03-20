@@ -8,7 +8,7 @@ import {
 import axios from 'axios';
 import { SeoBlock } from '../types';
 
-export async function createAndPublishDocumentsCategory({
+export async function createSaveAndPublishDocumentsCategory({
   page,
   title,
   seo,

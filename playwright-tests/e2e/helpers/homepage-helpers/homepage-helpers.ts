@@ -19,7 +19,7 @@ import {
   TextAndMediaBlock
 } from "../types";
 
-export async function createAndPublishHomepage({
+export async function createSaveAndPublishHomepage({
   page,
   hero,
   services,

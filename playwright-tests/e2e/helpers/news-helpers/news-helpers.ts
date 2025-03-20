@@ -13,7 +13,7 @@ export async function deleteNews() {
   })
 }
 
-export async function createAndPublishNews({
+export async function createSaveAndPublishNews({
   page,
   title,
   description,

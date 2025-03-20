@@ -3,12 +3,14 @@ import { getStrapiUrl, saveAndPublish, uploadFile } from "../global-helpers";
 import axios from "axios";
 import { TicketsPopupBlock } from "../types";
 
-export async function createAndPublishHeaderSingleType({
+export async function createSaveAndPublishHeaderSingleType({
   page,
   ticketsPopup,
+  onlySave,
 }: {
   page: Page,
   ticketsPopup: TicketsPopupBlock,
+  onlySave?: boolean
 }) {
   const {
     generalTicketsLink,
@@ -22,7 +24,6 @@ export async function createAndPublishHeaderSingleType({
 
   await page.locator('a[aria-label="Content Manager"]')
     .click();
-
 
   await page.locator(`a`, { hasText: 'Шапка сайта' })
     .click();
@@ -38,7 +39,7 @@ export async function createAndPublishHeaderSingleType({
     note,
   });
 
-  await saveAndPublish({ page });
+  await saveAndPublish({ page, onlySave });
 }
 
 export async function deleteHeaderSingleType() {
