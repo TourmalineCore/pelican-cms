@@ -55,15 +55,11 @@ async function e2eTicketPopupPreviewTest({
     page,
     ticketsPopup: MOCK_TICKETS_POPUP,
     onlySave: true
-  })
+  });
 
   await page.getByText('Open draft preview').click();
 
   const uiPage = await page.context().waitForEvent('page');
-
-  const exitPreviewText = await uiPage.getByText('Выйти из режима черновика');
-
-  await exitPreviewText.waitFor();
 
   await uiPage.getByText('Билеты').click();
 
@@ -71,5 +67,5 @@ async function e2eTicketPopupPreviewTest({
 
   await uiPage.getByTestId('tickets-popup-close-button').click();
 
-  await exitPreviewText.click();
+  await uiPage.getByText('Выйти из режима черновика').click();
 }
