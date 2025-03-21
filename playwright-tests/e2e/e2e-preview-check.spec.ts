@@ -64,6 +64,8 @@ async function e2eTicketPopupPreviewTest({
     path: '/api/preview?secret=secret'
   })
 
+  await page.getByText('Билеты').waitFor();
+
   await page.getByText('Билеты').click();
 
   await page.getByText(MOCK_TICKETS_POPUP.generalTickets[0].category).waitFor();
