@@ -112,7 +112,7 @@ jobs:
         env:
           FRONTEND_URL: http://localhost:40110 
           SERVER_URL: 'http://localhost:40110/cms'
-          SECRET: 'secret'
+          PREVIEW_SECRET: 'secret'
 
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
