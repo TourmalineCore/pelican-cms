@@ -3,14 +3,14 @@ import { createSeo, getStrapiUrl, saveAndPublish } from "../global-helpers";
 import axios from "axios";
 import { SeoBlock } from "../types";
 
-export async function createAndPublishDocumentsPage({
+export async function createSaveAndPublishDocumentsPage({
   page,
   documentsTitle,
   seo,
 }: {
   page: Page,
   documentsTitle: string,
-  seo: SeoBlock,
+  seo?: SeoBlock,
 }) {
   await page.locator('a[aria-label="Content Manager"]')
     .click();
@@ -21,12 +21,15 @@ export async function createAndPublishDocumentsPage({
   await page.locator('[name="title"]')
     .fill(documentsTitle);
 
-  await createSeo({
-    page,
-    metaTitle: seo.metaTitle,
-    metaDescription: seo.metaDescription,
-    keywords: seo.keywords
-  });
+
+  if (seo) {
+    await createSeo({
+      page,
+      metaTitle: seo.metaTitle,
+      metaDescription: seo.metaDescription,
+      keywords: seo.keywords
+    });
+  }
 
   await saveAndPublish({ page });
 }

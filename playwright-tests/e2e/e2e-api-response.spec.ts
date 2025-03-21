@@ -1,16 +1,16 @@
 import test, { expect, Page } from "@playwright/test";
 import { authenticate, deleteFiles, E2E_SMOKE_NAME_PREFIX, getStrapiUrl, gotoCMS } from "./helpers/global-helpers";
-import { createAndPublishDocumentsCategory, deleteDocumentsCategories, getDocumentCategoriesWithTestPrefix } from "./helpers/documents-helpers/documents-categories-helpers";
-import { createAndPublishDocument, deleteDocuments, getDocumentsWithTestPrefix } from "./helpers/documents-helpers/documents-helpers";
-import { createAndPublishNews, deleteNews, getNewsWithTestPrefix } from "./helpers/news-helpers/news-helpers";
+import { createSaveAndPublishDocumentsCategory, deleteDocumentsCategories, getDocumentCategoriesWithTestPrefix } from "./helpers/documents-helpers/documents-categories-helpers";
+import { createSaveAndPublishDocument, deleteDocuments, getDocumentsWithTestPrefix } from "./helpers/documents-helpers/documents-helpers";
+import { createSaveAndPublishNews, deleteNews, getNewsWithTestPrefix } from "./helpers/news-helpers/news-helpers";
 import axios from "axios";
-import { createAndPublishHomepage, deleteHomepage } from "./helpers/homepage-helpers/homepage-helpers";
-import { createAndPublishContactZooPage, deleteContactZooPage } from "./helpers/contact-zoo-page-helpers/contact-zoo-page-helpers";
+import { createSaveAndPublishHomepage, deleteHomepage } from "./helpers/homepage-helpers/homepage-helpers";
+import { createSaveAndPublishContactZooPage, deleteContactZooPage } from "./helpers/contact-zoo-page-helpers/contact-zoo-page-helpers";
 import qs from "qs";
 import { MOCK_HOME_SERVICES, MOCK_SEO, MOCK_HERO, MOCK_TEXT_AND_MEDIA, MOCK_IMAGE_WITH_BUTTON_GRID, MOCK_HOME_MAP_CARD, MOCK_HOME_TICKETS, MOCK_TICKETS, MOCK_TICKETS_POPUP } from "./helpers/mocks";
-import { createAndPublishNewsPage, deleteNewsPage } from "./helpers/news-page-helpers/news-page-helpers";
-import { createAndPublishDocumentsPage, deleteDocumentsPage } from "./helpers/documents-page-helpers/documents-page-helpers";
-import { createAndPublishHeaderSingleType, deleteHeaderSingleType } from "./helpers/header-helpers/header-helpers";
+import { createSaveAndPublishNewsPage, deleteNewsPage } from "./helpers/news-page-helpers/news-page-helpers";
+import { createSaveAndPublishDocumentsPage, deleteDocumentsPage } from "./helpers/documents-page-helpers/documents-page-helpers";
+import { createSaveAndPublishHeaderSingleType, deleteHeaderSingleType } from "./helpers/header-helpers/header-helpers";
 
 
 test.describe(`API response tests`, () => {
@@ -29,18 +29,21 @@ test.describe(`API response tests`, () => {
     });
   });
 
+  test.beforeEach(async () => {
+    await deleteFiles();
+  });
+
+  test.afterEach(async () => {
+    await deleteFiles();
+  });
 
   test.describe(`News response tests`, () => {
     test.beforeEach(async () => {
       await deleteNews();
-
-      await deleteFiles();
     });
 
     test.afterEach(async () => {
       await deleteNews();
-
-      await deleteFiles();
     });
 
     test(`
@@ -55,14 +58,10 @@ test.describe(`API response tests`, () => {
   test.describe(`Documents categories response tests`, () => {
     test.beforeEach(async () => {
       await deleteDocumentsCategories();
-
-      await deleteFiles();
     });
 
     test.afterEach(async () => {
       await deleteDocumentsCategories();
-
-      await deleteFiles();
     });
 
     test(`
@@ -79,16 +78,12 @@ test.describe(`API response tests`, () => {
       await deleteDocumentsCategories();
 
       await deleteDocuments();
-
-      await deleteFiles();;
     });
 
     test.afterEach(async () => {
       await deleteDocumentsCategories();
 
       await deleteDocuments();
-
-      await deleteFiles();
     });
 
     test(`
@@ -103,14 +98,10 @@ test.describe(`API response tests`, () => {
   test.describe(`Homepage response tests`, () => {
     test.beforeEach(async () => {
       await deleteHomepage()
-
-      await deleteFiles();
     });
 
     test.afterEach(async () => {
       await deleteHomepage()
-
-      await deleteFiles();
     });
 
     test(`
@@ -125,14 +116,10 @@ test.describe(`API response tests`, () => {
   test.describe(`ContactZoo page response tests`, () => {
     test.beforeEach(async () => {
       await deleteContactZooPage();
-
-      await deleteFiles();
     });
 
     test.afterEach(async () => {
       await deleteContactZooPage();
-
-      await deleteFiles();
     });
 
     test(`
@@ -222,7 +209,7 @@ async function checkNewsResponseTest({
     ]
   };
 
-  await createAndPublishNews({
+  await createSaveAndPublishNews({
     page,
     title,
     description,
@@ -269,7 +256,7 @@ async function checkNewsPageResponseTest({
     }
   };
 
-  await createAndPublishNewsPage({
+  await createSaveAndPublishNewsPage({
     page,
     newsTitle,
     seo: MOCK_SEO
@@ -312,7 +299,7 @@ async function checkDocumentsPageResponseTest({
     }
   };
 
-  await createAndPublishDocumentsPage({
+  await createSaveAndPublishDocumentsPage({
     page,
     documentsTitle,
     seo: MOCK_SEO
@@ -365,12 +352,12 @@ async function checkDocumentsResponseTest({
     ]
   };
 
-  await createAndPublishDocumentsCategory({
+  await createSaveAndPublishDocumentsCategory({
     page,
     title: categoryTitle,
   });
 
-  await createAndPublishDocument({
+  await createSaveAndPublishDocument({
     page,
     categoryTitle,
     title,
@@ -416,7 +403,7 @@ async function checkDocumentsCategoriesResponseTest({
     ]
   };
 
-  await createAndPublishDocumentsCategory({
+  await createSaveAndPublishDocumentsCategory({
     page,
     title,
     seo: MOCK_SEO,
@@ -477,7 +464,7 @@ async function checkHomepageResponseTest({
     }
   };
 
-  await createAndPublishHomepage({
+  await createSaveAndPublishHomepage({
     page,
     hero: MOCK_HERO,
     services: MOCK_HOME_SERVICES,
@@ -670,7 +657,7 @@ async function checkContactZooPageResponseTest({
     }
   };
 
-  await createAndPublishContactZooPage({
+  await createSaveAndPublishContactZooPage({
     page,
     hero: MOCK_HERO,
     textAndMedia: MOCK_TEXT_AND_MEDIA,
@@ -825,7 +812,7 @@ async function checkHeaderSingleTypeResponseTest({
     },
   };
 
-  await createAndPublishHeaderSingleType({
+  await createSaveAndPublishHeaderSingleType({
     page,
     ticketsPopup: MOCK_TICKETS_POPUP,
   });
