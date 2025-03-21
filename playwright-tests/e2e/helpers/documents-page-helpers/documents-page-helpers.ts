@@ -10,7 +10,7 @@ export async function createSaveAndPublishDocumentsPage({
 }: {
   page: Page,
   documentsTitle: string,
-  seo: SeoBlock,
+  seo?: SeoBlock,
 }) {
   await page.locator('a[aria-label="Content Manager"]')
     .click();
@@ -21,12 +21,15 @@ export async function createSaveAndPublishDocumentsPage({
   await page.locator('[name="title"]')
     .fill(documentsTitle);
 
-  await createSeo({
-    page,
-    metaTitle: seo.metaTitle,
-    metaDescription: seo.metaDescription,
-    keywords: seo.keywords
-  });
+
+  if (seo) {
+    await createSeo({
+      page,
+      metaTitle: seo.metaTitle,
+      metaDescription: seo.metaDescription,
+      keywords: seo.keywords
+    });
+  }
 
   await saveAndPublish({ page });
 }

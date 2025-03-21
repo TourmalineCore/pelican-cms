@@ -29,18 +29,21 @@ test.describe(`API response tests`, () => {
     });
   });
 
+  test.beforeEach(async () => {
+    await deleteFiles();
+  });
+
+  test.afterEach(async () => {
+    await deleteFiles();
+  });
 
   test.describe(`News response tests`, () => {
     test.beforeEach(async () => {
       await deleteNews();
-
-      await deleteFiles();
     });
 
     test.afterEach(async () => {
       await deleteNews();
-
-      await deleteFiles();
     });
 
     test(`
@@ -55,14 +58,10 @@ test.describe(`API response tests`, () => {
   test.describe(`Documents categories response tests`, () => {
     test.beforeEach(async () => {
       await deleteDocumentsCategories();
-
-      await deleteFiles();
     });
 
     test.afterEach(async () => {
       await deleteDocumentsCategories();
-
-      await deleteFiles();
     });
 
     test(`
@@ -79,16 +78,12 @@ test.describe(`API response tests`, () => {
       await deleteDocumentsCategories();
 
       await deleteDocuments();
-
-      await deleteFiles();;
     });
 
     test.afterEach(async () => {
       await deleteDocumentsCategories();
 
       await deleteDocuments();
-
-      await deleteFiles();
     });
 
     test(`
@@ -103,14 +98,10 @@ test.describe(`API response tests`, () => {
   test.describe(`Homepage response tests`, () => {
     test.beforeEach(async () => {
       await deleteHomepage()
-
-      await deleteFiles();
     });
 
     test.afterEach(async () => {
       await deleteHomepage()
-
-      await deleteFiles();
     });
 
     test(`
@@ -125,14 +116,10 @@ test.describe(`API response tests`, () => {
   test.describe(`ContactZoo page response tests`, () => {
     test.beforeEach(async () => {
       await deleteContactZooPage();
-
-      await deleteFiles();
     });
 
     test.afterEach(async () => {
       await deleteContactZooPage();
-
-      await deleteFiles();
     });
 
     test(`
