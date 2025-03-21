@@ -3,11 +3,11 @@ import { authenticate, createHeroBlock, deleteFiles, gotoCMS, gotoUI, saveAndPub
 import { createSaveAndPublishHeaderSingleType, deleteHeaderSingleType } from "./helpers/header-helpers/header-helpers";
 import { MOCK_HERO, MOCK_TICKETS_POPUP } from "./helpers/mocks";
 import { deleteHomepage } from "./helpers/homepage-helpers/homepage-helpers";
-import { deleteContactZooPage } from "./helpers/contact-zoo-page-helpers/contact-zoo-page-helpers";
 import { createSaveAndPublishNewsPage, deleteNewsPage } from "./helpers/news-page-helpers/news-page-helpers";
 import { createSaveAndPublishDocumentsPage, deleteDocumentsPage } from "./helpers/documents-page-helpers/documents-page-helpers";
+import { deleteContactZooPage } from "./helpers/contact-zoo-page-helpers/contact-zoo-page-helpers";
 
-test.describe(`Checking that there is no 404 error`, () => {
+test.describe(`Checking that there is no 404 error on all pages`, () => {
   let page: Page;
 
   test.beforeAll(async ({
@@ -15,6 +15,11 @@ test.describe(`Checking that there is no 404 error`, () => {
   }) => {
     const context = await browser.newContext();
     page = await context.newPage();
+
+    await page.setViewportSize({
+      width: 1366,
+      height: 768,
+    });
 
     await gotoCMS({ page });
 
@@ -24,103 +29,37 @@ test.describe(`Checking that there is no 404 error`, () => {
   });
 
   test.beforeEach(async () => {
-    await gotoCMS({ page });
-
-    await deleteHeaderSingleType();
-
-    await deleteFiles();
-
-    await createSaveAndPublishHeaderSingleType({
-      page,
-      ticketsPopup: MOCK_TICKETS_POPUP,
-    });
+    await clearAllPagesAndFiles()
   });
 
   test.afterEach(async () => {
-    await deleteHeaderSingleType();
-
-    await deleteFiles();
+    await clearAllPagesAndFiles()
   });
 
-  test.describe(`Check 404 error on home page E2E test`, () => {
-    test.beforeEach(async () => {
-      await deleteHomepage();
-    });
-
-    test.afterEach(async () => {
-      await deleteHomepage();
-    });
-
-    test(`
-      GIVEN empty home page and header single types
-      WHEN filling and publish it
-      SHOULD see home page without 404 error
-      `,
-      async () => await e2eHomePageCheckFor404ErrorTest({ page })
-    );
-  });
-
-  test.describe(`Check 404 error on contact zoo page E2E test`, () => {
-    test.beforeEach(async () => {
-      await deleteContactZooPage();
-    });
-
-    test.afterEach(async () => {
-      await deleteContactZooPage();
-    });
-
-    test(`
-      GIVEN empty contact zoo page and header single types
-      WHEN filling and publish it
-      SHOULD see contact zoo page without 404 error
-      `,
-      async () => await e2eContactZooPageCheckFor404ErrorTest({ page })
-    );
-  });
-
-  test.describe(`Check 404 error on news page E2E test`, () => {
-    test.beforeEach(async () => {
-      await deleteNewsPage();
-    });
-
-    test.afterEach(async () => {
-      await deleteNewsPage();
-    });
-
-    test(`
-      GIVEN empty news page and header single types
-      WHEN filling and publish it
-      SHOULD see news page without 404 error
-      `,
-      async () => await e2eNewsPageCheckFor404ErrorTest({ page })
-    );
-  });
-
-  test.describe(`Check 404 error on documents page E2E test`, () => {
-    test.beforeEach(async () => {
-      await deleteDocumentsPage();
-    });
-
-    test.afterEach(async () => {
-      await deleteDocumentsPage();
-    });
-
-    test(`
-      GIVEN empty documents page and header single types
-      WHEN filling and publish it
-      SHOULD see documents page without 404 error
-      `,
-      async () => await e2eDocumentsPageCheckFor404ErrorTest({ page })
-    );
-  })
+  test(`
+    GIVEN empty home page
+    AND header single types
+    AND contact zoo page
+    AND news page
+    AND documents page
+    WHEN filling and publish it
+    SHOULD see all pages without 404 error
+    `,
+    async () => await e2eAllPageCheckFor404ErrorTest({ page })
+  );
 })
 
 
-async function e2eHomePageCheckFor404ErrorTest({
+async function e2eAllPageCheckFor404ErrorTest({
   page
 }: {
   page: Page
 }) {
+  await createSaveAndPublishHeaderSingleType({
+    page,
+    ticketsPopup: MOCK_TICKETS_POPUP,
+  });
+
   await page.locator('a[aria-label="Content Manager"]')
     .click();
 
@@ -138,18 +77,6 @@ async function e2eHomePageCheckFor404ErrorTest({
 
   await saveAndPublish({ page });
 
-  await gotoUI({
-    page,
-  });
-
-  await expect(page.getByText('404')).not.toBeVisible()
-}
-
-async function e2eContactZooPageCheckFor404ErrorTest({
-  page
-}: {
-  page: Page
-}) {
   await page.locator('a[aria-label="Content Manager"]')
     .click();
 
@@ -165,21 +92,8 @@ async function e2eContactZooPageCheckFor404ErrorTest({
     filePath: MOCK_HERO.filePath
   });
 
-  await saveAndPublish({ page })
+  await saveAndPublish({ page });
 
-  await gotoUI({
-    page,
-    path: '/contact-zoo'
-  });
-
-  await expect(page.getByText('404')).not.toBeVisible()
-}
-
-async function e2eNewsPageCheckFor404ErrorTest({
-  page
-}: {
-  page: Page
-}) {
   await page.locator('a[aria-label="Content Manager"]')
     .click();
 
@@ -189,21 +103,8 @@ async function e2eNewsPageCheckFor404ErrorTest({
   await createSaveAndPublishNewsPage({
     page,
     newsTitle: 'Новости'
-  })
-
-  await gotoUI({
-    page,
-    path: '/news'
   });
 
-  await expect(page.getByText('404')).not.toBeVisible()
-}
-
-async function e2eDocumentsPageCheckFor404ErrorTest({
-  page
-}: {
-  page: Page
-}) {
   await page.locator('a[aria-label="Content Manager"]')
     .click();
 
@@ -213,12 +114,56 @@ async function e2eDocumentsPageCheckFor404ErrorTest({
   await createSaveAndPublishDocumentsPage({
     page,
     documentsTitle: 'Документы'
-  })
+  });
 
   await gotoUI({
     page,
-    path: '/documents'
+    path: '/contact-zoo'
   });
 
-  await expect(page.getByText('404')).not.toBeVisible()
+  await check404Error({ page });
+
+  await page.getByText('Новости')
+    .first()
+    .click();
+
+  await page.waitForURL('**/news');
+
+  await check404Error({ page });
+
+  await page.getByText('Документы')
+    .first()
+    .click();
+
+  await page.waitForURL('**/documents');
+
+  await check404Error({ page });
+
+  await page.getByTestId('header-logo').click()
+
+  await page.waitForURL(process.env.FRONTEND_URL || 'http://localhost:3000');
+
+  await check404Error({ page });
+}
+
+async function check404Error({
+  page
+}: {
+  page: Page
+}) {
+  await expect(page.getByText('404')).not.toBeVisible();
+}
+
+async function clearAllPagesAndFiles() {
+  await deleteHomepage();
+
+  await deleteContactZooPage();
+
+  await deleteNewsPage();
+
+  await deleteDocumentsPage();
+
+  await deleteHeaderSingleType();
+
+  await deleteFiles();
 }
