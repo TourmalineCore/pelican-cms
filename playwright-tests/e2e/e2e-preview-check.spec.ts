@@ -57,14 +57,10 @@ async function e2eTicketPopupPreviewTest({
     onlySave: true
   });
 
-  await page.getByText('Open draft preview').click();
-
   await gotoUI({
     page,
     path: '/api/preview?secret=secret'
   })
-
-  await page.getByText('Билеты').waitFor();
 
   await page.getByText('Билеты').click();
 
