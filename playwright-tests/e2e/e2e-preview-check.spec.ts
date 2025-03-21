@@ -1,5 +1,5 @@
 import test, { Page } from "@playwright/test";
-import { authenticate, deleteFiles, gotoCMS, gotoUI } from "./helpers/global-helpers";
+import { authenticate, deleteFiles, gotoCMS } from "./helpers/global-helpers";
 import { createSaveAndPublishHeaderSingleType, deleteHeaderSingleType } from "./helpers/header-helpers/header-helpers";
 import { MOCK_TICKETS_POPUP } from "./helpers/mocks";
 
@@ -57,16 +57,15 @@ async function e2eTicketPopupPreviewTest({
     onlySave: true
   });
 
-  await gotoUI({
-    page,
-    path: '/api/preview?secret=secret'
-  })
+  await page.getByText('Open draft preview').click();
 
-  await page.getByText('Билеты').click();
+  const uiPage = await page.context().waitForEvent('page');
 
-  await page.getByText(MOCK_TICKETS_POPUP.generalTickets[0].category).waitFor();
+  await uiPage.getByText('Билеты').click();
 
-  await page.getByTestId('tickets-popup-close-button').click();
+  await uiPage.getByText(MOCK_TICKETS_POPUP.generalTickets[0].category).waitFor();
 
-  await page.getByText('Выйти из режима черновика').click();
+  await uiPage.getByTestId('tickets-popup-close-button').click();
+
+  await uiPage.getByText('Выйти из режима черновика').click();
 }
