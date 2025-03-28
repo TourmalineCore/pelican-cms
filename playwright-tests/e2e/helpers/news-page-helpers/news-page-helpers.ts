@@ -3,7 +3,7 @@ import { createSeo, getStrapiUrl, saveAndPublish } from "../global-helpers";
 import axios from "axios";
 import { SeoBlock } from "../types";
 
-export async function createAndPublishNewsPage({
+export async function createSaveAndPublishNewsPage({
   page,
   newsTitle,
   seo,
