@@ -3,7 +3,7 @@ import { createHeroBlock, createImageWithButtonGridBlock, createSeo, createServi
 import axios from "axios";
 import { HeroBlock, TextAndMediaBlock, ImageWithButtonGridBlock, SeoBlock, sharedTicketsBlock, ServicesBlock } from "../types";
 
-export async function createAndPublishContactZooPage({
+export async function createSaveAndPublishContactZooPage({
   page,
   hero,
   textAndMedia,

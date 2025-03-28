@@ -17,7 +17,7 @@ export async function gotoCMS({
 
 export async function gotoUI({
   page,
-  path,
+  path = '',
 }: {
   page: Page
   path?: string
@@ -115,9 +115,11 @@ export async function clickByCheckboxAndDeleteWithConfirm({
 }
 
 export async function saveAndPublish({
-  page
+  page,
+  onlySave
 }: {
-  page: Page
+  page: Page,
+  onlySave?: boolean,
 }) {
   const saveResponsePromise = page.waitForResponse((response) => {
     const responseType = (response.url().includes('/single-types/') ? 'PUT' : 'POST');
@@ -135,17 +137,18 @@ export async function saveAndPublish({
 
   await saveResponsePromise;
 
-  const publishResponsePromise = page.waitForResponse((response) =>
-    response.url().includes('/content-manager/') &&
-    response.request().method() === 'POST'
-  );
+  if (!onlySave) {
+    const publishResponsePromise = page.waitForResponse((response) =>
+      response.url().includes('/content-manager/') &&
+      response.request().method() === 'POST'
+    );
+    await page.getByRole(`button`, {
+      name: 'Publish'
+    })
+      .click();
 
-  await page.getByRole(`button`, {
-    name: 'Publish'
-  })
-    .click();
-
-  await publishResponsePromise;
+    await publishResponsePromise;
+  }
 }
 
 export async function createSeo({
