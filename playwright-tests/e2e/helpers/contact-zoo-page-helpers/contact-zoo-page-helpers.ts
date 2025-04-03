@@ -23,7 +23,6 @@ export async function createAndPublishContactZooPage({
   await page.locator('a[aria-label="Content Manager"]')
     .click();
 
-
   await page.locator(`a`, { hasText: 'Страница контактного зоопарка' })
     .click();
 
@@ -33,7 +32,6 @@ export async function createAndPublishContactZooPage({
     title: hero.title,
     infoCard: hero.infoCard,
     scheduleCard: hero.scheduleCard,
-    filePath: hero.filePath
   });
 
   await createTextAndMediaBlock({
@@ -41,7 +39,6 @@ export async function createAndPublishContactZooPage({
     id: 1,
     title: textAndMedia.title,
     description: textAndMedia.description,
-    filePath: textAndMedia.filePath
   });
 
   await createImageWithButtonGridBlock({
@@ -51,8 +48,6 @@ export async function createAndPublishContactZooPage({
     description: imageWithButtonGrid.description,
     link: imageWithButtonGrid.link,
     label: imageWithButtonGrid.label,
-    largeImagePath: imageWithButtonGrid.largeImagePath,
-    smallImagePath: imageWithButtonGrid.smallImagePath,
   });
 
   await createTicketsBlock({
@@ -75,7 +70,6 @@ export async function createAndPublishContactZooPage({
       link: services.cards.cards[0].link,
       labels: services.cards.cards[0].labels[0],
     },
-    filePath: services.filePath,
   });
 
   await createSeo({

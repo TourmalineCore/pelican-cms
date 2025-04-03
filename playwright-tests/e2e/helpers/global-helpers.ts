@@ -1,16 +1,37 @@
 import { Page } from "@playwright/test";
 import axios from "axios";
 import 'dotenv/config';
-import { HeroBlock, ImageWithButtonGridBlock, SeoBlock, ServicesBlock, sharedTicketsBlock, TextAndMediaBlock } from "./types";
+import fs from 'fs';
+import { HeroBlock, ImageWithButtonGridBlock, SeoBlock, sharedTicketsBlock, TextAndMediaBlock } from "./types";
 
 export const E2E_SMOKE_NAME_PREFIX = `[E2E-SMOKE]`;
+
+export async function authenticateWithJwtToken({
+  page
+}: {
+  page: Page
+}) {
+  await gotoCMS({ page });
+
+  const jwtToken = JSON.parse(fs.readFileSync('playwright-tests/.auth/user.json', 'utf8')).jwtToken;
+
+  await page.evaluate((token) => {
+    sessionStorage.setItem('jwtToken', token);
+  }, jwtToken);
+
+  await page.waitForTimeout(1000);
+
+  await gotoCMS({ page });
+
+  await page.waitForURL(getStrapiUrl({ path: '/admin' }));
+}
 
 export async function gotoCMS({
   page
 }: {
   page: Page
 }) {
-  await page.goto(getStrapiUrl({ path: '/admin' }), {
+  await page.goto(getStrapiUrl({ path: '' }), {
     waitUntil: 'networkidle'
   })
 }
@@ -52,27 +73,18 @@ export async function authenticate({
     .click();
 }
 
-export async function uploadFile({
+export async function selectFile({
   page,
-  filePath,
+  isMultipleSelection = false
 }: {
-  page: Page
-  filePath: string,
+  page: Page;
+  isMultipleSelection?: boolean;
 }) {
   await page.getByText(`Click to add an asset or drag and drop one in this area`)
     .first()
     .click();
 
-  await page.getByRole(`button`, {
-    name: `Add more assets`,
-  })
-    .click();
-
-  await page.locator('input[name="files"]')
-    .setInputFiles(filePath);
-
-
-  await page.getByText(`Upload 1 asset to the library`)
+  await page.locator('button[role="checkbox"]').nth(isMultipleSelection ? 1 : 0)
     .click();
 
   await page.getByRole(`button`, {
@@ -181,7 +193,6 @@ export async function createHeroBlock({
   title,
   infoCard,
   scheduleCard,
-  filePath,
 }: {
   page: Page,
   id: number
@@ -201,9 +212,8 @@ export async function createHeroBlock({
   await page.locator(`[name="blocks.${id}.title"]`)
     .fill(title);
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath,
   });
 
   await page.locator(`[name="blocks.${id}.infoCard.title"]`)
@@ -234,7 +244,6 @@ export async function createTextAndMediaBlock({
   id,
   title,
   description,
-  filePath
 }: {
   page: Page,
   id: number
@@ -257,9 +266,8 @@ export async function createTextAndMediaBlock({
   await page.locator(`[name="blocks.${id}.description"]`)
     .fill(description);
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath,
   });
 }
 
@@ -270,8 +278,6 @@ export async function createImageWithButtonGridBlock({
   description,
   link,
   label,
-  largeImagePath,
-  smallImagePath,
 }: {
   page: Page,
   id: number
@@ -300,14 +306,12 @@ export async function createImageWithButtonGridBlock({
   await page.locator(`[name="blocks.${id}.button.label"]`)
     .fill(label);
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath: largeImagePath,
   });
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath: smallImagePath,
   });
 }
 
@@ -369,7 +373,6 @@ export async function createServicesBlock({
   id,
   title,
   card,
-  filePath
 }: {
   page: Page,
   id: number,
@@ -382,7 +385,6 @@ export async function createServicesBlock({
       text: string
     },
   }
-  filePath: ServicesBlock['filePath']
 }) {
   await page.getByRole('button', {
     name: 'Add a component to blocks'
@@ -413,9 +415,8 @@ export async function createServicesBlock({
   await page.locator(`[name="blocks.${id}.cards.0.description"]`)
     .fill(card.description);
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath,
   });
 
   await page.locator(`[name="blocks.${id}.cards.0.link"]`)

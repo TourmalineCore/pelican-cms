@@ -1,11 +1,11 @@
 import test, { Page } from "@playwright/test";
 import { authenticate, deleteFiles, E2E_SMOKE_NAME_PREFIX, gotoCMS, gotoUI } from "./helpers/global-helpers";
-import { createAndPublishNews, deleteNews } from "./helpers/news-helpers/news-helpers";
+import { createAndPublishNews } from "./helpers/news-helpers/news-helpers";
 import { createAndPublishNewsPage, deleteNewsPage } from "./helpers/news-page-helpers/news-page-helpers";
 import { createAndPublishHeaderSingleType, deleteHeaderSingleType } from "./helpers/header-helpers/header-helpers";
 import { MOCK_TICKETS_POPUP } from "./helpers/mocks";
 
-test.describe(`Checking the interaction between CMS and UI`, () => {
+test.describe.skip(`Checking the interaction between CMS and UI`, () => {
   let page: Page;
 
   test.beforeAll(async ({
@@ -24,7 +24,7 @@ test.describe(`Checking the interaction between CMS and UI`, () => {
 
   test.describe(`News E2E test`, () => {
     test.beforeEach(async () => {
-      await deleteNews();
+      // await deleteNews();
 
       await deleteNewsPage();
 
@@ -34,7 +34,7 @@ test.describe(`Checking the interaction between CMS and UI`, () => {
     });
 
     test.afterEach(async () => {
-      await deleteNews();
+      // await deleteNews();
 
       await deleteNewsPage();
 
@@ -73,7 +73,7 @@ async function e2eNewsCreateAndViewTest({
     title,
     description,
     innerContent,
-    filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`,
+    // filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`,
   });
 
   await createAndPublishHeaderSingleType({

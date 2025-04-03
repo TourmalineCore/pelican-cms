@@ -6,7 +6,7 @@ import {
   createTextAndMediaBlock,
   getStrapiUrl,
   saveAndPublish,
-  uploadFile
+  selectFile
 } from "../global-helpers";
 import axios from "axios";
 import {
@@ -50,7 +50,6 @@ export async function createAndPublishHomepage({
     title: hero.title,
     infoCard: hero.infoCard,
     scheduleCard: hero.scheduleCard,
-    filePath: hero.filePath
   });
 
   await createTextAndMediaBlock({
@@ -58,7 +57,6 @@ export async function createAndPublishHomepage({
     id: 1,
     title: textAndMedia.title,
     description: textAndMedia.description,
-    filePath: textAndMedia.filePath
   });
 
   await createServicesBlock({
@@ -72,7 +70,6 @@ export async function createAndPublishHomepage({
       link: services.cards.cards[0].link,
       labels: services.cards.cards[0].labels[0],
     },
-    filePath: services.filePath,
   });
 
   await createImageWithButtonGridBlock({
@@ -82,8 +79,6 @@ export async function createAndPublishHomepage({
     description: imageWithButtonGrid.description,
     link: imageWithButtonGrid.link,
     label: imageWithButtonGrid.label,
-    largeImagePath: imageWithButtonGrid.largeImagePath,
-    smallImagePath: imageWithButtonGrid.smallImagePath,
   });
 
   await createMapCardBlock({
@@ -91,7 +86,6 @@ export async function createAndPublishHomepage({
     title: mapCard.title,
     description: mapCard.description,
     note: mapCard.note,
-    imagePath: mapCard.imagePath,
   });
 
   await createTicketsBlock({
@@ -113,6 +107,8 @@ export async function createAndPublishHomepage({
   });
 
   await saveAndPublish({ page });
+
+  await page.waitForTimeout(3000);
 }
 
 async function createServicesBlock({
@@ -121,7 +117,6 @@ async function createServicesBlock({
   card,
   email,
   phone,
-  filePath
 }: {
   page: Page,
   title: string,
@@ -135,7 +130,6 @@ async function createServicesBlock({
       text: string
     },
   }
-  filePath: ServicesBlock['filePath']
 }) {
   await page.getByRole('button', {
     name: 'Add a component to blocks'
@@ -166,9 +160,8 @@ async function createServicesBlock({
   await page.locator('[name="blocks.2.cards.cards.0.description"]')
     .fill(card.description);
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath,
   });
 
   await page.locator('[name="blocks.2.cards.cards.0.link"]')
@@ -193,13 +186,11 @@ async function createMapCardBlock({
   title,
   description,
   note,
-  imagePath
 }: {
   page: Page,
   title: MapCardBlock['title'],
   description: MapCardBlock['description'],
   note: MapCardBlock['note'],
-  imagePath: MapCardBlock['imagePath']
 }) {
   await page.getByRole('button', {
     name: 'Add a component to blocks'
@@ -228,9 +219,8 @@ async function createMapCardBlock({
     .last()
     .fill(note);
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath: imagePath
   })
 }
 

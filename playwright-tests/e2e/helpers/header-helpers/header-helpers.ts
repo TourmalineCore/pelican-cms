@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { getStrapiUrl, saveAndPublish, uploadFile } from "../global-helpers";
+import { getStrapiUrl, saveAndPublish, selectFile } from "../global-helpers";
 import axios from "axios";
 import { TicketsPopupBlock } from "../types";
 
@@ -96,9 +96,8 @@ export async function createTicketsPopupBlock({
   await page.locator('[name="ticketsPopup.subsidizedTicket.button.link"]')
     .fill(subsidizedTicket.button.link);
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath: visitingRulesAccordion.images[0].url,
   });
 
   await page.locator('[name="ticketsPopup.visitingRulesAccordion.button.label"]')

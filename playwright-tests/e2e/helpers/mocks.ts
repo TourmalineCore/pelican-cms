@@ -21,7 +21,6 @@ export const MOCK_HERO = {
       ticketsOfficeTime: '(вход и касса 10:00-17:00)'
     }]
   },
-  filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`
 };
 
 export const MOCK_TEXT_AND_MEDIA = {
@@ -30,7 +29,6 @@ export const MOCK_TEXT_AND_MEDIA = {
   description: `Снежные барсы, ленивцы, росомахи, гепард и другие редкие животные, которые вас удивят.`,
   contentOrder: `Текст слева`,
   viewFootsteps: false,
-  filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-text-and-media-video.mp4`
 };
 
 export const MOCK_HOME_SERVICES = {
@@ -52,7 +50,6 @@ export const MOCK_HOME_SERVICES = {
       }
     ]
   },
-  filePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`
 };
 
 export const MOCK_HOME_MAP_CARD = {
@@ -60,7 +57,6 @@ export const MOCK_HOME_MAP_CARD = {
   note: "Единственный государственный зоопарк на Южном Урале",
   title: `${E2E_SMOKE_NAME_PREFIX} Челябинск, ул. Труда 191`,
   description: `Мы находимся в центре Челябинска (остановка «Зоопарк»), до нас легко добраться как на транспорте, так и пешком.`,
-  imagePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`,
 };
 
 export const MOCK_IMAGE_WITH_BUTTON_GRID = {
@@ -69,8 +65,6 @@ export const MOCK_IMAGE_WITH_BUTTON_GRID = {
   description: `В этой части зоопарка вы почувствуете себя вдали от городской суеты в компании кур, гусей, коз и многих других животных. `,
   link: `#`,
   label: `Подробнее`,
-  largeImagePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`,
-  smallImagePath: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`,
 };
 
 export const MOCK_HOME_TICKETS = {

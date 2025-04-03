@@ -1,16 +1,21 @@
 import { Page } from '@playwright/test';
 import axios from 'axios';
-import { createSeo, E2E_SMOKE_NAME_PREFIX, getStrapiUrl, saveAndPublish, uploadFile } from '../global-helpers';
+import { createSeo, getStrapiUrl, saveAndPublish, selectFile } from '../global-helpers';
 import { SeoBlock } from '../types';
 
-export async function deleteNews() {
+export async function deleteNews({
+  title
+}: {
+  title: string;
+}) {
   const newsResponse = (await axios.get(getStrapiUrl({ path: '/api/news?populate=*' }))).data;
 
-  const newsDelete = getNewsWithTestPrefix({ news: newsResponse });
+  const news = getNewsByTitle({
+    news: newsResponse,
+    title
+  });
 
-  newsDelete.forEach(async ({ documentId }) => {
-    await axios.delete(getStrapiUrl({ path: `/api/news/${documentId}` }));
-  })
+  await axios.delete(getStrapiUrl({ path: `/api/news/${news.documentId}` }));
 }
 
 export async function createAndPublishNews({
@@ -18,15 +23,13 @@ export async function createAndPublishNews({
   title,
   description,
   innerContent,
-  filePath,
   seo
 }: {
-  page: Page,
-  title: string,
-  description: string,
-  innerContent: string,
-  filePath: string,
-  seo?: SeoBlock
+  page: Page;
+  title: string;
+  description: string;
+  innerContent: string;
+  seo?: SeoBlock;
 }) {
   await page.locator('a[aria-label="Content Manager"]')
     .click();
@@ -44,9 +47,8 @@ export async function createAndPublishNews({
   await page.locator(`[name="description"]`)
     .fill(description);
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath,
   });
 
   await page.locator(`.ck-content`)
@@ -64,12 +66,14 @@ export async function createAndPublishNews({
   await saveAndPublish({ page });
 }
 
-export function getNewsWithTestPrefix({
-  news
+export function getNewsByTitle({
+  news,
+  title,
 }: {
-  news: NewsResponse
+  news: NewsResponse;
+  title: string;
 }) {
-  return news.data.filter((news) => news.title?.startsWith(E2E_SMOKE_NAME_PREFIX));
+  return news.data.find((news) => news.title === title);
 }
 
 type NewsResponse = {

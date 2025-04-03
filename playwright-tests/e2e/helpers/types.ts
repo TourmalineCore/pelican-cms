@@ -12,7 +12,6 @@ export type HeroBlock = {
       ticketsOfficeTime: string
     }[]
   },
-  filePath: string
 }
 
 export type SeoBlock = {
@@ -24,7 +23,6 @@ export type SeoBlock = {
 export type TextAndMediaBlock = {
   title: string,
   description: string,
-  filePath: string,
 }
 
 export type ServicesBlock = {
@@ -41,7 +39,6 @@ export type ServicesBlock = {
       }[]
     }[]
   },
-  filePath: string
 }
 
 export type ImageWithButtonGridBlock = {
@@ -49,8 +46,6 @@ export type ImageWithButtonGridBlock = {
   description: string,
   link: string,
   label: string,
-  largeImagePath: string,
-  smallImagePath: string,
 }
 
 export type Ticket = {
@@ -82,7 +77,6 @@ export type MapCardBlock = {
   note: string,
   title: string,
   description: string,
-  imagePath: string,
 }
 
 export type TicketsPopupBlock = {

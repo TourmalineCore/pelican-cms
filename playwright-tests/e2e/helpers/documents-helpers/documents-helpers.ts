@@ -1,18 +1,22 @@
 import { Page } from '@playwright/test';
 import {
-  E2E_SMOKE_NAME_PREFIX,
-  getStrapiUrl, saveAndPublish, uploadFile
+  getStrapiUrl, saveAndPublish, selectFile
 } from '../global-helpers';
 import axios from 'axios';
 
-export async function deleteDocuments() {
+export async function deleteDocument({
+  title
+}: {
+  title: string;
+}) {
   const documentsResponse = (await axios.get(getStrapiUrl({ path: '/api/documents?populate=*' }))).data;
 
-  const documentsDelete = getDocumentsWithTestPrefix({ documents: documentsResponse });
+  const document = getDocumentByTitle({
+    documents: documentsResponse,
+    title
+  });
 
-  documentsDelete.forEach(async ({ documentId }) => {
-    await axios.delete(getStrapiUrl({ path: `/api/documents/${documentId}` }));
-  })
+  await axios.delete(getStrapiUrl({ path: `/api/documents/${document.documentId}` }));
 }
 
 export async function createAndPublishDocument({
@@ -21,14 +25,12 @@ export async function createAndPublishDocument({
   title,
   subtitle,
   description,
-  filePath,
 }: {
   page: Page,
   categoryTitle: string,
   title: string,
   subtitle: string,
   description: string,
-  filePath: string,
 }) {
   await page.locator('a[aria-label="Content Manager"]')
     .click();
@@ -56,10 +58,11 @@ export async function createAndPublishDocument({
     .nth(1)
     .fill(description);
 
-  await uploadFile({
+  await selectFile({
     page,
-    filePath,
+    isMultipleSelection: true
   });
+
   await page.locator('[name="category"]')
     .click();
 
@@ -67,16 +70,17 @@ export async function createAndPublishDocument({
     .first()
     .click();
 
-
   await saveAndPublish({ page });
 }
 
-export function getDocumentsWithTestPrefix({
-  documents
+export function getDocumentByTitle({
+  documents,
+  title
 }: {
-  documents: DocumentsResponse
+  documents: DocumentsResponse;
+  title: string;
 }) {
-  return documents.data.filter((document) => document.title?.startsWith(E2E_SMOKE_NAME_PREFIX));
+  return documents.data.find((document) => document.title === title);
 }
 
 type DocumentsResponse = {

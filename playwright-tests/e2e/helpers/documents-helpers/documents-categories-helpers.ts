@@ -1,8 +1,6 @@
 import { Page } from '@playwright/test';
 import {
-  createSeo,
-  E2E_SMOKE_NAME_PREFIX,
-  getStrapiUrl,
+  createSeo, getStrapiUrl,
   saveAndPublish
 } from '../global-helpers';
 import axios from 'axios';
@@ -42,18 +40,24 @@ export async function createAndPublishDocumentsCategory({
   await saveAndPublish({ page });
 }
 
-export async function deleteDocumentsCategories() {
+export async function deleteDocumentCategoryByTitle({
+  title
+}: {
+  title: string;
+}) {
   const documentCategoriesResponse = (await axios.get(getStrapiUrl({ path: '/api/documents-categories?populate=*' }))).data;
 
-  const documentCategoriesDelete = getDocumentCategoriesWithTestPrefix({ documentCategories: documentCategoriesResponse });
+  const documentCategory = getDocumentCategoryByTitle({
+    documentCategories: documentCategoriesResponse,
+    title
+  });
 
-  documentCategoriesDelete.forEach(async ({ documentId }) => {
-    await axios.delete(getStrapiUrl({ path: `/api/documents-categories/${documentId}` }));
-  })
+  await axios.delete(getStrapiUrl({ path: `/api/documents-categories/${documentCategory.documentId}` }));
 }
 
-export function getDocumentCategoriesWithTestPrefix({
-  documentCategories
+export function getDocumentCategoryByTitle({
+  documentCategories,
+  title
 }: {
   documentCategories: {
     data: {
@@ -63,7 +67,8 @@ export function getDocumentCategoriesWithTestPrefix({
       slug: string;
       seo: SeoBlock;
     }[]
-  }
+  };
+  title: string;
 }) {
-  return documentCategories.data.filter((documentCategories) => documentCategories.title.startsWith(E2E_SMOKE_NAME_PREFIX));
+  return documentCategories.data.find((documentCategories) => documentCategories.title === title);
 }
