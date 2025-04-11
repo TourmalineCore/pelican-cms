@@ -31,7 +31,15 @@ export default {
         // Enable find
         _public.permissions[permission].controllers[controller].find.enabled = true;
 
-        // Enable findOne if exists
+        // Enable update if exists
+        if (_public.permissions[permission].controllers[controller].update)
+          _public.permissions[permission].controllers[controller].update.enabled = true;
+
+        // Enable create if exists
+        if (_public.permissions[permission].controllers[controller].create)
+          _public.permissions[permission].controllers[controller].create.enabled = true;
+
+        // Enable findOme if exists
         if (_public.permissions[permission].controllers[controller].findOne)
           _public.permissions[permission].controllers[controller].findOne.enabled = true;
 
@@ -42,6 +50,8 @@ export default {
     // Set permissions for upload
     // Enable find
     _public.permissions['plugin::upload'].controllers['content-api'].find.enabled = true;
+
+    _public.permissions['plugin::upload'].controllers['content-api'].upload.enabled = true;
 
     // Enable destroy
     _public.permissions['plugin::upload'].controllers['content-api'].destroy.enabled = true;

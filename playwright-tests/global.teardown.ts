@@ -1,6 +1,6 @@
 import { test as teardown } from '@playwright/test';
-import { deleteFiles } from './e2e/helpers/global-helpers';
+import { deleteFiles } from './helpers/global-helpers';
 
-teardown('remove files', async () => {
+teardown('remove test files', async () => {
   await deleteFiles();
 });

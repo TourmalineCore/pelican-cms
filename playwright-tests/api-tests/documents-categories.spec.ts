@@ -1,14 +1,21 @@
-import test, { Page, expect } from "@playwright/test";
 import axios from "axios";
-import { createAndPublishDocumentsCategory, deleteDocumentCategoryByTitle, getDocumentCategoryByTitle } from "../helpers/documents-helpers/documents-categories-helpers";
-import { authenticateWithJwtToken, E2E_SMOKE_NAME_PREFIX, getStrapiUrl } from "../helpers/global-helpers";
-import { MOCK_SEO } from "../helpers/mocks";
+import { MOCK_SEO } from "../mocks";
+import { E2E_SMOKE_NAME_PREFIX, getStrapiUrl } from "../helpers/global-helpers";
+import test, { expect } from "@playwright/test";
+import { deleteDocumentCategoryByTitle, createDocumentsCategoryByTitle, getDocumentCategoryByTitle } from "../helpers/document-categories";
 
 const DOCUMENT_CATEGORY_TITLE = `${E2E_SMOKE_NAME_PREFIX} Договора`;
+const ENDPOINT = `/api/documents-categories`;
 
 test.describe(`Documents categories response tests`, () => {
-  test.beforeEach(async ({ page }) => {
-    await authenticateWithJwtToken({ page });
+  test.beforeEach(async () => {
+    await deleteDocumentCategoryByTitle({
+      title: DOCUMENT_CATEGORY_TITLE
+    });
+
+    await createDocumentsCategoryByTitle({
+      title: DOCUMENT_CATEGORY_TITLE
+    });
   });
 
   test.afterEach(async () => {
@@ -18,19 +25,16 @@ test.describe(`Documents categories response tests`, () => {
   });
 
   test(`
-      GIVEN collection of documents categories without record
-      WHEN create one category
-      SHOULD get a response with this category
+      GIVEN an empty documents categories collection
+      WHEN call method POST ${ENDPOINT}
+      AND call method GET ${ENDPOINT}
+      SHOULD get a correct response
       `,
     checkDocumentsCategoriesResponseTest
   );
 });
 
-async function checkDocumentsCategoriesResponseTest({
-  page,
-}: {
-  page: Page
-}) {
+async function checkDocumentsCategoriesResponseTest() {
   const expectedDocumentsCategoriesResponse = {
     data: [
       {
@@ -41,13 +45,7 @@ async function checkDocumentsCategoriesResponseTest({
     ]
   };
 
-  await createAndPublishDocumentsCategory({
-    page,
-    title: DOCUMENT_CATEGORY_TITLE,
-    seo: MOCK_SEO,
-  });
-
-  const documentsCategoriesResponse = (await axios.get(getStrapiUrl({ path: '/api/documents-categories?populate=*' }))).data;
+  const documentsCategoriesResponse = (await axios.get(getStrapiUrl({ path: `${ENDPOINT}?populate=*` }))).data;
   const documentCategoryTest = getDocumentCategoryByTitle({
     documentCategories: documentsCategoriesResponse,
     title: DOCUMENT_CATEGORY_TITLE
@@ -65,6 +63,6 @@ async function checkDocumentsCategoriesResponseTest({
         },
       }
     ]
-  })
+  }, 'Documents categories response corrected')
     .toEqual(expectedDocumentsCategoriesResponse);
 }

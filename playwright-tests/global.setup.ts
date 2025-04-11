@@ -1,56 +1,40 @@
-import { Page, test as setup } from "@playwright/test";
-import path from 'path';
-import { authenticate, getStrapiUrl, gotoCMS } from './e2e/helpers/global-helpers';
+import { test as setup } from "@playwright/test";
 import fs from 'fs';
+import axios from "axios";
+import { getStrapiUrl } from "./helpers/global-helpers";
+import FormData from 'form-data';
 
-const AUTH_FILE = path.join(__dirname, '/.auth/session.json');
+setup('upload test files', async () => {
+  const formData = new FormData();
 
-const FILE_PATHS = [
-  `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`,
-  `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-new-document.pdf`,
-  `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-text-and-media-video.mp4`
-];
+  const files = [
+    {
+      name: '[E2E-SMOKE]-tiger.png',
+      path: './playwright-tests/fixtures/[E2E-SMOKE]-tiger.png'
+    },
+    {
+      name: '[E2E-SMOKE]-new-document.pdf',
+      path: './playwright-tests/fixtures/[E2E-SMOKE]-new-document.pdf'
+    },
+  ];
 
-setup('authenticate and upload test files', async ({ browser }) => {
-  const context = await browser.newContext();
-  const page = await context.newPage();
+  files.forEach((file) => {
+    formData.append(
+      'files',
+      fs.createReadStream(file.path),
+      {
+        filename: file.name
+      }
+    );
+  })
 
-  await gotoCMS({ page });
-  await authenticate({ page });
-
-  await page.waitForURL(getStrapiUrl({ path: '/admin' }));
-
-  const sessionStorage = await page.evaluate(() => JSON.stringify(sessionStorage));
-
-  const authDir = path.dirname(AUTH_FILE);
-  fs.mkdirSync(authDir, { recursive: true });
-
-  fs.writeFileSync(AUTH_FILE, sessionStorage, 'utf-8');
-
-  await page.locator('a[aria-label="Media Library"]')
-    .click();
-
-  await uploadFiles({
-    page,
-  });
+  await axios.post(
+    getStrapiUrl({ path: '/api/upload' }),
+    formData,
+    {
+      headers: {
+        ...formData.getHeaders(),
+      },
+    }
+  );
 });
-
-async function uploadFiles({
-  page,
-}: {
-  page: Page
-}) {
-  for (const path of FILE_PATHS) {
-    await page.getByRole(`button`, {
-      name: `Add new assets`,
-    })
-      .first()
-      .click();
-
-    await page.locator('input[name="files"]')
-      .setInputFiles(path);
-  }
-
-  await page.getByText(`Upload ${FILE_PATHS.length} assets to the library`)
-    .click();
-}

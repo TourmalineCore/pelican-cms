@@ -1,4 +1,4 @@
-import { E2E_SMOKE_NAME_PREFIX } from "./global-helpers";
+import { E2E_SMOKE_NAME_PREFIX } from "./helpers/global-helpers";
 
 export const MOCK_SEO = {
   metaTitle: "Челябинский зоопарк",
@@ -63,24 +63,45 @@ export const MOCK_IMAGE_WITH_BUTTON_GRID = {
   __component: "shared.image-with-button-grid",
   title: `${E2E_SMOKE_NAME_PREFIX} Один из первых и самых больших контактных зоопарков`,
   description: `В этой части зоопарка вы почувствуете себя вдали от городской суеты в компании кур, гусей, коз и многих других животных. `,
-  link: `#`,
-  label: `Подробнее`,
+  button: {
+    link: `#`,
+    label: `Подробнее`
+  },
 };
 
 export const MOCK_HOME_TICKETS = {
   __component: "home.tickets",
-  generalTicketsTitle: `${E2E_SMOKE_NAME_PREFIX} Входные билеты`,
+  title: `${E2E_SMOKE_NAME_PREFIX} Входные билеты`,
   generalTickets: [
     {
       category: `Взрослые, дети от 14 лет`,
       description: `Требуется подтверждающий документ.`,
       price: `400  ₽ / чел`,
       frequency: `1 раз в месяц`,
-    },
+      theme: "Зелёный"
+    }
   ],
-  generalTicketsLink: `https://widget.afisha.yandex.ru/w/sessions/ticketsteam-803@37605507?clientKey=3bc42fbd-a832-49aa-a269-79188e18d9e1&regionId=56`,
-  subsidizedTicketsTitle: `Льготные билеты`,
-  subsidizedTicketsDescription: `Купить льготный билет можно только на кассе зоопарка.`,
+  generalTicketsLink: "#",
+  subsidizedTickets: {
+    title: `Льготные билеты`,
+    description: `Купить льготный билет можно только на кассе зоопарка.`,
+    ticketsList: [
+      {
+        category: `Многодетные семьи`,
+        description: `Требуется подтверждающий документ.`,
+        price: `Бесплатно`,
+        frequency: `1 раз в месяц`,
+        theme: "Зелёный"
+      }
+    ],
+    link: "#"
+  }
+}
+
+export const MOCK_TICKETS = {
+  __component: "shared.tickets",
+  title: `Билеты`,
+  description: `Купить билет можно только на\u00A0кассе контактного зоопарка.`,
   subsidizedTickets: [
     {
       category: `Многодетные семьи`,
@@ -89,77 +110,56 @@ export const MOCK_HOME_TICKETS = {
       frequency: `1 раз в месяц`,
     },
   ],
-  subsidizedTicketsLink: `https://vk.com/topic-71671982_48253263`,
-};
-
-export const MOCK_TICKETS = {
-  __component: "shared.tickets",
-  title: `Билеты`,
-  description: `Купить билет можно только на\u00A0кассе контактного зоопарка.`,
-  tickets: [
-    {
-      category: `Многодетные семьи`,
-      description: `Требуется подтверждающий документ.`,
-      price: `Бесплатно`,
-      frequency: `1 раз в месяц`,
-    },
-  ],
-  link: `https://widget.afisha.yandex.ru/w/sessions/ticketsteam-803@37605507?clientKey=3bc42fbd-a832-49aa-a269-79188e18d9e1&regionId=56`,
+  link: `#`,
   note: `Билет контактного зоопарка приобретается дополнительно ко\u00A0входному билету зоопарка`,
 };
 
 export const MOCK_TICKETS_POPUP = {
-  generalTicketsLink: `https://widget.afisha.yandex.ru/w/sessions/ticketsteam-803@37605507?clientKey=3bc42fbd-a832-49aa-a269-79188e18d9e1&regionId=56`,
-  generalTickets: [
-    {
-      id: 0,
-      category: `Взрослые,\nдети от 14 лет`,
-      price: `400  ₽ / чел`,
-    },
-  ],
-  subsidizedTicket: {
-    category: `Льготный`,
-    description: `Требуется подтверждающий льготу оригинал документа, покупка только на кассе`,
-    categories: [
+  ticketsPopup: {
+    generalTicketsLink: "#",
+    generalTickets: [
       {
-        id: 0,
-        category: `Студенты`,
-        price: `200  ₽ / чел`,
-      },
+        category: `Взрослые,\nдети от 14 лет`,
+        price: `400  ₽ / чел`,
+        description: `Требуется подтверждающий документ.`
+      }
     ],
-    button: {
-      label: `Остальные льготные категории`,
-      link: `https://vk.com/topic-71671982_48253263`,
+    subsidizedTicket: {
+      category: `Льготный`,
+      description: `Требуется подтверждающий льготу оригинал документа, покупка только на кассе`,
+      categories: [
+        {
+          category: `Студенты`,
+          price: `200  ₽ / чел`,
+        },
+      ],
+      button: {
+        label: `Остальные льготные категории`,
+        link: `#`,
+      },
+    },
+    buyTicketsButton: {
+      label: `Купить билет`,
+      link: `#`,
+    },
+    note: `Покупая билет, вы соглашаетесь с правилами посещения`,
+    visitingRulesAccordion: {
+      button: {
+        label: `Подробнее о правилах посещения`,
+        link: `#`,
+      },
+    },
+    ticketRefundAccordion: {
+      refundHead: `Возврат билета осуществляется в следующих случаях:`,
+      refundBody: [
+        {
+          refundReason: `отмены, замены либо переноса оказания услуги по инициативе Зоопарка;`,
+        },
+      ],
+      button: {
+        label: `Подробнее о возврате билетов`,
+        link: `#`,
+      },
     },
   },
-  visitingRulesAccordion: {
-    images: [
-      {
-        url: `./playwright-tests/e2e/fixtures/[E2E-SMOKE]-tiger.png`,
-        alternativeText: `Нельзя кормить животных`,
-      },
-    ],
-    button: {
-      label: `Подробнее о правилах посещения`,
-      link: `http://chelzoo.ru/media/articles/2022/05/06/prikaz-221-ot-050522-o-pravilah-posescheniya-2.pdf`,
-    },
-  },
-  ticketRefundAccordion: {
-    refundHead: `Возврат билета осуществляется в следующих случаях:`,
-    refundBody: [
-      {
-        id: 0,
-        refundReason: `отмены, замены либо переноса оказания услуги по инициативе Зоопарка;`,
-      },
-    ],
-    button: {
-      label: `Подробнее о возврате билетов`,
-      link: `http://chelzoo.ru/articles/prikaz-ob-utverzhdenii-pravil-prodazhi-i-vozvrata-/`,
-    },
-  },
-  buyTicketsButton: {
-    label: `Купить билет`,
-    link: `https://widget.afisha.yandex.ru/w/sessions/ticketsteam-803@37605507?clientKey=3bc42fbd-a832-49aa-a269-79188e18d9e1&regionId=56`,
-  },
-  note: `Покупая билет, вы соглашаетесь с правилами посещения`,
-};
+}
