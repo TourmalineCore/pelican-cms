@@ -1,7 +1,7 @@
 {
   "collectionName": "components_button_buttons",
   "info": {
-    "displayName": "Кнопка",
+    "displayName": "Кнопка c ссылкой",
     "icon": "cube",
     "description": ""
   },

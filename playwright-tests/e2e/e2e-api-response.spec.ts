@@ -872,7 +872,6 @@ async function checkHeaderSingleTypeResponseTest({
           ],
           button: {
             label: ticketsPopupBlock.subsidizedTicket.button.label,
-            link: ticketsPopupBlock.subsidizedTicket.button.link,
           },
         },
         visitingRulesAccordion: {

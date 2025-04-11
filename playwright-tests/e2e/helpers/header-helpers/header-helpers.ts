@@ -93,9 +93,6 @@ export async function createTicketsPopupBlock({
   await page.locator('[name="ticketsPopup.subsidizedTicket.button.label"]')
     .fill(subsidizedTicket.button.label);
 
-  await page.locator('[name="ticketsPopup.subsidizedTicket.button.link"]')
-    .fill(subsidizedTicket.button.link);
-
   await uploadFile({
     page,
     filePath: visitingRulesAccordion.images[0].url,

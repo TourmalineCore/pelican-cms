@@ -135,7 +135,6 @@ export const MOCK_TICKETS_POPUP = {
     ],
     button: {
       label: `Остальные льготные категории`,
-      link: `https://vk.com/topic-71671982_48253263`,
     },
   },
   visitingRulesAccordion: {

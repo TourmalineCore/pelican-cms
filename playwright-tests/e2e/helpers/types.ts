@@ -103,7 +103,6 @@ export type TicketsPopupBlock = {
     }[],
     button: {
       label: string,
-      link: string,
     },
   },
   visitingRulesAccordion: {

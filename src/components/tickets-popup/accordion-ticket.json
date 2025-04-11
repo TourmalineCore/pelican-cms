@@ -24,7 +24,7 @@
     "button": {
       "type": "component",
       "repeatable": false,
-      "component": "button.button",
+      "component": "button.button-with-text",
       "required": true
     }
   }
