@@ -1,7 +1,6 @@
 export type HeroBlock = {
   title: string,
   infoCard: {
-    title: string,
     description: string
   },
   scheduleCard: {

@@ -10,7 +10,6 @@ export const MOCK_HERO = {
   __component: "shared.hero",
   title: `${E2E_SMOKE_NAME_PREFIX} Челябинский зоопарк`,
   infoCard: {
-    title: '29 октября зоопарк не работает',
     description: 'Каждый последний понедельник месяца санитарный день.'
   },
   scheduleCard: {

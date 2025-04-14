@@ -206,9 +206,6 @@ export async function createHeroBlock({
     filePath,
   });
 
-  await page.locator(`[name="blocks.${id}.infoCard.title"]`)
-    .fill(infoCard.title);
-
   await page.locator(`[name="blocks.${id}.infoCard.description"]`)
     .fill(infoCard.description);
 
