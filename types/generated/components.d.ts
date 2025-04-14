@@ -58,7 +58,6 @@ export interface HeroInfoCard extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text & Schema.Attribute.Required;
-    title: Schema.Attribute.String;
   };
 }
 

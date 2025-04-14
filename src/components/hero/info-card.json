@@ -6,10 +6,6 @@
   },
   "options": {},
   "attributes": {
-    "title": {
-      "type": "string",
-      "required": false
-    },
     "description": {
       "type": "text",
       "required": true
