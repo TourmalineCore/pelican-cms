@@ -107,7 +107,7 @@ jobs:
         run: npx playwright install chromium --with-deps
 
       - name: Playwright run
-        run: npx playwright test --reporter=html
+        run: npx playwright test --reporter=html 
     
         env:
           FRONTEND_URL: http://localhost:40110 

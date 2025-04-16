@@ -636,7 +636,6 @@ export interface ApiNewsCollectionNewsCollection
         };
       }>;
     image: Schema.Attribute.Media<'images'> &
-      Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         versions: {
           versioned: true;
