@@ -87,7 +87,6 @@ async function checkHomepageResponseTest() {
           title: heroBlock.title,
           __component: heroBlock.__component,
           infoCard: {
-            title: heroBlock.infoCard.title,
             description: heroBlock.infoCard.description
           },
           scheduleCard: {
