@@ -1,0 +1,27 @@
+{
+  "kind": "singleType",
+  "collectionName": "discounts_page",
+  "info": {
+    "singularName": "discount-page",
+    "pluralName": "discounts-page",
+    "displayName": "Страница льгот",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "blocks": {
+      "type": "dynamiczone",
+      "components": [
+        "discounts.categories",
+        "discounts.terms"
+      ]
+    }
+  }
+}

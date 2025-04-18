@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_discounts_texts",
+  "info": {
+    "displayName": "text",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

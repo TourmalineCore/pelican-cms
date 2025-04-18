@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_discounts_discounts_cards",
+  "info": {
+    "displayName": "discountsCard",
+    "icon": "dashboard"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "string",
+      "required": true
+    },
+    "note": {
+      "type": "text"
+    },
+    "rules": {
+      "type": "component",
+      "repeatable": false,
+      "component": "discounts.rules"
+    }
+  }
+}

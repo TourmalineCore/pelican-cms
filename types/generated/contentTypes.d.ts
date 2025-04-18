@@ -417,6 +417,38 @@ export interface ApiContactZooContactZoo extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiDiscountPageDiscountPage extends Struct.SingleTypeSchema {
+  collectionName: 'discounts_page';
+  info: {
+    description: '';
+    displayName: '\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u043B\u044C\u0433\u043E\u0442';
+    pluralName: 'discounts-page';
+    singularName: 'discount-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    blocks: Schema.Attribute.DynamicZone<
+      ['discounts.categories', 'discounts.terms']
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::discount-page.discount-page'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiDocumentDocument extends Struct.CollectionTypeSchema {
   collectionName: 'documents';
   info: {
@@ -1211,6 +1243,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::contact-zoo.contact-zoo': ApiContactZooContactZoo;
+      'api::discount-page.discount-page': ApiDiscountPageDiscountPage;
       'api::document.document': ApiDocumentDocument;
       'api::documents-category.documents-category': ApiDocumentsCategoryDocumentsCategory;
       'api::documents-page.documents-page': ApiDocumentsPageDocumentsPage;

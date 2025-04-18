@@ -1,8 +1,8 @@
 import test, { expect } from "@playwright/test";
 import axios, { AxiosError, HttpStatusCode } from "axios";
-import { MOCK_TICKETS_POPUP } from "../mocks";
 import qs from "qs";
 import { getFileIdByName, getStrapiUrl } from "../helpers/global-helpers";
+import { MOCK_TICKETS_POPUP } from "../mocks";
 
 const ENDPOINT = `/api/header`;
 

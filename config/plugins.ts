@@ -132,6 +132,17 @@ export default ({ env }) => ({
                         openTarget: 'StrapiPreviewPage',
                     },
                 },
+                {
+                    uid: 'api::discount-page.discount-page',
+                    draft: {
+                        url: `${env('FRONTEND_URL')}/api/preview`,
+                        query: {
+                            slug: 'discounts',
+                            secret: env('PREVIEW_SECRET')
+                        },
+                        openTarget: 'StrapiPreviewPage',
+                    },
+                },
             ]
         }
     },

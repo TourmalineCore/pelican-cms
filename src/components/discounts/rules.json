@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_discounts_rules",
+  "info": {
+    "displayName": "rules",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "basis": {
+      "type": "component",
+      "repeatable": true,
+      "component": "discounts.basis"
+    },
+    "terms": {
+      "type": "component",
+      "repeatable": true,
+      "component": "discounts.text"
+    },
+    "docs": {
+      "type": "component",
+      "repeatable": true,
+      "component": "discounts.text"
+    },
+    "info": {
+      "type": "text"
+    }
+  }
+}
