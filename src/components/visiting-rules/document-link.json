@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_visiting_rules_document_links",
+  "info": {
+    "displayName": "documentLink",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "file": {
+      "allowedTypes": [
+        "files"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    }
+  }
+}

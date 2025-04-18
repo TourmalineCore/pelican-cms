@@ -701,6 +701,44 @@ export interface ApiNewsPageNewsPage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiVisitingRulesPageVisitingRulesPage
+  extends Struct.SingleTypeSchema {
+  collectionName: 'visiting_rules_pages';
+  info: {
+    description: '';
+    displayName: '\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u043F\u0440\u0430\u0432\u0438\u043B \u043F\u043E\u0441\u0435\u0449\u0435\u043D\u0438\u044F';
+    pluralName: 'visiting-rules-pages';
+    singularName: 'visiting-rules-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    blocks: Schema.Attribute.DynamicZone<
+      [
+        'visiting-rules.warnings',
+        'visiting-rules.visiting-rules-main',
+        'visiting-rules.photos-policy',
+        'visiting-rules.emergency-phones',
+      ]
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::visiting-rules-page.visiting-rules-page'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1218,6 +1256,7 @@ declare module '@strapi/strapi' {
       'api::home.home': ApiHomeHome;
       'api::news-collection.news-collection': ApiNewsCollectionNewsCollection;
       'api::news-page.news-page': ApiNewsPageNewsPage;
+      'api::visiting-rules-page.visiting-rules-page': ApiVisitingRulesPageVisitingRulesPage;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

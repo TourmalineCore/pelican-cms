@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_visiting_rules_text_cards",
+  "info": {
+    "displayName": "textCard",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

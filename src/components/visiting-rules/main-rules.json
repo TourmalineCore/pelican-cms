@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_visiting_rules_main_rules",
+  "info": {
+    "displayName": "mainRules",
+    "icon": "file",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "text",
+      "required": true
+    },
+    "mainRulesCards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "visiting-rules.main-rules-card",
+      "required": true
+    }
+  }
+}

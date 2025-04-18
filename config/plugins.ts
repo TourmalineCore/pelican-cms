@@ -132,6 +132,17 @@ export default ({ env }) => ({
                         openTarget: 'StrapiPreviewPage',
                     },
                 },
+                {
+                    uid: 'api::visiting-rules-page.visiting-rules-page',
+                    draft: {
+                        url: `${env('FRONTEND_URL')}/api/preview`,
+                        query: {
+                            slug: 'visiting-rules',
+                            secret: env('PREVIEW_SECRET')
+                        },
+                        openTarget: 'StrapiPreviewPage',
+                    },
+                },
             ]
         }
     },

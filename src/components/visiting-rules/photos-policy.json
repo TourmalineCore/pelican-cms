@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_visiting_rules_photos_policies",
+  "info": {
+    "displayName": "photosPolicy",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "text",
+      "required": true
+    },
+    "photosPolicyCards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "visiting-rules.text-card",
+      "required": true
+    }
+  }
+}

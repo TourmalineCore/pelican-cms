@@ -162,3 +162,50 @@ export const MOCK_TICKETS_POPUP = {
     },
   }
 }
+
+export const MOCK_VISITING_RULES_MAIN = {
+  __component: "visiting-rules.visiting-rules-main",
+  title: `Правила посещения`,
+  documentLink: {
+    label: `(Открыть документ с правилами посещения)`,
+  },
+  description: `Соблюдайте эти простые правила, чтобы посещение зоопарка прошло безопасно для\u00A0Вас и для питомцев зоопарка.`,
+  mainRules: {
+    title: "Приобретая билет, вы соглашаетесь с правилами посещения зоопарка:",
+    mainRulesCards: [
+      {
+        label: `Дети до 13 лет (включительно) могут посещать зоопарк только в\u00A0сопровождении взрослых.`,
+      },
+    ],
+  },
+};
+
+export const MOCK_VISITING_RULES_WARNINGS = {
+  __component: "visiting-rules.warnings",
+  warningsCards: [
+    {
+      label: `Администрация имеет право\u00A0отказать в\u00A0посещении зоопарка в\u00A0случае нарушения настоящих правил.`,
+    },
+  ],
+};
+
+export const MOCK_VISITING_RULES_PHOTOS_POLICY = {
+  __component: "visiting-rules.photos-policy",
+  title: `Правила фото и видео съемки на\u00A0территории зоопарка:`,
+  photosPolicyCards: [
+    {
+      label: `Профессиональная видеосъемка возможна только при наличии официального разрешения.`,
+    },
+  ],
+};
+
+export const MOCK_VISITING_RULES_EMERGENCY_PHONES = {
+  __component: "visiting-rules.emergency-phones",
+  title: `Экстренные службы`,
+  emergencyPhonesCards: [
+    {
+      phone: `101`,
+      label: `Пожарная (МЧС)`,
+    },
+  ],
+};

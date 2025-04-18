@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_visiting_rules_main_rules_cards",
+  "info": {
+    "displayName": "mainRulesCard",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "label": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

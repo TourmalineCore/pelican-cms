@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_visiting_rules_emergency_phones_cards",
+  "info": {
+    "displayName": "emergencyPhonesCard",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

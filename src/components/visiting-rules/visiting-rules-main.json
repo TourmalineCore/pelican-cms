@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_visiting_rules_visiting_rules_mains",
+  "info": {
+    "displayName": "visitingRulesMain",
+    "icon": "file",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "mainRules": {
+      "type": "component",
+      "repeatable": false,
+      "component": "visiting-rules.main-rules",
+      "required": true
+    },
+    "documentLink": {
+      "type": "component",
+      "repeatable": false,
+      "component": "visiting-rules.document-link",
+      "required": true
+    }
+  }
+}

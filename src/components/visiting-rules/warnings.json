@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_visiting_rules_warnings",
+  "info": {
+    "displayName": "warnings",
+    "icon": "file"
+  },
+  "options": {},
+  "attributes": {
+    "warningsCards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "visiting-rules.text-card",
+      "required": true
+    }
+  }
+}

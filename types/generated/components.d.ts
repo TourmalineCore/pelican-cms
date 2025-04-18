@@ -453,6 +453,139 @@ export interface TicketsTickets extends Struct.ComponentSchema {
   };
 }
 
+export interface VisitingRulesDocumentLink extends Struct.ComponentSchema {
+  collectionName: 'components_visiting_rules_document_links';
+  info: {
+    displayName: 'documentLink';
+    icon: 'file';
+  };
+  attributes: {
+    file: Schema.Attribute.Media<'files'> & Schema.Attribute.Required;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface VisitingRulesEmergencyPhones extends Struct.ComponentSchema {
+  collectionName: 'components_visiting_rules_emergency_phones';
+  info: {
+    description: '';
+    displayName: 'emergencyPhones';
+    icon: 'file';
+  };
+  attributes: {
+    emergencyPhonesCards: Schema.Attribute.Component<
+      'visiting-rules.emergency-phones-card',
+      true
+    > &
+      Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface VisitingRulesEmergencyPhonesCard
+  extends Struct.ComponentSchema {
+  collectionName: 'components_visiting_rules_emergency_phones_cards';
+  info: {
+    displayName: 'emergencyPhonesCard';
+    icon: 'file';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    phone: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface VisitingRulesMainRules extends Struct.ComponentSchema {
+  collectionName: 'components_visiting_rules_main_rules';
+  info: {
+    description: '';
+    displayName: 'mainRules';
+    icon: 'file';
+  };
+  attributes: {
+    mainRulesCards: Schema.Attribute.Component<
+      'visiting-rules.main-rules-card',
+      true
+    > &
+      Schema.Attribute.Required;
+    title: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface VisitingRulesMainRulesCard extends Struct.ComponentSchema {
+  collectionName: 'components_visiting_rules_main_rules_cards';
+  info: {
+    displayName: 'mainRulesCard';
+    icon: 'file';
+  };
+  attributes: {
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+    label: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface VisitingRulesPhotosPolicy extends Struct.ComponentSchema {
+  collectionName: 'components_visiting_rules_photos_policies';
+  info: {
+    displayName: 'photosPolicy';
+    icon: 'file';
+  };
+  attributes: {
+    photosPolicyCards: Schema.Attribute.Component<
+      'visiting-rules.text-card',
+      true
+    > &
+      Schema.Attribute.Required;
+    title: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface VisitingRulesTextCard extends Struct.ComponentSchema {
+  collectionName: 'components_visiting_rules_text_cards';
+  info: {
+    displayName: 'textCard';
+    icon: 'file';
+  };
+  attributes: {
+    label: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface VisitingRulesVisitingRulesMain extends Struct.ComponentSchema {
+  collectionName: 'components_visiting_rules_visiting_rules_mains';
+  info: {
+    description: '';
+    displayName: 'visitingRulesMain';
+    icon: 'file';
+  };
+  attributes: {
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    documentLink: Schema.Attribute.Component<
+      'visiting-rules.document-link',
+      false
+    > &
+      Schema.Attribute.Required;
+    mainRules: Schema.Attribute.Component<'visiting-rules.main-rules', false> &
+      Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface VisitingRulesWarnings extends Struct.ComponentSchema {
+  collectionName: 'components_visiting_rules_warnings';
+  info: {
+    displayName: 'warnings';
+    icon: 'file';
+  };
+  attributes: {
+    warningsCards: Schema.Attribute.Component<
+      'visiting-rules.text-card',
+      true
+    > &
+      Schema.Attribute.Required;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -482,6 +615,15 @@ declare module '@strapi/strapi' {
       'tickets-popup.visiting-rules-accordion': TicketsPopupVisitingRulesAccordion;
       'tickets.ticket': TicketsTicket;
       'tickets.tickets': TicketsTickets;
+      'visiting-rules.document-link': VisitingRulesDocumentLink;
+      'visiting-rules.emergency-phones': VisitingRulesEmergencyPhones;
+      'visiting-rules.emergency-phones-card': VisitingRulesEmergencyPhonesCard;
+      'visiting-rules.main-rules': VisitingRulesMainRules;
+      'visiting-rules.main-rules-card': VisitingRulesMainRulesCard;
+      'visiting-rules.photos-policy': VisitingRulesPhotosPolicy;
+      'visiting-rules.text-card': VisitingRulesTextCard;
+      'visiting-rules.visiting-rules-main': VisitingRulesVisitingRulesMain;
+      'visiting-rules.warnings': VisitingRulesWarnings;
     }
   }
 }

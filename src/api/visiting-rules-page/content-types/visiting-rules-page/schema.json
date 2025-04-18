@@ -1,0 +1,29 @@
+{
+  "kind": "singleType",
+  "collectionName": "visiting_rules_pages",
+  "info": {
+    "singularName": "visiting-rules-page",
+    "pluralName": "visiting-rules-pages",
+    "displayName": "Страница правил посещения",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "blocks": {
+      "type": "dynamiczone",
+      "components": [
+        "visiting-rules.warnings",
+        "visiting-rules.visiting-rules-main",
+        "visiting-rules.photos-policy",
+        "visiting-rules.emergency-phones"
+      ]
+    }
+  }
+}
