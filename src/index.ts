@@ -1,3 +1,5 @@
+import type { Core } from "@strapi/strapi";
+
 export default {
   /**
    * An asynchronous register function that runs before
@@ -5,7 +7,25 @@ export default {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) { },
+  register({ strapi }: { strapi: Core.Strapi }) {
+    const contentTypeName = strapi.contentType(
+      "plugin::users-permissions.user"
+    );
+
+    contentTypeName.attributes = {
+      ...contentTypeName.attributes,
+      totpSecret: {
+        type: "string",
+        private: true,
+        configurable: false,
+      },
+      enableTotp: {
+        type: "boolean",
+        default: false,
+        configurable: false,
+      },
+    };
+  },
 
   /**
    * An asynchronous bootstrap function that runs before

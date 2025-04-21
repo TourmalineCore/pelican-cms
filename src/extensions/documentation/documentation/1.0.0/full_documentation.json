@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-04-21T15:58:16.688Z"
+    "x-generation-date": "2025-04-21T16:30:07.762Z"
   },
   "x-strapi-config": {
     "plugins": []
@@ -10803,6 +10803,12 @@
                     }
                   }
                 }
+              },
+              "totpSecret": {
+                "type": "string"
+              },
+              "enableTotp": {
+                "type": "boolean"
               }
             }
           },
