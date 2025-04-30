@@ -23,10 +23,17 @@ export default {
       .service("plugin::users-permissions.role")
       .findOne(roles.filter((role) => role.type === "public")[0].id);
 
+    // When launching the application, it ticks the boxes to enable API methods.
     Object.keys(_public.permissions)
       .filter((permission) => permission.startsWith('api'))
       .forEach((permission) => {
         const controller = Object.keys(_public.permissions[permission].controllers)[0];
+
+        // Enable check for health-check
+        if (permission === 'api::health-check') {
+          _public.permissions[permission].controllers[controller].check.enabled = true;
+          return;
+        }
 
         // Enable find
         _public.permissions[permission].controllers[controller].find.enabled = true;
@@ -39,7 +46,7 @@ export default {
         if (_public.permissions[permission].controllers[controller].create)
           _public.permissions[permission].controllers[controller].create.enabled = true;
 
-        // Enable findOme if exists
+        // Enable findOne if exists
         if (_public.permissions[permission].controllers[controller].findOne)
           _public.permissions[permission].controllers[controller].findOne.enabled = true;
 
@@ -51,6 +58,7 @@ export default {
     // Enable find
     _public.permissions['plugin::upload'].controllers['content-api'].find.enabled = true;
 
+    // Enable upload
     _public.permissions['plugin::upload'].controllers['content-api'].upload.enabled = true;
 
     // Enable destroy
