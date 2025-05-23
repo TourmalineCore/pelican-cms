@@ -1,26 +1,28 @@
-import axios from "axios";
 import { MOCK_SEO } from "../mocks";
-import { E2E_SMOKE_NAME_PREFIX, getStrapiUrl } from "../helpers/global-helpers";
-import test, { expect } from "@playwright/test";
+import { E2E_SMOKE_NAME_PREFIX } from "../helpers/global-helpers";
+import test, { APIRequestContext, expect } from "@playwright/test";
 import { deleteDocumentCategoryByTitle, createDocumentsCategoryByTitle, getDocumentCategoryByTitle } from "../helpers/document-categories";
 
 const DOCUMENT_CATEGORY_TITLE = `${E2E_SMOKE_NAME_PREFIX} Договора`;
 const ENDPOINT = `/api/documents-categories`;
 
 test.describe(`Documents categories response tests`, () => {
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ request }) => {
     await deleteDocumentCategoryByTitle({
-      title: DOCUMENT_CATEGORY_TITLE
+      title: DOCUMENT_CATEGORY_TITLE,
+      request
     });
 
     await createDocumentsCategoryByTitle({
-      title: DOCUMENT_CATEGORY_TITLE
+      title: DOCUMENT_CATEGORY_TITLE,
+      request
     });
   });
 
-  test.afterEach(async () => {
+  test.afterEach(async ({ request }) => {
     await deleteDocumentCategoryByTitle({
-      title: DOCUMENT_CATEGORY_TITLE
+      title: DOCUMENT_CATEGORY_TITLE,
+      request
     });
   });
 
@@ -34,7 +36,11 @@ test.describe(`Documents categories response tests`, () => {
   );
 });
 
-async function checkDocumentsCategoriesResponseTest() {
+async function checkDocumentsCategoriesResponseTest({
+  request
+}: {
+  request: APIRequestContext
+}) {
   const expectedDocumentsCategoriesResponse = {
     data: [
       {
@@ -45,9 +51,12 @@ async function checkDocumentsCategoriesResponseTest() {
     ]
   };
 
-  const documentsCategoriesResponse = (await axios.get(getStrapiUrl({ path: `${ENDPOINT}?populate=*` }))).data;
+  const documentsCategoriesResponse = await request.get(`${ENDPOINT}?populate=*`);
+
+  const documentsCategoriesData = await documentsCategoriesResponse.json();
+
   const documentCategoryTest = getDocumentCategoryByTitle({
-    documentCategories: documentsCategoriesResponse,
+    documentCategories: documentsCategoriesData,
     title: DOCUMENT_CATEGORY_TITLE
   });
 

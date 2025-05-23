@@ -1,7 +1,6 @@
-import test, { expect } from "@playwright/test";
-import axios, { AxiosError, HttpStatusCode } from "axios";
+import test, { APIRequestContext, expect } from "@playwright/test";
 import { MOCK_SEO } from "../mocks";
-import { E2E_SMOKE_NAME_PREFIX, getFileIdByName, getStrapiUrl } from "../helpers/global-helpers";
+import { E2E_SMOKE_NAME_PREFIX, getFileIdByName, HttpStatusCode } from "../helpers/global-helpers";
 import { SeoBlock } from "../types";
 
 const NEWS_TITLE = `${E2E_SMOKE_NAME_PREFIX} В зоопарке появился амурский тигр`;
@@ -11,17 +10,19 @@ const DATE = '2025-02-15'
 const ENDPOINT = '/api/news';
 
 test.describe(`News response tests`, () => {
-  test.beforeEach(async () => {
+  test.beforeEach(async ({ request }) => {
     await deleteNewsByTitle({
-      title: NEWS_TITLE
+      title: NEWS_TITLE,
+      request
     });
 
-    await createNews();
+    await createNews({ request });
   });
 
-  test.afterEach(async () => {
+  test.afterEach(async ({ request }) => {
     await deleteNewsByTitle({
-      title: NEWS_TITLE
+      title: NEWS_TITLE,
+      request
     });
   });
 
@@ -35,7 +36,11 @@ test.describe(`News response tests`, () => {
   );
 })
 
-async function checkNewsResponseTest() {
+async function checkNewsResponseTest({
+  request
+}: {
+  request: APIRequestContext;
+}) {
   const expectedNewsResponse = {
     data: [
       {
@@ -49,9 +54,11 @@ async function checkNewsResponseTest() {
     ]
   };
 
-  const newsResponse = (await axios.get(getStrapiUrl({ path: `${ENDPOINT}?populate=*` }))).data;
+  const newsResponse = await request.get(`${ENDPOINT}?populate=*`);
+  const newsData = await newsResponse.json();
+
   const newsTest = getNewsByTitle({
-    news: newsResponse,
+    news: newsData,
     title: NEWS_TITLE
   });
 
@@ -78,49 +85,56 @@ async function checkNewsResponseTest() {
     .toBeNull();
 }
 
-async function createNews() {
+async function createNews({
+  request
+}: {
+  request: APIRequestContext;
+}) {
   try {
-    const response = await axios.post(`${getStrapiUrl({ path: ENDPOINT })}`, {
+    const response = await request.post(ENDPOINT, {
       data: {
-        title: NEWS_TITLE,
-        description: DESCRIPTION,
-        image: await getFileIdByName(),
-        innerContent: INNER_CONTENT,
-        date: DATE,
-        seo: MOCK_SEO
+        data: {
+          title: NEWS_TITLE,
+          description: DESCRIPTION,
+          image: await getFileIdByName(),
+          innerContent: INNER_CONTENT,
+          date: DATE,
+          seo: MOCK_SEO
+        }
       }
     });
 
-    await expect(response.status, 'News should be created with status 201')
+    await expect(response.status(), 'News should be created with status 201')
       .toEqual(HttpStatusCode.Created);
   } catch (error) {
-    throw new Error(`Failed to create test news: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to create test news: ${error.message}`)
   }
 }
 
 async function deleteNewsByTitle({
-  title
+  title,
+  request
 }: {
   title: string;
+  request: APIRequestContext;
 }) {
   try {
-    const newsResponse = (await axios.get(getStrapiUrl({ path: `${ENDPOINT}?populate=*` }))).data;
+    const newsResponse = await request.get(`${ENDPOINT}?populate=*`);
+    const newsData = await newsResponse.json();
 
     const news = getNewsByTitle({
-      news: newsResponse,
+      news: newsData,
       title
     });
 
     if (news) {
-      const response = await axios.delete(getStrapiUrl({
-        path: `${ENDPOINT}/${news.documentId}`
-      }));
+      const response = await request.delete(`${ENDPOINT}/${news.documentId}`);
 
-      await expect(response.status, 'News should be deleted with status 204')
+      await expect(response.status(), 'News should be deleted with status 204')
         .toEqual(HttpStatusCode.NoContent);
     }
   } catch (error) {
-    throw new Error(`Failed to delete test news: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to delete test news: ${error.message}`)
   }
 }
 

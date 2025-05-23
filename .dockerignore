@@ -20,5 +20,9 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+**/ci
+**/playwright-report
+**/playwright-tests
+playwright.config.ts
 LICENSE
 README.md

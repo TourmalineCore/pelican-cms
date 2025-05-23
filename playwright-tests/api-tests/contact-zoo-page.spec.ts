@@ -1,5 +1,4 @@
-import test, { expect } from "@playwright/test";
-import axios, { AxiosError, HttpStatusCode } from "axios";
+import test, { APIRequestContext, expect } from "@playwright/test";
 import qs from "qs";
 import {
   MOCK_HERO,
@@ -9,17 +8,17 @@ import {
   MOCK_TICKETS,
   MOCK_SEO
 } from "../mocks";
-import { getFileIdByName, getStrapiUrl } from "../helpers/global-helpers";
+import { getFileIdByName, HttpStatusCode } from "../helpers/global-helpers";
 
 const ENDPOINT = `/api/contact-zoo`;
 
 test.describe(`ContactZoo page response tests`, () => {
-  test.beforeEach(async () => {
-    await updateContactZooPage();
+  test.beforeEach(async ({ request }) => {
+    await updateContactZooPage({ request });
   });
 
-  test.afterEach(async () => {
-    await deleteContactZooPage();
+  test.afterEach(async ({ request }) => {
+    await deleteContactZooPage({ request });
   });
 
   test(`
@@ -32,7 +31,11 @@ test.describe(`ContactZoo page response tests`, () => {
   );
 });
 
-async function checkContactZooPageResponseTest() {
+async function checkContactZooPageResponseTest({
+  request
+}: {
+  request: APIRequestContext
+}) {
   const expectedConcatZooPageResponse = {
     data: {
       blocks: [
@@ -67,15 +70,17 @@ async function checkContactZooPageResponseTest() {
     ],
   };
 
-  const contactZooPageResponse = (await axios.get(getStrapiUrl({
-    path: `${ENDPOINT}?${qs.stringify(queryParams)}`
-  }))).data;
+  const contactZooPageResponse = await request.get(
+    `${ENDPOINT}?${qs.stringify(queryParams)}`
+  );
 
-  const heroBlock = contactZooPageResponse.data.blocks.find((block) => block.__component === 'shared.hero');
-  const textAndMediaBlock = contactZooPageResponse.data.blocks.find((block) => block.__component === 'shared.text-and-media');
-  const imageWithButtonGridBlock = contactZooPageResponse.data.blocks.find((block) => block.__component === 'shared.image-with-button-grid');
-  const ticketsBlock = contactZooPageResponse.data.blocks.find((block) => block.__component === 'shared.tickets');
-  const servicesBlock = contactZooPageResponse.data.blocks.find((block) => block.__component === 'shared.cards');
+  const contactZooPageData = await contactZooPageResponse.json();
+
+  const heroBlock = contactZooPageData.data.blocks.find((block) => block.__component === 'shared.hero');
+  const textAndMediaBlock = contactZooPageData.data.blocks.find((block) => block.__component === 'shared.text-and-media');
+  const imageWithButtonGridBlock = contactZooPageData.data.blocks.find((block) => block.__component === 'shared.image-with-button-grid');
+  const ticketsBlock = contactZooPageData.data.blocks.find((block) => block.__component === 'shared.tickets');
+  const servicesBlock = contactZooPageData.data.blocks.find((block) => block.__component === 'shared.cards');
 
   await expect({
     data: {
@@ -145,9 +150,9 @@ async function checkContactZooPageResponseTest() {
         },
       ],
       seo: {
-        metaTitle: contactZooPageResponse.data.seo.metaTitle,
-        metaDescription: contactZooPageResponse.data.seo.metaDescription,
-        keywords: contactZooPageResponse.data.seo.keywords
+        metaTitle: contactZooPageData.data.seo.metaTitle,
+        metaDescription: contactZooPageData.data.seo.metaDescription,
+        keywords: contactZooPageData.data.seo.keywords
       }
     }
   }, 'Contact zoo page response corrected')
@@ -174,58 +179,68 @@ async function checkContactZooPageResponseTest() {
     .toBeNull();
 }
 
-async function updateContactZooPage() {
+async function updateContactZooPage({
+  request
+}: {
+  request: APIRequestContext
+}) {
   try {
     const fileId = await getFileIdByName();
 
-    const response = await axios.put(`${getStrapiUrl({ path: ENDPOINT })}`, {
+    const response = await request.put(ENDPOINT, {
       data: {
-        blocks: [
-          {
-            ...MOCK_HERO,
-            image: fileId
-          },
-          {
-            ...MOCK_TEXT_AND_MEDIA,
-            media: fileId
-          },
-          {
-            ...MOCK_IMAGE_WITH_BUTTON_GRID,
-            largeImage: fileId,
-            smallImage: fileId
-          },
-          MOCK_TICKETS,
-          {
-            __component: `shared.cards`,
-            title: MOCK_HOME_SERVICES.cards.title,
-            cards: [
-              {
-                ...MOCK_HOME_SERVICES.cards.cards[0],
-                image: fileId
-              }
-            ],
-          }
-        ],
-        seo: MOCK_SEO
-      },
+        data: {
+          blocks: [
+            {
+              ...MOCK_HERO,
+              image: fileId
+            },
+            {
+              ...MOCK_TEXT_AND_MEDIA,
+              media: fileId
+            },
+            {
+              ...MOCK_IMAGE_WITH_BUTTON_GRID,
+              largeImage: fileId,
+              smallImage: fileId
+            },
+            MOCK_TICKETS,
+            {
+              __component: `shared.cards`,
+              title: MOCK_HOME_SERVICES.cards.title,
+              cards: [
+                {
+                  ...MOCK_HOME_SERVICES.cards.cards[0],
+                  image: fileId
+                }
+              ],
+            }
+          ],
+          seo: MOCK_SEO
+        },
+      }
     });
 
-    await expect(response.status, 'Contact zoo page should be updated with status 200')
+    await expect(response.status(), 'Contact zoo page should be updated with status 200')
       .toEqual(HttpStatusCode.Ok);
   } catch (error) {
-    throw new Error(`Failed to update test contact zoo page: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to update test contact zoo page: ${error.message}`)
   }
 }
 
-async function deleteContactZooPage() {
+async function deleteContactZooPage({
+  request
+}: {
+  request: APIRequestContext
+}) {
   try {
-    const response = await axios.delete(getStrapiUrl({
-      path: ENDPOINT
-    }));
+    const response = await request.delete(
+      ENDPOINT
+    );
 
-    await expect(response.status, 'Contact zoo page should be deleted with status 204')
+    await expect(response.status(), 'Contact zoo page should be deleted with status 204')
       .toEqual(HttpStatusCode.NoContent);
   } catch (error) {
-    throw new Error(`Failed to delete test contact zoo page: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to delete test contact zoo page: ${error.message}`)
   }
 }

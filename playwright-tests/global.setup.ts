@@ -1,12 +1,8 @@
 import { test as setup } from "@playwright/test";
 import fs from 'fs';
-import axios from "axios";
-import { getStrapiUrl } from "./helpers/global-helpers";
 import FormData from 'form-data';
 
-setup('upload test files', async () => {
-  const formData = new FormData();
-
+setup('upload test files', async ({ request }) => {
   const files = [
     {
       name: '[E2E-SMOKE]-tiger.png',
@@ -18,23 +14,18 @@ setup('upload test files', async () => {
     },
   ];
 
+  const formData = new FormData();
+
   files.forEach((file) => {
     formData.append(
       'files',
-      fs.createReadStream(file.path),
-      {
-        filename: file.name
-      }
+      fs.readFileSync(file.path),
+      file.name
     );
-  })
+  });
 
-  await axios.post(
-    getStrapiUrl({ path: '/api/upload' }),
-    formData,
-    {
-      headers: {
-        ...formData.getHeaders(),
-      },
-    }
-  );
+  await request.post('/api/upload', {
+    headers: formData.getHeaders(),
+    data: formData.getBuffer()
+  });
 });

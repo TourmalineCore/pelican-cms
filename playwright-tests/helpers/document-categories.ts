@@ -1,56 +1,62 @@
-import axios, { AxiosError, HttpStatusCode } from "axios";
-import { getStrapiUrl } from "./global-helpers";
 import { MOCK_SEO } from "../mocks";
 import { SeoBlock } from "../types";
-import { expect } from "@playwright/test";
+import { APIRequestContext, expect } from "@playwright/test";
+import { HttpStatusCode } from "./global-helpers";
 
 const ENDPOINT = `/api/documents-categories`;
 
 export async function createDocumentsCategoryByTitle({
-  title
+  title,
+  request
 }: {
   title: string;
+  request: APIRequestContext;
 }) {
   try {
-    const response = await axios.post(`${getStrapiUrl({ path: ENDPOINT })}`, {
+    const response = await request.post(ENDPOINT, {
       data: {
-        title,
-        seo: MOCK_SEO
+        data: {
+          title,
+          seo: MOCK_SEO
+        }
       }
     });
 
-    await expect(response.status, 'Documents categories should be created with status 201')
+    const responseData = await response.json();
+
+    await expect(response.status(), 'Documents categories should be created with status 201')
       .toEqual(HttpStatusCode.Created);
 
-    return response.data.data.id;
+    return responseData.data.id;
   } catch (error) {
-    throw new Error(`Failed to create test documents categories: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to create test documents categories: ${error.message}`)
   }
 }
 
 export async function deleteDocumentCategoryByTitle({
-  title
+  title,
+  request
 }: {
   title: string;
+  request: APIRequestContext;
 }) {
   try {
-    const documentCategoriesResponse = (await axios.get(getStrapiUrl({ path: `${ENDPOINT}?populate=*` }))).data;
+    const documentCategoriesResponse = (await request.get(`${ENDPOINT}?populate=*`));
+    const documentCategoriesData = await documentCategoriesResponse.json();
 
     const documentCategory = getDocumentCategoryByTitle({
-      documentCategories: documentCategoriesResponse,
+      documentCategories: documentCategoriesData,
       title
     });
 
     if (documentCategory) {
-      const response = await axios.delete(getStrapiUrl({
-        path: `${ENDPOINT}/${documentCategory.documentId}`
-      }));
+      const response = await request.delete(`${ENDPOINT}/${documentCategory.documentId}`);
 
-      await expect(response.status, 'Documents categories should be deleted with status 204')
+      await expect(response.status(), 'Documents categories should be deleted with status 204')
         .toEqual(HttpStatusCode.NoContent);
     }
   } catch (error) {
-    throw new Error(`Failed to delete test documents categories: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to delete test documents categories: ${error.message}`)
   }
 }
 

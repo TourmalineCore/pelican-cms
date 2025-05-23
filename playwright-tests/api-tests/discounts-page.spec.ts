@@ -1,18 +1,17 @@
-import test, { expect } from "@playwright/test";
-import axios, { AxiosError, HttpStatusCode } from "axios";
+import test, { APIRequestContext, expect } from "@playwright/test";
 import { MOCK_DISCOUNTS_CATEGORIES, MOCK_DISCOUNTS_TERMS, MOCK_SEO } from "../mocks";
 import qs from "qs";
-import { getFileIdByName, getStrapiUrl } from "../helpers/global-helpers";
+import { getFileIdByName, HttpStatusCode } from "../helpers/global-helpers";
 
 const ENDPOINT = `/api/discount-page`;
 
 test.describe(`Discounts page response tests`, () => {
-  test.beforeEach(async () => {
-    await updateDiscountsPage();
+  test.beforeEach(async ({ request }) => {
+    await updateDiscountsPage({ request });
   });
 
-  test.afterEach(async () => {
-    await deleteDiscountsPage();
+  test.afterEach(async ({ request }) => {
+    await deleteDiscountsPage({ request });
   });
 
 
@@ -27,7 +26,11 @@ test.describe(`Discounts page response tests`, () => {
 });
 
 
-async function checkDiscountsPageResponseTest() {
+async function checkDiscountsPageResponseTest({
+  request
+}: {
+  request: APIRequestContext
+}) {
   const expectedDiscountsPageResponse = {
     data: {
       blocks: [
@@ -49,12 +52,14 @@ async function checkDiscountsPageResponseTest() {
     ],
   };
 
-  const discountsPageResponse = (await axios.get(getStrapiUrl({
-    path: `${ENDPOINT}?${qs.stringify(queryParams)}`
-  }))).data;
+  const discountsPageResponse = await request.get(
+    `${ENDPOINT}?${qs.stringify(queryParams)}`
+  );
 
-  const termsBlock = discountsPageResponse.data.blocks.find((block) => block.__component === 'discounts.terms');
-  const categoriesBlock = discountsPageResponse.data.blocks.find((block) => block.__component === 'discounts.categories');
+  const discountsPageData = await discountsPageResponse.json();
+
+  const termsBlock = discountsPageData.data.blocks.find((block) => block.__component === 'discounts.terms');
+  const categoriesBlock = discountsPageData.data.blocks.find((block) => block.__component === 'discounts.categories');
 
   await expect({
     data: {
@@ -94,9 +99,9 @@ async function checkDiscountsPageResponseTest() {
         },
       ],
       seo: {
-        metaTitle: discountsPageResponse.data.seo.metaTitle,
-        metaDescription: discountsPageResponse.data.seo.metaDescription,
-        keywords: discountsPageResponse.data.seo.keywords
+        metaTitle: discountsPageData.data.seo.metaTitle,
+        metaDescription: discountsPageData.data.seo.metaDescription,
+        keywords: discountsPageData.data.seo.keywords
       }
     }
   }, 'Discounts page response corrected')
@@ -107,62 +112,73 @@ async function checkDiscountsPageResponseTest() {
     toBeNull()
 }
 
-async function updateDiscountsPage() {
+async function updateDiscountsPage({
+  request
+}: {
+  request: APIRequestContext
+}) {
   try {
-    const response = await axios.put(`${getStrapiUrl({ path: ENDPOINT })}`, {
-      data: {
-        blocks: [
-          {
-            __component: MOCK_DISCOUNTS_CATEGORIES.__component,
-            title: MOCK_DISCOUNTS_CATEGORIES.title,
-            discountsCards: [{
-              title: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].title,
-              price: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].price,
-              note: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].note,
-              rules: {
-                info: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.info,
-                terms: [{
-                  text: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.terms[0].text
+    const
+      response = await request.put(ENDPOINT, {
+        data: {
+          data: {
+            blocks: [
+              {
+                __component: MOCK_DISCOUNTS_CATEGORIES.__component,
+                title: MOCK_DISCOUNTS_CATEGORIES.title,
+                discountsCards: [{
+                  title: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].title,
+                  price: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].price,
+                  note: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].note,
+                  rules: {
+                    info: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.info,
+                    terms: [{
+                      text: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.terms[0].text
+                    }],
+                    docs: [{
+                      text: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.docs[0].text
+                    }],
+                    basis: [{
+                      title: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.basis[0].title,
+                      link: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.basis[0].link,
+                    }]
+                  }
                 }],
-                docs: [{
-                  text: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.docs[0].text
-                }],
-                basis: [{
-                  title: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.basis[0].title,
-                  link: MOCK_DISCOUNTS_CATEGORIES.discountsCards[0].rules.basis[0].link,
-                }]
-              }
-            }],
-            remark: {
-              title: MOCK_DISCOUNTS_CATEGORIES.remark.title,
-              file: await getFileIdByName({
-                name: '[E2E-SMOKE]-new-document.pdf'
-              })
-            },
-          },
-          MOCK_DISCOUNTS_TERMS,
-        ],
-        seo: MOCK_SEO
-      }
-    });
+                remark: {
+                  title: MOCK_DISCOUNTS_CATEGORIES.remark.title,
+                  file: await getFileIdByName({
+                    name: '[E2E-SMOKE]-new-document.pdf'
+                  })
+                },
+              },
+              MOCK_DISCOUNTS_TERMS,
+            ],
+            seo: MOCK_SEO
+          }
+        }
+      });
 
-    await expect(response.status, 'Discounts page updating')
+    await expect(response.status(), 'Discounts page updating')
       .toEqual(HttpStatusCode.Ok);
   } catch (error) {
-    throw new Error(`Failed to update test discounts page: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to update test discounts page: ${error.message}`)
   }
 
 }
 
-async function deleteDiscountsPage() {
+async function deleteDiscountsPage({
+  request
+}: {
+  request: APIRequestContext
+}) {
   try {
-    const response = await axios.delete(getStrapiUrl({
-      path: ENDPOINT
-    }));
+    const response = await request.delete(
+      ENDPOINT
+    );
 
-    await expect(response.status, 'Discounts page should be deleted with status 200')
+    await expect(response.status(), 'Discounts page should be deleted with status 200')
       .toEqual(HttpStatusCode.NoContent);
   } catch (error) {
-    throw new Error(`Failed to delete test visiting rules page: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to delete test visiting rules page: ${error.message}`)
   }
 }

@@ -1,5 +1,4 @@
-import test, { expect } from "@playwright/test";
-import axios, { AxiosError, HttpStatusCode } from "axios";
+import test, { APIRequestContext, expect } from "@playwright/test";
 import {
   MOCK_HERO,
   MOCK_HOME_SERVICES,
@@ -10,17 +9,17 @@ import {
   MOCK_SEO
 } from "../mocks";
 import qs from "qs";
-import { getFileIdByName, getStrapiUrl } from "../helpers/global-helpers";
+import { getFileIdByName, HttpStatusCode } from "../helpers/global-helpers";
 
 const ENDPOINT = '/api/home';
 
 test.describe(`Home page response tests`, () => {
-  test.beforeEach(async () => {
-    await updateHomePage();
+  test.beforeEach(async ({ request }) => {
+    await updateHomePage({ request });
   });
 
-  test.afterEach(async () => {
-    await deleteHomePage();
+  test.afterEach(async ({ request }) => {
+    await deleteHomePage({ request });
   });
 
   test(`
@@ -33,7 +32,11 @@ test.describe(`Home page response tests`, () => {
   );
 });
 
-async function checkHomepageResponseTest() {
+async function checkHomepageResponseTest({
+  request
+}: {
+  request: APIRequestContext;
+}) {
   const expectedHomepageResponse = {
     data: {
       blocks: [
@@ -68,16 +71,15 @@ async function checkHomepageResponseTest() {
     ],
   };
 
-  const homepageResponse = (await axios.get(getStrapiUrl({
-    path: `${ENDPOINT}?${qs.stringify(queryParams)}`
-  }))).data;
+  const homepageResponse = await request.get(`${ENDPOINT}?${qs.stringify(queryParams)}`);
+  const homepageData = await homepageResponse.json();
 
-  const heroBlock = homepageResponse.data.blocks.find((block) => block.__component === 'shared.hero');
-  const textAndMediaBlock = homepageResponse.data.blocks.find((block) => block.__component === 'shared.text-and-media');
-  const imageWithButtonGridBlock = homepageResponse.data.blocks.find((block) => block.__component === 'shared.image-with-button-grid');
-  const servicesBlock = homepageResponse.data.blocks.find((block) => block.__component === 'home.services');
-  const mapCardBlock = homepageResponse.data.blocks.find((block) => block.__component === 'home.map-card');
-  const homeTicketsBlock = homepageResponse.data.blocks.find((block) => block.__component === 'home.tickets');
+  const heroBlock = homepageData.data.blocks.find((block) => block.__component === 'shared.hero');
+  const textAndMediaBlock = homepageData.data.blocks.find((block) => block.__component === 'shared.text-and-media');
+  const imageWithButtonGridBlock = homepageData.data.blocks.find((block) => block.__component === 'shared.image-with-button-grid');
+  const servicesBlock = homepageData.data.blocks.find((block) => block.__component === 'home.services');
+  const mapCardBlock = homepageData.data.blocks.find((block) => block.__component === 'home.map-card');
+  const homeTicketsBlock = homepageData.data.blocks.find((block) => block.__component === 'home.tickets');
 
   await expect({
     data: {
@@ -170,9 +172,9 @@ async function checkHomepageResponseTest() {
         },
       ],
       seo: {
-        metaTitle: homepageResponse.data.seo.metaTitle,
-        metaDescription: homepageResponse.data.seo.metaDescription,
-        keywords: homepageResponse.data.seo.keywords,
+        metaTitle: homepageData.data.seo.metaTitle,
+        metaDescription: homepageData.data.seo.metaDescription,
+        keywords: homepageData.data.seo.keywords,
       }
     }
   }, 'Home page response corrected')
@@ -204,62 +206,72 @@ async function checkHomepageResponseTest() {
 }
 
 
-async function updateHomePage() {
+async function updateHomePage({
+  request
+}: {
+  request: APIRequestContext;
+}) {
   try {
     const fileId = await getFileIdByName();
 
-    const response = await axios.put(`${getStrapiUrl({ path: ENDPOINT })}`, {
+    const response = await request.put(ENDPOINT, {
       data: {
-        blocks: [
-          {
-            ...MOCK_HERO,
-            image: fileId
-          },
-          {
-            ...MOCK_HOME_SERVICES,
-            cards: {
-              title: MOCK_HOME_SERVICES.cards.title,
-              cards: [
-                {
-                  ...MOCK_HOME_SERVICES.cards.cards[0],
-                  image: fileId
-                }
-              ]
+        data: {
+          blocks: [
+            {
+              ...MOCK_HERO,
+              image: fileId
             },
-          },
-          {
-            ...MOCK_TEXT_AND_MEDIA,
-            media: fileId
-          },
-          {
-            ...MOCK_IMAGE_WITH_BUTTON_GRID,
-            largeImage: fileId,
-            smallImage: fileId
-          },
-          {
-            ...MOCK_HOME_MAP_CARD,
-            image: fileId
-          },
-          MOCK_HOME_TICKETS,
-        ],
-        seo: MOCK_SEO
-      },
+            {
+              ...MOCK_HOME_SERVICES,
+              cards: {
+                title: MOCK_HOME_SERVICES.cards.title,
+                cards: [
+                  {
+                    ...MOCK_HOME_SERVICES.cards.cards[0],
+                    image: fileId
+                  }
+                ]
+              },
+            },
+            {
+              ...MOCK_TEXT_AND_MEDIA,
+              media: fileId
+            },
+            {
+              ...MOCK_IMAGE_WITH_BUTTON_GRID,
+              largeImage: fileId,
+              smallImage: fileId
+            },
+            {
+              ...MOCK_HOME_MAP_CARD,
+              image: fileId
+            },
+            MOCK_HOME_TICKETS,
+          ],
+          seo: MOCK_SEO
+        },
+      }
     });
 
-    await expect(response.status, 'Home page should be updated with status 200')
+    await expect(response.status(), 'Home page should be updated with status 200')
       .toEqual(HttpStatusCode.Ok);
   } catch (error) {
-    throw new Error(`Failed to update test home page: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to update test home page: ${error.message}`)
   }
 }
 
-async function deleteHomePage() {
+async function deleteHomePage({
+  request
+}: {
+  request: APIRequestContext;
+}) {
   try {
-    const response = await axios.delete(getStrapiUrl({ path: ENDPOINT }));
+    const response = await request.delete(ENDPOINT);
 
-    await expect(response.status, 'Home page should be deleted with status 204')
+    await expect(response.status(), 'Home page should be deleted with status 204')
       .toEqual(HttpStatusCode.NoContent);
   } catch (error) {
-    throw new Error(`Failed to delete test home page: ${(error as AxiosError).message}`)
+    throw new Error(`Failed to delete test home page: ${error.message}`)
   }
 }

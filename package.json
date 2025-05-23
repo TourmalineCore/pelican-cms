@@ -16,17 +16,14 @@
   },
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^5.0.1",
-    "@playwright/test": "^1.52.0",
     "@strapi/plugin-cloud": "5.10.2",
     "@strapi/plugin-documentation": "^5.10.2",
     "@strapi/plugin-seo": "^2.0.8",
     "@strapi/plugin-users-permissions": "5.10.2",
     "@strapi/provider-upload-aws-s3": "^5.10.2",
     "@strapi/strapi": "5.10.2",
-    "axios": "^1.8.4",
     "dotenv": "^16.4.7",
     "pg": "^8.8.0",
-    "qs": "^6.14.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
@@ -45,5 +42,9 @@
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "qs": "^6.14.0"
+  }
 }
