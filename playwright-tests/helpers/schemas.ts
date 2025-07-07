@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const MediaSchema = z.object({
+  url: z.string().url(),
+});
+
 export const HeroBlockSchema = z.object({
   __component: z.literal("shared.hero"),
   title: z.string(),
@@ -26,6 +30,7 @@ export const TextAndMediaBlockSchema = z.object({
   description: z.string(),
   contentOrder: z.string(),
   viewFootsteps: z.boolean(),
+  media: MediaSchema,
 });
 
 export const ImageWithButtonGridBlockSchema = z.object({
@@ -36,6 +41,8 @@ export const ImageWithButtonGridBlockSchema = z.object({
     link: z.string(),
     label: z.string()
   }),
+  largeImage: MediaSchema,
+  smallImage: MediaSchema,
 });
 
 export const HomeMapCardBlockSchema = z.object({
@@ -43,6 +50,7 @@ export const HomeMapCardBlockSchema = z.object({
   note: z.string(),
   title: z.string(),
   description: z.string(),
+  image: MediaSchema,
 });
 
 export const HomeTicketsBlockSchema = z.object({
@@ -91,6 +99,7 @@ export const HomeServicesBlockSchema = z.object({
         title: z.string(),
         description: z.string(),
         link: z.string().url(),
+        image: MediaSchema,
         labels: z.array(
           z.object({
             text: z.string()
@@ -99,10 +108,6 @@ export const HomeServicesBlockSchema = z.object({
       })
     )
   })
-});
-
-export const MediaSchema = z.object({
-  url: z.string().url()
 });
 
 export const BlockSchema = z.discriminatedUnion("__component", [
@@ -117,7 +122,6 @@ export const BlockSchema = z.discriminatedUnion("__component", [
 export const HomePageSchema = z.object({
   data: z.object({
     blocks: z.array(BlockSchema),
-    seo: SeoBlockSchema,
-    url: MediaSchema
+    seo: SeoBlockSchema
   })
 });
