@@ -1,0 +1,41 @@
+name: Trigger Local Env
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  # this is needed to wait for the new docker image to be build and published to the registry and wait for the e2e tests
+  # so that we can use the image to run ui of the needed commit related version as part of local-env
+  # the idea is taken from here https://stackoverflow.com/a/71489231
+  push_to_registry:
+    uses: ./.github/workflows/docker-build-and-push.yml
+    # without this it cannot login to the registry
+    secrets: inherit
+
+  Trigger_Local_Env:
+    needs: push_to_registry
+    runs-on: ubuntu-24.04
+    steps: 
+      - name: Checkout 
+        uses: actions/checkout@v3
+        
+      - name: Write short-sha to GitHub Env
+        run: |
+          echo "SHORT_SHA=$(git rev-parse --short ${{ github.sha }})" >> $GITHUB_ENV
+        
+      - name: Trigger Local Env
+        run: |
+          curl -X POST https://api.github.com/repos/TourmalineCore/pelican-local-env/dispatches \
+          -H "Accept: application/vnd.github.everest-preview+json" \
+          -u ${{ secrets.PELICAN_ENV_SYNC_TRIGGER_TOKEN  }} \
+          -d '{
+          "event_type": "latest-cms-image-tag",
+          "client_payload": {
+            "image_tag": "sha-${{ github.sha }}",
+            "commit_message": "${{ github.event.head_commit.message }}",
+            "repository": "${{ github.event.repository.name }}",
+            "short_sha": "${{ env.SHORT_SHA }}",
+            "path_to_values": "deploy/values-cms.yaml.gotmpl"
+            }}' 
