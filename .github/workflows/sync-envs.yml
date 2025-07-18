@@ -1,0 +1,33 @@
+name: Trigger Local And Prod Envs
+
+on:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  # this is needed to wait for the new docker image to be build and published to the registry
+  # so that we can use the image to run ui of the needed commit related version as part of local-env
+  # the idea is taken from here https://stackoverflow.com/a/71489231
+  push_to_registry:
+    uses: ./.github/workflows/docker-build-and-push.yml
+    # without this it cannot login to the registry
+    secrets: inherit
+
+  trigger_local_env:
+    needs: push_to_registry
+    uses: TourmalineCore/pelican-github-workflows/.github/workflows/sync-env.yml@feature/sync_envs_workflow
+    with: 
+      pelican-env: pelican-local-env
+      image-tag: sha-${{ github.sha }}
+      path-to-values: deploy/values-cms.yaml.gotmpl
+    secrets: inherit
+
+  trigger_prod_env:
+    needs: push_to_registry
+    uses: TourmalineCore/pelican-github-workflows/.github/workflows/sync-env.yml@feature/sync_envs_workflow
+    with: 
+      pelican-env: pelican-prod-env
+      image-tag: sha-${{ github.sha }}
+      path-to-values: deploy/values-cms.yaml.gotmpl
+    secrets: inherit
