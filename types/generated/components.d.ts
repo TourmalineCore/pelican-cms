@@ -50,6 +50,20 @@ export interface CardLabel extends Struct.ComponentSchema {
   };
 }
 
+export interface CategoryCategory extends Struct.ComponentSchema {
+  collectionName: 'components_category_categories';
+  info: {
+    displayName: '\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F';
+  };
+  attributes: {
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
+      Schema.Attribute.DefaultTo<'/'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface DiscountsBasis extends Struct.ComponentSchema {
   collectionName: 'components_discounts_bases';
   info: {
@@ -248,6 +262,17 @@ export interface SharedCards extends Struct.ComponentSchema {
     cards: Schema.Attribute.Component<'card.card', true> &
       Schema.Attribute.Required;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SharedCategories extends Struct.ComponentSchema {
+  collectionName: 'components_shared_categories';
+  info: {
+    displayName: '\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438';
+  };
+  attributes: {
+    categories: Schema.Attribute.Component<'category.category', true>;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -689,6 +714,7 @@ declare module '@strapi/strapi' {
       'button.button-with-text': ButtonButtonWithText;
       'card.card': CardCard;
       'card.label': CardLabel;
+      'category.category': CategoryCategory;
       'discounts.basis': DiscountsBasis;
       'discounts.categories': DiscountsCategories;
       'discounts.discounts-card': DiscountsDiscountsCard;
@@ -702,6 +728,7 @@ declare module '@strapi/strapi' {
       'home.tickets': HomeTickets;
       'schedule-card.timetable': ScheduleCardTimetable;
       'shared.cards': SharedCards;
+      'shared.categories': SharedCategories;
       'shared.hero': SharedHero;
       'shared.image-with-button-grid': SharedImageWithButtonGrid;
       'shared.meta-social': SharedMetaSocial;

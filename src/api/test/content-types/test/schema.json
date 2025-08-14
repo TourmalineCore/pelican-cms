@@ -1,0 +1,28 @@
+{
+  "kind": "singleType",
+  "collectionName": "tests",
+  "info": {
+    "singularName": "test",
+    "pluralName": "tests",
+    "displayName": "Test"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "blocks": {
+      "type": "dynamiczone",
+      "components": [
+        "shared.tickets",
+        "shared.text-and-media",
+        "shared.seo",
+        "shared.meta-social",
+        "shared.image-with-button-grid",
+        "shared.hero",
+        "shared.categories",
+        "shared.cards"
+      ]
+    }
+  }
+}

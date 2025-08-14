@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_category_categories",
+  "info": {
+    "displayName": "Категория"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "default": "/",
+      "required": true,
+      "unique": true
+    }
+  },
+  "config": {}
+}
