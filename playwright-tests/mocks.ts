@@ -246,3 +246,14 @@ export const MOCK_VISITING_RULES_EMERGENCY_PHONES = {
     },
   ],
 };
+
+export const MOCK_CATEGORIES = {
+  __component: "shared.categories",
+  title: 'Другое',
+  categories: [
+    {
+      title: 'Экскурсии',
+      slug: '/excursion'
+    }
+  ]
+}

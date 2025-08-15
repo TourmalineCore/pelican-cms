@@ -1,0 +1,22 @@
+{
+  "kind": "singleType",
+  "collectionName": "others",
+  "info": {
+    "singularName": "other",
+    "pluralName": "others",
+    "displayName": "Страница другое"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "blocks": {
+      "type": "dynamiczone",
+      "components": [
+        "shared.categories",
+        "shared.seo"
+      ]
+    }
+  }
+}

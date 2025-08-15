@@ -738,6 +738,67 @@ export interface ApiNewsPageNewsPage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiOtherOther extends Struct.SingleTypeSchema {
+  collectionName: 'others';
+  info: {
+    displayName: '\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u0434\u0440\u0443\u0433\u043E\u0435';
+    pluralName: 'others';
+    singularName: 'other';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    blocks: Schema.Attribute.DynamicZone<['shared.categories', 'shared.seo']>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::other.other'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTestTest extends Struct.SingleTypeSchema {
+  collectionName: 'tests';
+  info: {
+    displayName: 'Test';
+    pluralName: 'tests';
+    singularName: 'test';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    blocks: Schema.Attribute.DynamicZone<
+      [
+        'shared.tickets',
+        'shared.text-and-media',
+        'shared.seo',
+        'shared.meta-social',
+        'shared.image-with-button-grid',
+        'shared.hero',
+        'shared.categories',
+        'shared.cards',
+      ]
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::test.test'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiVisitingRulesPageVisitingRulesPage
   extends Struct.SingleTypeSchema {
   collectionName: 'visiting_rules_pages';
@@ -1010,6 +1071,128 @@ export interface PluginReviewWorkflowsWorkflowStage
       'manyToOne',
       'plugin::review-workflows.workflow'
     >;
+  };
+}
+
+export interface PluginStrapi5SitemapPluginStrapi5SitemapPluginContentType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'strapi_5_sitemap_plugin_content_types';
+  info: {
+    displayName: 'strapi-5-sitemap-plugin-content-type';
+    pluralName: 'strapi-5-sitemap-plugin-content-types';
+    singularName: 'strapi-5-sitemap-plugin-content-type';
+  };
+  options: {
+    comment: '';
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    frequency: Schema.Attribute.String;
+    langcode: Schema.Attribute.String;
+    lastModified: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::strapi-5-sitemap-plugin.strapi-5-sitemap-plugin-content-type'
+    > &
+      Schema.Attribute.Private;
+    pattern: Schema.Attribute.String;
+    priority: Schema.Attribute.Float;
+    publishedAt: Schema.Attribute.DateTime;
+    thumbnail: Schema.Attribute.String;
+    type: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface PluginStrapi5SitemapPluginStrapi5SitemapPluginContentTypeSingleUrl
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'strapi_5_sitemap_plugin_content_type_single_urls';
+  info: {
+    displayName: 'strapi-5-sitemap-plugin-content-type-single-url';
+    pluralName: 'strapi-5-sitemap-plugin-content-type-single-urls';
+    singularName: 'strapi-5-sitemap-plugin-content-type-single-url';
+  };
+  options: {
+    comment: '';
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    frequency: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::strapi-5-sitemap-plugin.strapi-5-sitemap-plugin-content-type-single-url'
+    > &
+      Schema.Attribute.Private;
+    priority: Schema.Attribute.Float;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface PluginStrapi5SitemapPluginStrapi5SitemapPluginOption
+  extends Struct.SingleTypeSchema {
+  collectionName: 'strapi_5_sitemap_plugin_options';
+  info: {
+    displayName: 'strapi-5-sitemap-plugin-options';
+    pluralName: 'strapi-5-sitemap-plugin-options';
+    singularName: 'strapi-5-sitemap-plugin-option';
+  };
+  options: {
+    comment: '';
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    baseUrl: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::strapi-5-sitemap-plugin.strapi-5-sitemap-plugin-option'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1294,12 +1477,17 @@ declare module '@strapi/strapi' {
       'api::home.home': ApiHomeHome;
       'api::news-collection.news-collection': ApiNewsCollectionNewsCollection;
       'api::news-page.news-page': ApiNewsPageNewsPage;
+      'api::other.other': ApiOtherOther;
+      'api::test.test': ApiTestTest;
       'api::visiting-rules-page.visiting-rules-page': ApiVisitingRulesPageVisitingRulesPage;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::review-workflows.workflow': PluginReviewWorkflowsWorkflow;
       'plugin::review-workflows.workflow-stage': PluginReviewWorkflowsWorkflowStage;
+      'plugin::strapi-5-sitemap-plugin.strapi-5-sitemap-plugin-content-type': PluginStrapi5SitemapPluginStrapi5SitemapPluginContentType;
+      'plugin::strapi-5-sitemap-plugin.strapi-5-sitemap-plugin-content-type-single-url': PluginStrapi5SitemapPluginStrapi5SitemapPluginContentTypeSingleUrl;
+      'plugin::strapi-5-sitemap-plugin.strapi-5-sitemap-plugin-option': PluginStrapi5SitemapPluginStrapi5SitemapPluginOption;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
