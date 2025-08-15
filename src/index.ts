@@ -24,13 +24,23 @@ export default {
       .findOne(roles.filter((role) => role.type === "public")[0].id);
 
     Object.keys(_public.permissions)
-      .filter((permission) => permission.startsWith('api') || permission.startsWith('plugin::strapi-5-sitemap-plugin'))
+      .filter((permission) => permission.startsWith('api')
+        || permission.startsWith('plugin::strapi-5-sitemap-plugin')
+        || permission.startsWith('plugin::content-type-builder'))
       .forEach((permission) => {
         const controller = Object.keys(_public.permissions[permission].controllers)[0];
 
         // Enable getSwaggerJson for the custom documentation controller
         if (permission.startsWith('api::documentation')) {
           _public.permissions[permission].controllers[controller].getSwaggerJson.enabled = true;
+          return;
+        }
+
+        // Enable getContentTypes
+        if (permission.startsWith('plugin::content-type-builder')) {
+          const controller = Object.keys(_public.permissions[permission].controllers)[1];
+
+          _public.permissions[permission].controllers[controller].getContentTypes.enabled = true
           return;
         }
 
