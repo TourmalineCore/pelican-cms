@@ -46,7 +46,6 @@ export default {
 
         // Enable getSitemap
         if (permission.startsWith('plugin::strapi-5-sitemap-plugin')) {
-          console.log(_public.permissions[permission])
           _public.permissions[permission].controllers[controller].getSitemap.enabled = true;
           return;
         }
