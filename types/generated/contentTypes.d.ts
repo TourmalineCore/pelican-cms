@@ -763,42 +763,6 @@ export interface ApiOtherOther extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiTestTest extends Struct.SingleTypeSchema {
-  collectionName: 'tests';
-  info: {
-    displayName: 'Test';
-    pluralName: 'tests';
-    singularName: 'test';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    blocks: Schema.Attribute.DynamicZone<
-      [
-        'shared.tickets',
-        'shared.text-and-media',
-        'shared.seo',
-        'shared.meta-social',
-        'shared.image-with-button-grid',
-        'shared.hero',
-        'shared.categories',
-        'shared.cards',
-      ]
-    >;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::test.test'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiVisitingRulesPageVisitingRulesPage
   extends Struct.SingleTypeSchema {
   collectionName: 'visiting_rules_pages';
@@ -1478,7 +1442,6 @@ declare module '@strapi/strapi' {
       'api::news-collection.news-collection': ApiNewsCollectionNewsCollection;
       'api::news-page.news-page': ApiNewsPageNewsPage;
       'api::other.other': ApiOtherOther;
-      'api::test.test': ApiTestTest;
       'api::visiting-rules-page.visiting-rules-page': ApiVisitingRulesPageVisitingRulesPage;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

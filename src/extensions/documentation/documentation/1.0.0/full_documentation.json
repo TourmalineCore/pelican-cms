@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-08-14T11:57:17.453Z"
+    "x-generation-date": "2025-08-18T03:48:58.930Z"
   },
   "x-strapi-config": {
     "plugins": []
@@ -3814,7 +3814,7 @@
         "operationId": "delete/other"
       }
     },
-    "/test": {
+    "/stranicza-uslug": {
       "get": {
         "responses": {
           "200": {
@@ -3822,7 +3822,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TestResponse"
+                  "$ref": "#/components/schemas/StraniczaUslugResponse"
                 }
               }
             }
@@ -3879,7 +3879,7 @@
           }
         },
         "tags": [
-          "Test"
+          "Stranicza-uslug"
         ],
         "parameters": [
           {
@@ -3985,7 +3985,7 @@
             }
           }
         ],
-        "operationId": "get/test"
+        "operationId": "get/stranicza-uslug"
       },
       "put": {
         "responses": {
@@ -3994,7 +3994,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TestResponse"
+                  "$ref": "#/components/schemas/StraniczaUslugResponse"
                 }
               }
             }
@@ -4051,16 +4051,16 @@
           }
         },
         "tags": [
-          "Test"
+          "Stranicza-uslug"
         ],
         "parameters": [],
-        "operationId": "put/test",
+        "operationId": "put/stranicza-uslug",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TestRequest"
+                "$ref": "#/components/schemas/StraniczaUslugRequest"
               }
             }
           }
@@ -4131,10 +4131,10 @@
           }
         },
         "tags": [
-          "Test"
+          "Stranicza-uslug"
         ],
         "parameters": [],
-        "operationId": "delete/test"
+        "operationId": "delete/stranicza-uslug"
       }
     },
     "/visiting-rules-page": {
@@ -10562,7 +10562,7 @@
           }
         }
       },
-      "TestRequest": {
+      "StraniczaUslugRequest": {
         "type": "object",
         "required": [
           "data"
@@ -10636,13 +10636,13 @@
           }
         }
       },
-      "TestListResponse": {
+      "StraniczaUslugListResponse": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Test"
+              "$ref": "#/components/schemas/StraniczaUslug"
             }
           },
           "meta": {
@@ -10671,7 +10671,7 @@
           }
         }
       },
-      "Test": {
+      "StraniczaUslug": {
         "type": "object",
         "properties": {
           "id": {
@@ -10872,11 +10872,11 @@
           }
         }
       },
-      "TestResponse": {
+      "StraniczaUslugResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/Test"
+            "$ref": "#/components/schemas/StraniczaUslug"
           },
           "meta": {
             "type": "object"
