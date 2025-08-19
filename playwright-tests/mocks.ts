@@ -253,7 +253,7 @@ export const MOCK_CATEGORIES = {
   categories: [
     {
       title: 'Экскурсии',
-      slug: '/excursion'
+      slug: 'excursion'
     }
   ]
 }
