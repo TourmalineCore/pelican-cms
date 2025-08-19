@@ -1,11 +1,12 @@
 import qs from "qs";
 import {
-  MOCK_CATEGORIES
+  MOCK_SEO
 } from "../mocks";
 import { HttpStatusCode } from "../helpers/global-helpers";
 import { ApiTestFixtures, expect, test } from "../helpers/api-test-fixtures";
 
 const ENDPOINT = `/api/other`;
+const OTHER_PAGE_TITLE = 'Другие страницы';
 
 test.describe(`Other page response tests`, () => {
   test.beforeEach(async ({ apiRequest }) => {
@@ -31,15 +32,14 @@ async function checkOtherPageResponseTest({
 }: {
   apiRequest: ApiTestFixtures['apiRequest'];
 }) {
-  const expectedContactZooPageResponse = {
-    blocks: [
-      MOCK_CATEGORIES,
-    ],
+  const expectedOtherPageResponse = {
+    title: OTHER_PAGE_TITLE,
+    seo: MOCK_SEO
   };
 
   const queryParams = {
     populate: [
-      `blocks.categories`,
+      `seo`,
     ],
   };
 
@@ -50,7 +50,7 @@ async function checkOtherPageResponseTest({
   const otherPageData = await otherPageDataResponse.json();
 
   await expect(otherPageData.data, 'Other page response is correct')
-    .toMatchObject(expectedContactZooPageResponse);
+    .toMatchObject(expectedOtherPageResponse);
 }
 
 async function updateOtherPage({
@@ -63,13 +63,11 @@ async function updateOtherPage({
       method: 'PUT',
       data: {
         data: {
-          blocks: [
-            MOCK_CATEGORIES,
-          ],
-        },
+          title: OTHER_PAGE_TITLE,
+          seo: MOCK_SEO
+        }
       }
     });
-
     await expect(response.status(), 'Other page should be updated with status 200')
       .toEqual(HttpStatusCode.Ok);
   } catch (error) {
