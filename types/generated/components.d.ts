@@ -58,8 +58,7 @@ export interface CategoryCategory extends Struct.ComponentSchema {
   attributes: {
     slug: Schema.Attribute.String &
       Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.DefaultTo<'/'>;
+      Schema.Attribute.Unique;
     title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }

@@ -738,6 +738,48 @@ export interface ApiNewsPageNewsPage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiOtherPageOtherPage extends Struct.CollectionTypeSchema {
+  collectionName: 'other_pages';
+  info: {
+    displayName: '\u0414\u0440\u0443\u0433\u0438\u0435 \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u044B';
+    pluralName: 'other-pages';
+    singularName: 'other-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    blocks: Schema.Attribute.DynamicZone<
+      [
+        'shared.tickets',
+        'shared.text-and-media',
+        'shared.seo',
+        'shared.meta-social',
+        'shared.image-with-button-grid',
+        'shared.hero',
+        'shared.categories',
+        'shared.cards',
+      ]
+    > &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::other-page.other-page'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String & Schema.Attribute.Unique;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiOtherOther extends Struct.SingleTypeSchema {
   collectionName: 'others';
   info: {
@@ -749,7 +791,6 @@ export interface ApiOtherOther extends Struct.SingleTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    blocks: Schema.Attribute.DynamicZone<['shared.categories', 'shared.seo']>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -757,6 +798,8 @@ export interface ApiOtherOther extends Struct.SingleTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::other.other'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
+    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1441,6 +1484,7 @@ declare module '@strapi/strapi' {
       'api::home.home': ApiHomeHome;
       'api::news-collection.news-collection': ApiNewsCollectionNewsCollection;
       'api::news-page.news-page': ApiNewsPageNewsPage;
+      'api::other-page.other-page': ApiOtherPageOtherPage;
       'api::other.other': ApiOtherOther;
       'api::visiting-rules-page.visiting-rules-page': ApiVisitingRulesPageVisitingRulesPage;
       'plugin::content-releases.release': PluginContentReleasesRelease;

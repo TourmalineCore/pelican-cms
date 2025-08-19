@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-08-18T03:48:58.930Z"
+    "x-generation-date": "2025-08-19T10:38:14.331Z"
   },
   "x-strapi-config": {
     "plugins": []
@@ -3814,7 +3814,7 @@
         "operationId": "delete/other"
       }
     },
-    "/stranicza-uslug": {
+    "/other-pages": {
       "get": {
         "responses": {
           "200": {
@@ -3822,7 +3822,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StraniczaUslugResponse"
+                  "$ref": "#/components/schemas/OtherPageListResponse"
                 }
               }
             }
@@ -3879,7 +3879,7 @@
           }
         },
         "tags": [
-          "Stranicza-uslug"
+          "Other-page"
         ],
         "parameters": [
           {
@@ -3985,16 +3985,16 @@
             }
           }
         ],
-        "operationId": "get/stranicza-uslug"
+        "operationId": "get/other-pages"
       },
-      "put": {
+      "post": {
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StraniczaUslugResponse"
+                  "$ref": "#/components/schemas/OtherPageResponse"
                 }
               }
             }
@@ -4051,16 +4051,188 @@
           }
         },
         "tags": [
-          "Stranicza-uslug"
+          "Other-page"
         ],
         "parameters": [],
-        "operationId": "put/stranicza-uslug",
+        "operationId": "post/other-pages",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StraniczaUslugRequest"
+                "$ref": "#/components/schemas/OtherPageRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/other-pages/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtherPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Other-page"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "operationId": "get/other-pages/{id}"
+      },
+      "put": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OtherPageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Other-page"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "operationId": "put/other-pages/{id}",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtherPageRequest"
               }
             }
           }
@@ -4131,10 +4303,21 @@
           }
         },
         "tags": [
-          "Stranicza-uslug"
+          "Other-page"
         ],
-        "parameters": [],
-        "operationId": "delete/stranicza-uslug"
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "operationId": "delete/other-pages/{id}"
       }
     },
     "/visiting-rules-page": {
@@ -10285,25 +10468,11 @@
           "data": {
             "type": "object",
             "properties": {
-              "blocks": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/SharedCategoriesComponent"
-                    },
-                    {
-                      "$ref": "#/components/schemas/SharedSeoComponent"
-                    }
-                  ]
-                },
-                "discriminator": {
-                  "propertyName": "__component",
-                  "mapping": {
-                    "shared.categories": "#/components/schemas/SharedCategoriesComponent",
-                    "shared.seo": "#/components/schemas/SharedSeoComponent"
-                  }
-                }
+              "title": {
+                "type": "string"
+              },
+              "seo": {
+                "$ref": "#/components/schemas/SharedSeoComponent"
               },
               "locale": {
                 "type": "string"
@@ -10370,25 +10539,11 @@
           "documentId": {
             "type": "string"
           },
-          "blocks": {
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/SharedCategoriesComponent"
-                },
-                {
-                  "$ref": "#/components/schemas/SharedSeoComponent"
-                }
-              ]
-            },
-            "discriminator": {
-              "propertyName": "__component",
-              "mapping": {
-                "shared.categories": "#/components/schemas/SharedCategoriesComponent",
-                "shared.seo": "#/components/schemas/SharedSeoComponent"
-              }
-            }
+          "title": {
+            "type": "string"
+          },
+          "seo": {
+            "$ref": "#/components/schemas/SharedSeoComponent"
           },
           "createdAt": {
             "type": "string",
@@ -10438,25 +10593,11 @@
                 "documentId": {
                   "type": "string"
                 },
-                "blocks": {
-                  "type": "array",
-                  "items": {
-                    "anyOf": [
-                      {
-                        "$ref": "#/components/schemas/SharedCategoriesComponent"
-                      },
-                      {
-                        "$ref": "#/components/schemas/SharedSeoComponent"
-                      }
-                    ]
-                  },
-                  "discriminator": {
-                    "propertyName": "__component",
-                    "mapping": {
-                      "shared.categories": "#/components/schemas/SharedCategoriesComponent",
-                      "shared.seo": "#/components/schemas/SharedSeoComponent"
-                    }
-                  }
+                "title": {
+                  "type": "string"
+                },
+                "seo": {
+                  "$ref": "#/components/schemas/SharedSeoComponent"
                 },
                 "createdAt": {
                   "type": "string",
@@ -10525,52 +10666,25 @@
           }
         }
       },
-      "CategoryCategoryComponent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "title": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          }
-        }
-      },
-      "SharedCategoriesComponent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "__component": {
-            "type": "string",
-            "enum": [
-              "shared.categories"
-            ]
-          },
-          "title": {
-            "type": "string"
-          },
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoryCategoryComponent"
-            }
-          }
-        }
-      },
-      "StraniczaUslugRequest": {
+      "OtherPageRequest": {
         "type": "object",
         "required": [
           "data"
         ],
         "properties": {
           "data": {
+            "required": [
+              "title",
+              "blocks"
+            ],
             "type": "object",
             "properties": {
+              "title": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
               "blocks": {
                 "type": "array",
                 "items": {
@@ -10636,13 +10750,13 @@
           }
         }
       },
-      "StraniczaUslugListResponse": {
+      "OtherPageListResponse": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/StraniczaUslug"
+              "$ref": "#/components/schemas/OtherPage"
             }
           },
           "meta": {
@@ -10671,13 +10785,23 @@
           }
         }
       },
-      "StraniczaUslug": {
+      "OtherPage": {
         "type": "object",
+        "required": [
+          "title",
+          "blocks"
+        ],
         "properties": {
           "id": {
             "type": "number"
           },
           "documentId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "slug": {
             "type": "string"
           },
           "blocks": {
@@ -10770,6 +10894,12 @@
                   "type": "number"
                 },
                 "documentId": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "slug": {
                   "type": "string"
                 },
                 "blocks": {
@@ -10872,14 +11002,51 @@
           }
         }
       },
-      "StraniczaUslugResponse": {
+      "OtherPageResponse": {
         "type": "object",
         "properties": {
           "data": {
-            "$ref": "#/components/schemas/StraniczaUslug"
+            "$ref": "#/components/schemas/OtherPage"
           },
           "meta": {
             "type": "object"
+          }
+        }
+      },
+      "CategoryCategoryComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        }
+      },
+      "SharedCategoriesComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "__component": {
+            "type": "string",
+            "enum": [
+              "shared.categories"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryCategoryComponent"
+            }
           }
         }
       },

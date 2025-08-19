@@ -11,7 +11,6 @@
     },
     "slug": {
       "type": "string",
-      "default": "/",
       "required": true,
       "unique": true
     }

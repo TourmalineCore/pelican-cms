@@ -11,12 +11,14 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "blocks": {
-      "type": "dynamiczone",
-      "components": [
-        "shared.categories",
-        "shared.seo"
-      ]
+    "title": {
+      "type": "string",
+      "required": false
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false
     }
   }
 }
