@@ -1,7 +1,6 @@
 import { MOCK_CATEGORIES } from "../mocks";
 import { API_SMOKE_NAME_PREFIX, HttpStatusCode } from "../helpers/global-helpers";
 import { ApiTestFixtures, expect, test } from "../helpers/api-test-fixtures";
-import { SeoBlock } from "../types";
 import qs from "qs";
 
 const OTHER_PAGE_TITLE = `${API_SMOKE_NAME_PREFIX} Экскурсии`;
@@ -120,25 +119,18 @@ function getOtherPageByTitle({
   otherPage,
   title,
 }: {
-  otherPage: NewsResponse;
+  otherPage: OtherPageResponse;
   title: string;
 }) {
   return otherPage.data.find((item) => item.title === title);
 }
 
-type NewsResponse = {
+type OtherPageResponse = {
   data: {
     id?: number;
     documentId: string;
     title: string;
-    description?: string;
-    innerContent: string;
-    date: string;
-    image: {
-      url: string;
-      alternativeText: string;
-    },
     slug: string;
-    seo: SeoBlock;
+    blocks: unknown[]
   }[]
 }
