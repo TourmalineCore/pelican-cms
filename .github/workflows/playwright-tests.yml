@@ -29,9 +29,6 @@ jobs:
         with:
           repository: TourmalineCore/pelican-local-env
 
-      - name: Print helmfile before changes
-        run: cat deploy/helmfile.yaml
-
       - name: Deploy Local Env to Kind k8s
         uses: devcontainers/ci@v0.3
         with:
@@ -52,15 +49,6 @@ jobs:
 
             helmfile --environment local --namespace local -f deploy/helmfile.yaml apply
           push: never
-          # this variable is used by local-env helmfile to use current feature branch helm chart values.yaml file
-          # this is needed for a case when as part of the feature the chart was changed and is different from master branch
-          # this should properly fill the feature branch name in spite of the pipeline trigger source (PR, commit, etc.)
-          # https://stackoverflow.com/a/71158878
-          env: |
-              PELICAN_CMS_BRANCH=${{ github.head_ref || github.ref_name }}
-
-      - name: Print helmfile after changes
-        run: cat deploy/helmfile.yaml
 
       - name: Checkout repository
         uses: actions/checkout@v4
