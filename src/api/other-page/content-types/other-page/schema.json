@@ -24,13 +24,16 @@
       "components": [
         "shared.tickets",
         "shared.text-and-media",
-        "shared.seo",
-        "shared.meta-social",
         "shared.image-with-button-grid",
         "shared.hero",
-        "shared.categories",
         "shared.cards"
       ],
+      "required": true
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false,
       "required": true
     }
   }

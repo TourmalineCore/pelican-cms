@@ -753,11 +753,8 @@ export interface ApiOtherPageOtherPage extends Struct.CollectionTypeSchema {
       [
         'shared.tickets',
         'shared.text-and-media',
-        'shared.seo',
-        'shared.meta-social',
         'shared.image-with-button-grid',
         'shared.hero',
-        'shared.categories',
         'shared.cards',
       ]
     > &
@@ -772,6 +769,8 @@ export interface ApiOtherPageOtherPage extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false> &
+      Schema.Attribute.Required;
     slug: Schema.Attribute.String & Schema.Attribute.Unique;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;

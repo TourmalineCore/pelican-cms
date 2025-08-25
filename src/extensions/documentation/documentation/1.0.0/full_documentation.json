@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-08-19T10:38:14.331Z"
+    "x-generation-date": "2025-08-25T10:36:49.044Z"
   },
   "x-strapi-config": {
     "plugins": []
@@ -10675,7 +10675,8 @@
           "data": {
             "required": [
               "title",
-              "blocks"
+              "blocks",
+              "seo"
             ],
             "type": "object",
             "properties": {
@@ -10696,19 +10697,10 @@
                       "$ref": "#/components/schemas/SharedTextAndMediaComponent"
                     },
                     {
-                      "$ref": "#/components/schemas/SharedSeoComponent"
-                    },
-                    {
-                      "$ref": "#/components/schemas/SharedMetaSocialComponent"
-                    },
-                    {
                       "$ref": "#/components/schemas/SharedImageWithButtonGridComponent"
                     },
                     {
                       "$ref": "#/components/schemas/SharedHeroComponent"
-                    },
-                    {
-                      "$ref": "#/components/schemas/SharedCategoriesComponent"
                     },
                     {
                       "$ref": "#/components/schemas/SharedCardsComponent"
@@ -10720,14 +10712,14 @@
                   "mapping": {
                     "shared.tickets": "#/components/schemas/SharedTicketsComponent",
                     "shared.text-and-media": "#/components/schemas/SharedTextAndMediaComponent",
-                    "shared.seo": "#/components/schemas/SharedSeoComponent",
-                    "shared.meta-social": "#/components/schemas/SharedMetaSocialComponent",
                     "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
                     "shared.hero": "#/components/schemas/SharedHeroComponent",
-                    "shared.categories": "#/components/schemas/SharedCategoriesComponent",
                     "shared.cards": "#/components/schemas/SharedCardsComponent"
                   }
                 }
+              },
+              "seo": {
+                "$ref": "#/components/schemas/SharedSeoComponent"
               },
               "locale": {
                 "type": "string"
@@ -10789,7 +10781,8 @@
         "type": "object",
         "required": [
           "title",
-          "blocks"
+          "blocks",
+          "seo"
         ],
         "properties": {
           "id": {
@@ -10815,19 +10808,10 @@
                   "$ref": "#/components/schemas/SharedTextAndMediaComponent"
                 },
                 {
-                  "$ref": "#/components/schemas/SharedSeoComponent"
-                },
-                {
-                  "$ref": "#/components/schemas/SharedMetaSocialComponent"
-                },
-                {
                   "$ref": "#/components/schemas/SharedImageWithButtonGridComponent"
                 },
                 {
                   "$ref": "#/components/schemas/SharedHeroComponent"
-                },
-                {
-                  "$ref": "#/components/schemas/SharedCategoriesComponent"
                 },
                 {
                   "$ref": "#/components/schemas/SharedCardsComponent"
@@ -10839,14 +10823,14 @@
               "mapping": {
                 "shared.tickets": "#/components/schemas/SharedTicketsComponent",
                 "shared.text-and-media": "#/components/schemas/SharedTextAndMediaComponent",
-                "shared.seo": "#/components/schemas/SharedSeoComponent",
-                "shared.meta-social": "#/components/schemas/SharedMetaSocialComponent",
                 "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
                 "shared.hero": "#/components/schemas/SharedHeroComponent",
-                "shared.categories": "#/components/schemas/SharedCategoriesComponent",
                 "shared.cards": "#/components/schemas/SharedCardsComponent"
               }
             }
+          },
+          "seo": {
+            "$ref": "#/components/schemas/SharedSeoComponent"
           },
           "createdAt": {
             "type": "string",
@@ -10913,19 +10897,10 @@
                         "$ref": "#/components/schemas/SharedTextAndMediaComponent"
                       },
                       {
-                        "$ref": "#/components/schemas/SharedSeoComponent"
-                      },
-                      {
-                        "$ref": "#/components/schemas/SharedMetaSocialComponent"
-                      },
-                      {
                         "$ref": "#/components/schemas/SharedImageWithButtonGridComponent"
                       },
                       {
                         "$ref": "#/components/schemas/SharedHeroComponent"
-                      },
-                      {
-                        "$ref": "#/components/schemas/SharedCategoriesComponent"
                       },
                       {
                         "$ref": "#/components/schemas/SharedCardsComponent"
@@ -10937,14 +10912,14 @@
                     "mapping": {
                       "shared.tickets": "#/components/schemas/SharedTicketsComponent",
                       "shared.text-and-media": "#/components/schemas/SharedTextAndMediaComponent",
-                      "shared.seo": "#/components/schemas/SharedSeoComponent",
-                      "shared.meta-social": "#/components/schemas/SharedMetaSocialComponent",
                       "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
                       "shared.hero": "#/components/schemas/SharedHeroComponent",
-                      "shared.categories": "#/components/schemas/SharedCategoriesComponent",
                       "shared.cards": "#/components/schemas/SharedCardsComponent"
                     }
                   }
+                },
+                "seo": {
+                  "$ref": "#/components/schemas/SharedSeoComponent"
                 },
                 "createdAt": {
                   "type": "string",
@@ -11010,43 +10985,6 @@
           },
           "meta": {
             "type": "object"
-          }
-        }
-      },
-      "CategoryCategoryComponent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "title": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          }
-        }
-      },
-      "SharedCategoriesComponent": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "__component": {
-            "type": "string",
-            "enum": [
-              "shared.categories"
-            ]
-          },
-          "title": {
-            "type": "string"
-          },
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoryCategoryComponent"
-            }
           }
         }
       },
