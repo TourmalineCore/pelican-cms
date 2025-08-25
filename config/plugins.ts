@@ -154,6 +154,28 @@ export default ({ env }) => ({
                         openTarget: 'StrapiPreviewPage',
                     },
                 },
+                {
+                    uid: 'api::other.other',
+                    draft: {
+                        url: `${env('FRONTEND_URL')}/api/preview`,
+                        query: {
+                            slug: 'other',
+                            secret: env('PREVIEW_SECRET')
+                        },
+                        openTarget: 'StrapiPreviewPage',
+                    },
+                },
+                {
+                    uid: 'api::other-page.other-page',
+                    draft: {
+                        url: `${env('FRONTEND_URL')}/api/preview`,
+                        query: {
+                            slug: '{slug}',
+                            secret: env('PREVIEW_SECRET')
+                        },
+                        openTarget: 'StrapiPreviewPage',
+                    },
+                },
             ]
         }
     },
