@@ -1,4 +1,4 @@
-import { MOCK_CATEGORIES } from "../mocks";
+import { MOCK_HERO, MOCK_SEO } from "../mocks";
 import { API_SMOKE_NAME_PREFIX, HttpStatusCode } from "../helpers/global-helpers";
 import { ApiTestFixtures, expect, test } from "../helpers/api-test-fixtures";
 import qs from "qs";
@@ -43,14 +43,19 @@ async function checkOtherPagesResponseTest({
       title: OTHER_PAGE_TITLE,
       slug: 'api-smoke-ekskursii',
       blocks: [
-        MOCK_CATEGORIES
-      ]
+        MOCK_HERO
+      ],
+      seo: MOCK_SEO
     }
   ];
 
   const queryParams = {
     populate: [
-      `blocks.categories`, ,
+      `blocks.infoCard`,
+      `blocks.scheduleCard`,
+      `blocks.scheduleCard.timetable`,
+      `blocks.image`,
+      `seo`
     ],
   };
 
@@ -73,8 +78,9 @@ async function createOtherPages({
         data: {
           title: OTHER_PAGE_TITLE,
           blocks: [
-            MOCK_CATEGORIES
-          ]
+            MOCK_HERO
+          ],
+          seo: MOCK_SEO
         }
       }
     });
