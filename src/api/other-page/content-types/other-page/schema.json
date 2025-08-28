@@ -26,7 +26,8 @@
         "shared.text-and-media",
         "shared.image-with-button-grid",
         "shared.hero",
-        "shared.cards"
+        "shared.cards",
+        "shared.markdown-block"
       ],
       "required": true
     },

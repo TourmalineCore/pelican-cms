@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_shared_markdown_blocks",
+  "info": {
+    "displayName": "Текстовый блок"
+  },
+  "options": {},
+  "attributes": {
+    "markdown": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      },
+      "required": true
+    }
+  },
+  "config": {}
+}

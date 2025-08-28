@@ -756,6 +756,7 @@ export interface ApiOtherPageOtherPage extends Struct.CollectionTypeSchema {
         'shared.image-with-button-grid',
         'shared.hero',
         'shared.cards',
+        'shared.markdown-block',
       ]
     > &
       Schema.Attribute.Required;

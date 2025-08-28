@@ -284,6 +284,23 @@ export interface SharedImageWithButtonGrid extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedMarkdownBlock extends Struct.ComponentSchema {
+  collectionName: 'components_shared_markdown_blocks';
+  info: {
+    displayName: '\u0422\u0435\u043A\u0441\u0442\u043E\u0432\u044B\u0439 \u0431\u043B\u043E\u043A';
+  };
+  attributes: {
+    markdown: Schema.Attribute.RichText &
+      Schema.Attribute.Required &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+  };
+}
+
 export interface SharedMetaSocial extends Struct.ComponentSchema {
   collectionName: 'components_shared_meta_socials';
   info: {
@@ -704,6 +721,7 @@ declare module '@strapi/strapi' {
       'shared.cards': SharedCards;
       'shared.hero': SharedHero;
       'shared.image-with-button-grid': SharedImageWithButtonGrid;
+      'shared.markdown-block': SharedMarkdownBlock;
       'shared.meta-social': SharedMetaSocial;
       'shared.seo': SharedSeo;
       'shared.text-and-media': SharedTextAndMedia;

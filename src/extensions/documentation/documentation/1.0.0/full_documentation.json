@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-08-28T08:30:12.457Z"
+    "x-generation-date": "2025-08-28T09:52:04.200Z"
   },
   "x-strapi-config": {
     "plugins": []
@@ -10704,6 +10704,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/SharedCardsComponent"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SharedMarkdownBlockComponent"
                     }
                   ]
                 },
@@ -10714,7 +10717,8 @@
                     "shared.text-and-media": "#/components/schemas/SharedTextAndMediaComponent",
                     "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
                     "shared.hero": "#/components/schemas/SharedHeroComponent",
-                    "shared.cards": "#/components/schemas/SharedCardsComponent"
+                    "shared.cards": "#/components/schemas/SharedCardsComponent",
+                    "shared.markdown-block": "#/components/schemas/SharedMarkdownBlockComponent"
                   }
                 }
               },
@@ -10815,6 +10819,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/SharedCardsComponent"
+                },
+                {
+                  "$ref": "#/components/schemas/SharedMarkdownBlockComponent"
                 }
               ]
             },
@@ -10825,7 +10832,8 @@
                 "shared.text-and-media": "#/components/schemas/SharedTextAndMediaComponent",
                 "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
                 "shared.hero": "#/components/schemas/SharedHeroComponent",
-                "shared.cards": "#/components/schemas/SharedCardsComponent"
+                "shared.cards": "#/components/schemas/SharedCardsComponent",
+                "shared.markdown-block": "#/components/schemas/SharedMarkdownBlockComponent"
               }
             }
           },
@@ -10904,6 +10912,9 @@
                       },
                       {
                         "$ref": "#/components/schemas/SharedCardsComponent"
+                      },
+                      {
+                        "$ref": "#/components/schemas/SharedMarkdownBlockComponent"
                       }
                     ]
                   },
@@ -10914,7 +10925,8 @@
                       "shared.text-and-media": "#/components/schemas/SharedTextAndMediaComponent",
                       "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
                       "shared.hero": "#/components/schemas/SharedHeroComponent",
-                      "shared.cards": "#/components/schemas/SharedCardsComponent"
+                      "shared.cards": "#/components/schemas/SharedCardsComponent",
+                      "shared.markdown-block": "#/components/schemas/SharedMarkdownBlockComponent"
                     }
                   }
                 },
@@ -10985,6 +10997,23 @@
           },
           "meta": {
             "type": "object"
+          }
+        }
+      },
+      "SharedMarkdownBlockComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "__component": {
+            "type": "string",
+            "enum": [
+              "shared.markdown-block"
+            ]
+          },
+          "markdown": {
+            "type": "string"
           }
         }
       },
