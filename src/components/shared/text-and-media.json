@@ -7,6 +7,10 @@
   },
   "options": {},
   "attributes": {
+    "title": {
+      "type": "text",
+      "required": false
+    },
     "description": {
       "type": "text",
       "required": true
@@ -22,21 +26,17 @@
     },
     "contentOrder": {
       "type": "enumeration",
+      "required": true,
+      "default": "Текст слева",
       "enum": [
         "Текст слева",
         "Текст справа"
-      ],
-      "default": "Текст слева",
-      "required": true
+      ]
     },
     "viewFootsteps": {
       "type": "boolean",
-      "default": false,
-      "required": true
-    },
-    "title": {
-      "type": "text",
-      "required": true
+      "required": true,
+      "default": false
     }
   }
 }

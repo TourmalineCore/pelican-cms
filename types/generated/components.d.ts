@@ -247,7 +247,7 @@ export interface SharedCards extends Struct.ComponentSchema {
   attributes: {
     cards: Schema.Attribute.Component<'card.card', true> &
       Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -280,7 +280,7 @@ export interface SharedImageWithButtonGrid extends Struct.ComponentSchema {
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     largeImage: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
     smallImage: Schema.Attribute.Media<'images'>;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -354,7 +354,7 @@ export interface SharedTextAndMedia extends Struct.ComponentSchema {
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     media: Schema.Attribute.Media<'images' | 'videos'> &
       Schema.Attribute.Required;
-    title: Schema.Attribute.Text & Schema.Attribute.Required;
+    title: Schema.Attribute.Text;
     viewFootsteps: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;
@@ -369,12 +369,12 @@ export interface SharedTickets extends Struct.ComponentSchema {
     icon: 'cube';
   };
   attributes: {
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
     link: Schema.Attribute.String;
     note: Schema.Attribute.Text;
     subsidizedTickets: Schema.Attribute.Component<'tickets.ticket', true> &
       Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 

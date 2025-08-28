@@ -9,16 +9,16 @@
   "attributes": {
     "title": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "description": {
       "type": "text",
-      "required": true
+      "required": false
     },
     "subsidizedTickets": {
       "type": "component",
-      "repeatable": true,
       "component": "tickets.ticket",
+      "repeatable": true,
       "required": true
     },
     "note": {
