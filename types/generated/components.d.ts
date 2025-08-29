@@ -352,6 +352,28 @@ export interface SharedSeo extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedSteps extends Struct.ComponentSchema {
+  collectionName: 'components_shared_steps';
+  info: {
+    displayName: '\u041D\u0443\u043C\u0435\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0435 \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0438';
+  };
+  attributes: {
+    stepsCards: Schema.Attribute.Component<'shared.steps-card', true> &
+      Schema.Attribute.Required;
+    subtitle: Schema.Attribute.String;
+  };
+}
+
+export interface SharedStepsCard extends Struct.ComponentSchema {
+  collectionName: 'components_shared_steps_cards';
+  info: {
+    displayName: '\u041D\u0443\u043C\u0435\u0440\u043E\u0432\u0430\u043D\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430';
+  };
+  attributes: {
+    text: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
 export interface SharedTextAndMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_text_and_medias';
   info: {
@@ -724,6 +746,8 @@ declare module '@strapi/strapi' {
       'shared.markdown-block': SharedMarkdownBlock;
       'shared.meta-social': SharedMetaSocial;
       'shared.seo': SharedSeo;
+      'shared.steps': SharedSteps;
+      'shared.steps-card': SharedStepsCard;
       'shared.text-and-media': SharedTextAndMedia;
       'shared.tickets': SharedTickets;
       'tickets-popup.accordion-ticket': TicketsPopupAccordionTicket;

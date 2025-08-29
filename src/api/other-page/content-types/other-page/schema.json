@@ -27,7 +27,8 @@
         "shared.image-with-button-grid",
         "shared.hero",
         "shared.cards",
-        "shared.markdown-block"
+        "shared.markdown-block",
+        "shared.steps"
       ],
       "required": true
     },

@@ -757,6 +757,7 @@ export interface ApiOtherPageOtherPage extends Struct.CollectionTypeSchema {
         'shared.hero',
         'shared.cards',
         'shared.markdown-block',
+        'shared.steps',
       ]
     > &
       Schema.Attribute.Required;

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_shared_steps",
+  "info": {
+    "displayName": "Нумерованные карточки"
+  },
+  "options": {},
+  "attributes": {
+    "subtitle": {
+      "type": "string"
+    },
+    "stepsCards": {
+      "type": "component",
+      "component": "shared.steps-card",
+      "repeatable": true,
+      "required": true
+    }
+  },
+  "config": {}
+}

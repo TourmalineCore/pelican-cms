@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-08-28T09:52:04.200Z"
+    "x-generation-date": "2025-08-29T09:25:43.830Z"
   },
   "x-strapi-config": {
     "plugins": []
@@ -10707,6 +10707,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/SharedMarkdownBlockComponent"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SharedStepsComponent"
                     }
                   ]
                 },
@@ -10718,7 +10721,8 @@
                     "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
                     "shared.hero": "#/components/schemas/SharedHeroComponent",
                     "shared.cards": "#/components/schemas/SharedCardsComponent",
-                    "shared.markdown-block": "#/components/schemas/SharedMarkdownBlockComponent"
+                    "shared.markdown-block": "#/components/schemas/SharedMarkdownBlockComponent",
+                    "shared.steps": "#/components/schemas/SharedStepsComponent"
                   }
                 }
               },
@@ -10822,6 +10826,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/SharedMarkdownBlockComponent"
+                },
+                {
+                  "$ref": "#/components/schemas/SharedStepsComponent"
                 }
               ]
             },
@@ -10833,7 +10840,8 @@
                 "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
                 "shared.hero": "#/components/schemas/SharedHeroComponent",
                 "shared.cards": "#/components/schemas/SharedCardsComponent",
-                "shared.markdown-block": "#/components/schemas/SharedMarkdownBlockComponent"
+                "shared.markdown-block": "#/components/schemas/SharedMarkdownBlockComponent",
+                "shared.steps": "#/components/schemas/SharedStepsComponent"
               }
             }
           },
@@ -10915,6 +10923,9 @@
                       },
                       {
                         "$ref": "#/components/schemas/SharedMarkdownBlockComponent"
+                      },
+                      {
+                        "$ref": "#/components/schemas/SharedStepsComponent"
                       }
                     ]
                   },
@@ -10926,7 +10937,8 @@
                       "shared.image-with-button-grid": "#/components/schemas/SharedImageWithButtonGridComponent",
                       "shared.hero": "#/components/schemas/SharedHeroComponent",
                       "shared.cards": "#/components/schemas/SharedCardsComponent",
-                      "shared.markdown-block": "#/components/schemas/SharedMarkdownBlockComponent"
+                      "shared.markdown-block": "#/components/schemas/SharedMarkdownBlockComponent",
+                      "shared.steps": "#/components/schemas/SharedStepsComponent"
                     }
                   }
                 },
@@ -11014,6 +11026,40 @@
           },
           "markdown": {
             "type": "string"
+          }
+        }
+      },
+      "SharedStepsCardComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "SharedStepsComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "__component": {
+            "type": "string",
+            "enum": [
+              "shared.steps"
+            ]
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "stepsCards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SharedStepsCardComponent"
+            }
           }
         }
       },
