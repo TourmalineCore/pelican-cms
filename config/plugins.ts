@@ -158,7 +158,7 @@ export default ({ env }) => ({
         }
     },
     'strapi-cache': {
-        enabled: true,
+        enabled: false,
         config: {
             debug: false, // Enable debug logs
             max: 1000, // Maximum number of items in the cache (only for memory cache)
