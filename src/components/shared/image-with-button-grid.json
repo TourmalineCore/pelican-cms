@@ -9,7 +9,7 @@
   "attributes": {
     "title": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "description": {
       "type": "text",
@@ -17,8 +17,8 @@
     },
     "button": {
       "type": "component",
-      "repeatable": false,
       "component": "button.button",
+      "repeatable": false,
       "required": true
     },
     "largeImage": {

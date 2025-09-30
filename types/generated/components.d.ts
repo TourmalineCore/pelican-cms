@@ -247,7 +247,7 @@ export interface SharedCards extends Struct.ComponentSchema {
   attributes: {
     cards: Schema.Attribute.Component<'card.card', true> &
       Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -280,7 +280,24 @@ export interface SharedImageWithButtonGrid extends Struct.ComponentSchema {
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     largeImage: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
     smallImage: Schema.Attribute.Media<'images'>;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface SharedMarkdownBlock extends Struct.ComponentSchema {
+  collectionName: 'components_shared_markdown_blocks';
+  info: {
+    displayName: '\u0422\u0435\u043A\u0441\u0442\u043E\u0432\u044B\u0439 \u0431\u043B\u043E\u043A';
+  };
+  attributes: {
+    markdown: Schema.Attribute.RichText &
+      Schema.Attribute.Required &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
   };
 }
 
@@ -335,6 +352,28 @@ export interface SharedSeo extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedSteps extends Struct.ComponentSchema {
+  collectionName: 'components_shared_steps';
+  info: {
+    displayName: '\u041D\u0443\u043C\u0435\u0440\u043E\u0432\u0430\u043D\u043D\u044B\u0435 \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0438';
+  };
+  attributes: {
+    stepsCards: Schema.Attribute.Component<'shared.steps-card', true> &
+      Schema.Attribute.Required;
+    subtitle: Schema.Attribute.String;
+  };
+}
+
+export interface SharedStepsCard extends Struct.ComponentSchema {
+  collectionName: 'components_shared_steps_cards';
+  info: {
+    displayName: '\u041D\u0443\u043C\u0435\u0440\u043E\u0432\u0430\u043D\u043D\u0430\u044F \u043A\u0430\u0440\u0442\u043E\u0447\u043A\u0430';
+  };
+  attributes: {
+    text: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
 export interface SharedTextAndMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_text_and_medias';
   info: {
@@ -354,7 +393,7 @@ export interface SharedTextAndMedia extends Struct.ComponentSchema {
     description: Schema.Attribute.Text & Schema.Attribute.Required;
     media: Schema.Attribute.Media<'images' | 'videos'> &
       Schema.Attribute.Required;
-    title: Schema.Attribute.Text & Schema.Attribute.Required;
+    title: Schema.Attribute.Text;
     viewFootsteps: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;
@@ -369,12 +408,12 @@ export interface SharedTickets extends Struct.ComponentSchema {
     icon: 'cube';
   };
   attributes: {
-    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    description: Schema.Attribute.Text;
     link: Schema.Attribute.String;
     note: Schema.Attribute.Text;
     subsidizedTickets: Schema.Attribute.Component<'tickets.ticket', true> &
       Schema.Attribute.Required;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -704,8 +743,11 @@ declare module '@strapi/strapi' {
       'shared.cards': SharedCards;
       'shared.hero': SharedHero;
       'shared.image-with-button-grid': SharedImageWithButtonGrid;
+      'shared.markdown-block': SharedMarkdownBlock;
       'shared.meta-social': SharedMetaSocial;
       'shared.seo': SharedSeo;
+      'shared.steps': SharedSteps;
+      'shared.steps-card': SharedStepsCard;
       'shared.text-and-media': SharedTextAndMedia;
       'shared.tickets': SharedTickets;
       'tickets-popup.accordion-ticket': TicketsPopupAccordionTicket;

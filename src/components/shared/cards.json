@@ -8,13 +8,12 @@
   "attributes": {
     "title": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "cards": {
-      "displayName": "card",
       "type": "component",
-      "repeatable": true,
       "component": "card.card",
+      "repeatable": true,
       "required": true
     }
   }

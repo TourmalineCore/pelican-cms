@@ -42,8 +42,6 @@ const withoutImagesPreset: Preset = {
       IndentBlock,
     ],
     toolbar: [
-      'heading',
-      '|',
       'bold',
       'italic',
       'strikethrough',
@@ -78,8 +76,6 @@ const CKEConfig = (): PluginConfig => ({
       editorConfig: {
         ...defaultHtmlPreset.editorConfig,
         toolbar: [
-          'heading',
-          '|',
           'bold',
           'italic',
           'strikethrough',

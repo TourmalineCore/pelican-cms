@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "other_pages",
+  "info": {
+    "singularName": "other-page",
+    "pluralName": "other-pages",
+    "displayName": "Другие страницы"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "string",
+      "unique": true
+    },
+    "blocks": {
+      "type": "dynamiczone",
+      "components": [
+        "shared.tickets",
+        "shared.text-and-media",
+        "shared.image-with-button-grid",
+        "shared.hero",
+        "shared.cards",
+        "shared.markdown-block",
+        "shared.steps"
+      ],
+      "required": true
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false,
+      "required": true
+    }
+  }
+}
