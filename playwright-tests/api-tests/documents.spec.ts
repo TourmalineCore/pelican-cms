@@ -60,7 +60,6 @@ async function checkDocumentsResponseTest({
     }
   ];
 
-
   const documentsResponse = await apiRequest(`${ENDPOINT}?populate=*`);
   const documentsData = await documentsResponse.json();
 
@@ -106,7 +105,7 @@ async function createDocuments({
 
     await expect(response.status(), 'Documents should be created with status 201')
       .toEqual(HttpStatusCode.Created);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to create test documents: ${error.message}`)
   }
 }
@@ -135,7 +134,7 @@ async function deleteDocument({
       await expect(response.status(), 'Documents should be deleted with status 204')
         .toEqual(HttpStatusCode.NoContent);
     }
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test documents: ${error.message}`)
   }
 }

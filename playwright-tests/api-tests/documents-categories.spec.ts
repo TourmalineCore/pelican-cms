@@ -49,7 +49,7 @@ async function checkDocumentsCategoriesResponseTest({
     }
   ];
 
-  const documentsCategoriesResponse = await apiRequest(`${ENDPOINT}?populate=*`);
+  const documentsCategoriesResponse = await apiRequest(`${ENDPOINT}?populate=*&filters[title][$eq]=${DOCUMENT_CATEGORY_TITLE}`);
 
   const documentsCategoriesData = await documentsCategoriesResponse.json();
 

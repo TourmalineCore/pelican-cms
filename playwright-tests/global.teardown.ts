@@ -5,7 +5,7 @@ teardown('remove test files', async ({ apiRequest }) => {
   const filesResponse = await apiRequest('/api/upload/files');
   const filesData = await filesResponse.json();
 
-  const filesDelete = filesData.filter((file) => file.name?.startsWith(TEST_FILE_NAME_PREFIX));
+  const filesDelete = filesData.filter((file: any) => file.name?.startsWith(TEST_FILE_NAME_PREFIX));
 
   if (filesDelete.length) {
     for (const { id } of filesDelete) {
@@ -16,7 +16,7 @@ teardown('remove test files', async ({ apiRequest }) => {
 
         expect(response.status(), 'Files should be deleted with status 200')
           .toEqual(HttpStatusCode.Ok);
-      } catch (error) {
+      } catch (error: any) {
         throw new Error(`Failed to delete files: ${error.message}`)
       }
     }

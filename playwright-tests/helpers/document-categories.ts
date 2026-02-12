@@ -29,7 +29,7 @@ export async function createDocumentsCategoryByTitle({
       .toEqual(HttpStatusCode.Created);
 
     return responseData.data.id;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to create test documents categories: ${error.message}`)
   }
 }
@@ -58,7 +58,7 @@ export async function deleteDocumentCategoryByTitle({
       await expect(response.status(), 'Documents categories should be deleted with status 204')
         .toEqual(HttpStatusCode.NoContent);
     }
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test documents categories: ${error.message}`)
   }
 }

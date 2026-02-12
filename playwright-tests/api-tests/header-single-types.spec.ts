@@ -87,7 +87,7 @@ async function updateHeaderSingleTypes({
 
     await expect(response.status(), 'Header single types should be updated with status 200')
       .toEqual(HttpStatusCode.Ok);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to update test header single types: ${error.message}`)
   }
 }
@@ -104,7 +104,7 @@ async function deleteHeaderSingleType({
 
     await expect(response.status(), 'Header single types should be deleted with status 204')
       .toEqual(HttpStatusCode.NoContent);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test header single types: ${error.message}`)
   }
 }

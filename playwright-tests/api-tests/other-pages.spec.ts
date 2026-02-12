@@ -87,7 +87,7 @@ async function createOtherPages({
 
     await expect(response.status(), 'Other page should be created with status 201')
       .toEqual(HttpStatusCode.Created);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to create test other page: ${error.message}`)
   }
 }
@@ -116,7 +116,7 @@ async function deleteOtherPagesByTitle({
       await expect(response.status(), 'Other page should be deleted with status 204')
         .toEqual(HttpStatusCode.NoContent);
     }
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test other page: ${error.message}`)
   }
 }
