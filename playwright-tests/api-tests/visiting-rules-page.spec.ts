@@ -119,7 +119,7 @@ async function updateVisitingRulesPage({
 
     await expect(response.status(), 'Visiting rules page should be updated with status 200')
       .toEqual(HttpStatusCode.Ok);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to update test visiting rules page: ${error.message}`)
   }
 
@@ -137,7 +137,7 @@ async function deleteVisitingRulesPage({
 
     await expect(response.status(), 'Visiting rules page should be deleted with status 204')
       .toEqual(HttpStatusCode.NoContent);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test visiting rules page: ${error.message}`)
   }
 }

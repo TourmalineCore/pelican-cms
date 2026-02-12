@@ -66,7 +66,7 @@ async function updateDocumentsPage({
 
     await expect(response.status(), 'Documents page should be updated with status 200')
       .toEqual(HttpStatusCode.Ok);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to update test documents page: ${error.message}`)
   }
 }
@@ -83,7 +83,7 @@ async function deleteDocumentsPage({
 
     await expect(response.status(), 'Documents page should be deleted with status 204')
       .toEqual(HttpStatusCode.NoContent);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test documents page: ${error.message}`)
   }
 }

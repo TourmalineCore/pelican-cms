@@ -115,7 +115,7 @@ async function updateDiscountsPage({
 
     await expect(response.status(), 'Discounts page updating')
       .toEqual(HttpStatusCode.Ok);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to update test discounts page: ${error.message}`)
   }
 
@@ -133,7 +133,7 @@ async function deleteDiscountsPage({
 
     await expect(response.status(), 'Discounts page should be deleted with status 200')
       .toEqual(HttpStatusCode.NoContent);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test visiting rules page: ${error.message}`)
   }
 }

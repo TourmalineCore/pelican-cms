@@ -148,7 +148,7 @@ async function updateContactZooPage({
 
     await expect(response.status(), 'Contact zoo page should be updated with status 200')
       .toEqual(HttpStatusCode.Ok);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to update test contact zoo page: ${error.message}`)
   }
 }
@@ -165,7 +165,7 @@ async function deleteContactZooPage({
 
     await expect(response.status(), 'Contact zoo page should be deleted with status 204')
       .toEqual(HttpStatusCode.NoContent);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test contact zoo page: ${error.message}`)
   }
 }

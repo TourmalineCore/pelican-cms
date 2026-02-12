@@ -66,7 +66,7 @@ async function updateNewsPage({
 
     await expect(response.status(), 'News page should be updated with status 200')
       .toEqual(HttpStatusCode.Ok);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to update test news page: ${error.message}`)
   }
 }
@@ -83,7 +83,7 @@ async function deleteNewsPage({
 
     await expect(response.status(), 'News page should be deleted with status 204')
       .toEqual(HttpStatusCode.NoContent);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test news page: ${error.message}`)
   }
 }

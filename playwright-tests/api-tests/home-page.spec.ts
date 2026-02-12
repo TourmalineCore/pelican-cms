@@ -160,7 +160,7 @@ async function updateHomePage({
 
     await expect(response.status(), 'Home page should be updated with status 200')
       .toEqual(HttpStatusCode.Ok);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to update test home page: ${error.message}`)
   }
 }
@@ -177,7 +177,7 @@ async function deleteHomePage({
 
     await expect(response.status(), 'Home page should be deleted with status 204')
       .toEqual(HttpStatusCode.NoContent);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test home page: ${error.message}`)
   }
 }

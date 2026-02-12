@@ -34,7 +34,7 @@ setup('upload test files', async ({ apiRequest }) => {
 
     expect(response.status(), 'Files should be uploaded with status 201')
       .toEqual(HttpStatusCode.Created);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to upload files: ${error.message}`)
   }
 });

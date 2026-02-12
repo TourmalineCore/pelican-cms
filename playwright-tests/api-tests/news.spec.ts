@@ -92,7 +92,7 @@ async function createNews({
 
     await expect(response.status(), 'News should be created with status 201')
       .toEqual(HttpStatusCode.Created);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to create test news: ${error.message}`)
   }
 }
@@ -121,7 +121,7 @@ async function deleteNewsByTitle({
       await expect(response.status(), 'News should be deleted with status 204')
         .toEqual(HttpStatusCode.NoContent);
     }
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete test news: ${error.message}`)
   }
 }
