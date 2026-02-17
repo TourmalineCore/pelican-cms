@@ -8,19 +8,13 @@ const ENDPOINT = '/api/other-pages';
 
 test.describe(`Other pages response tests`, () => {
   test.beforeEach(async ({ apiRequest }) => {
-    await deleteOtherPagesByTitle({
-      title: OTHER_PAGE_TITLE,
-      apiRequest
-    });
+    await deleteOtherPagesByPrefix({ apiRequest });
 
     await createOtherPages({ apiRequest });
   });
 
   test.afterEach(async ({ apiRequest }) => {
-    await deleteOtherPagesByTitle({
-      title: OTHER_PAGE_TITLE,
-      apiRequest
-    });
+    await deleteOtherPagesByPrefix({ apiRequest });
   });
 
   test(`
@@ -92,24 +86,21 @@ async function createOtherPages({
   }
 }
 
-async function deleteOtherPagesByTitle({
-  title,
+async function deleteOtherPagesByPrefix({
   apiRequest
 }: {
-  title: string;
   apiRequest: ApiTestFixtures['apiRequest'];
 }) {
   try {
     const response = await apiRequest(`${ENDPOINT}?populate=*`);
     const responseData = await response.json();
 
-    const otherPage = getOtherPageByTitle({
-      otherPage: responseData,
-      title
-    });
+    const toDelete = responseData.data.filter((item: any) =>
+      item.title?.startsWith(API_SMOKE_NAME_PREFIX)
+    );
 
-    if (otherPage) {
-      const response = await apiRequest(`${ENDPOINT}/${otherPage.documentId}`, {
+    for (const item of toDelete) {
+      const response = await apiRequest(`${ENDPOINT}/${item.documentId}`, {
         method: 'DELETE'
       });
 
@@ -119,24 +110,4 @@ async function deleteOtherPagesByTitle({
   } catch (error: any) {
     throw new Error(`Failed to delete test other page: ${error.message}`)
   }
-}
-
-function getOtherPageByTitle({
-  otherPage,
-  title,
-}: {
-  otherPage: OtherPageResponse;
-  title: string;
-}) {
-  return otherPage.data.find((item) => item.title === title);
-}
-
-type OtherPageResponse = {
-  data: {
-    id?: number;
-    documentId: string;
-    title: string;
-    slug: string;
-    blocks: unknown[]
-  }[]
 }

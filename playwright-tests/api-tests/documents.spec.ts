@@ -11,7 +11,6 @@ const ENDPOINT = `/api/documents`;
 test.describe(`Documents response tests`, () => {
   test.beforeEach(async ({ apiRequest }) => {
     await deleteDocument({
-      title: DOCUMENT_TITLE,
       apiRequest
     });
 
@@ -27,7 +26,6 @@ test.describe(`Documents response tests`, () => {
     });
 
     await deleteDocument({
-      title: DOCUMENT_TITLE,
       apiRequest
     });
   });
@@ -111,23 +109,20 @@ async function createDocuments({
 }
 
 async function deleteDocument({
-  title,
   apiRequest
 }: {
-  title: string;
   apiRequest: ApiTestFixtures['apiRequest'];
 }) {
   try {
     const documentsResponse = await apiRequest(`${ENDPOINT}?populate=*`);
     const documentsData = await documentsResponse.json();
 
-    const document = getDocumentByTitle({
-      documents: documentsData,
-      title
-    });
+    const toDelete = documentsData.data.filter((item: any) =>
+      item.title?.startsWith(API_SMOKE_NAME_PREFIX)
+    );
 
-    if (document) {
-      const response = await apiRequest(`${ENDPOINT}/${document.documentId}`, {
+    for (const item of toDelete) {
+      const response = await apiRequest(`${ENDPOINT}/${item.documentId}`, {
         method: 'DELETE'
       });
 

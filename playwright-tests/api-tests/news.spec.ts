@@ -11,8 +11,7 @@ const ENDPOINT = '/api/news';
 
 test.describe(`News response tests`, () => {
   test.beforeEach(async ({ apiRequest }) => {
-    await deleteNewsByTitle({
-      title: NEWS_TITLE,
+    await deleteNewsByPrefix({
       apiRequest
     });
 
@@ -20,10 +19,7 @@ test.describe(`News response tests`, () => {
   });
 
   test.afterEach(async ({ apiRequest }) => {
-    await deleteNewsByTitle({
-      title: NEWS_TITLE,
-      apiRequest
-    });
+    await deleteNewsByPrefix({ apiRequest });
   });
 
   test(`
@@ -97,24 +93,21 @@ async function createNews({
   }
 }
 
-async function deleteNewsByTitle({
-  title,
+async function deleteNewsByPrefix({
   apiRequest
 }: {
-  title: string;
   apiRequest: ApiTestFixtures['apiRequest'];
 }) {
   try {
     const newsResponse = await apiRequest(`${ENDPOINT}?populate=*`);
     const newsData = await newsResponse.json();
 
-    const news = getNewsByTitle({
-      news: newsData,
-      title
-    });
+    const toDelete = newsData.data.filter((item: any) =>
+      item.title?.startsWith(API_SMOKE_NAME_PREFIX)
+    );
 
-    if (news) {
-      const response = await apiRequest(`${ENDPOINT}/${news.documentId}`, {
+    for (const item of toDelete) {
+      const response = await apiRequest(`${ENDPOINT}/${item.documentId}`, {
         method: 'DELETE'
       });
 
