@@ -1,8 +1,6 @@
-# taken from the official docs https://docs-v4.strapi.io/dev-docs/installation/docker#production-dockerfile
-# https://forum.strapi.io/t/docker-strapi-node-18-16-alpine-sharp-node-gyp-problem-solved/32245/10
-# starting from alpine 3.18 its Python 3.11 is incompatible. alpine 3.17 has Python 3.10
+# taken from the official docs https://docs.strapi.io/cms/installation/docker#create-the-production-dockerfile
 # Creating multi-stage build for production
-FROM node:18.18.2-alpine3.17 AS build
+FROM node:22.18-alpine3.21 AS build
 RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev git > /dev/null 2>&1
 ENV NODE_ENV=production
 
@@ -26,7 +24,7 @@ COPY . .
 RUN npm run build
 
 # Creating final production image
-FROM node:18.18.2-alpine3.17
+FROM node:22.18-alpine3.21
 RUN apk add --no-cache vips-dev
 ARG NODE_ENV=production
 WORKDIR /opt/
