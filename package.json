@@ -15,7 +15,7 @@
     "playwright:open": "npx playwright test --ui"
   },
   "dependencies": {
-    "@_sh/strapi-plugin-ckeditor": "^5.0.2",
+    "@_sh/strapi-plugin-ckeditor": "^7.1.1",
     "@strapi/plugin-cloud": "5.46.1",
     "@strapi/plugin-documentation": "^5.46.1",
     "@strapi/plugin-seo": "^2.0.8",
