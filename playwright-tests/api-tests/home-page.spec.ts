@@ -8,10 +8,17 @@ import {
   MOCK_SEO
 } from "../mocks";
 import qs from "qs";
+import { z } from "zod";
 import { getFileIdByName, HttpStatusCode } from "../helpers/global-helpers";
 import { ApiTestFixtures, expect, test } from "../helpers/api-test-fixtures";
 
 const ENDPOINT = '/api/home';
+const UrlSchema = z.object({
+
+  url: z.string().url()
+
+});
+
 
 test.describe(`Home page response tests`, () => {
   test.beforeEach(async ({ apiRequest }) => {
@@ -81,29 +88,17 @@ async function checkHomepageResponseTest({
   await expect(homepageData.data, 'Home page response is correct')
     .toMatchObject(expectedHomepageResponse);
 
-  await expect(heroBlock.image.url)
-    .not
-    .toBeNull();
+  UrlSchema.parse(heroBlock.image);
 
-  await expect(servicesBlock.cards.cards[0].image.url)
-    .not
-    .toBeNull();
+  UrlSchema.parse(servicesBlock.cards.cards[0].image);
 
-  await expect(textAndMediaBlock.media.url)
-    .not
-    .toBeNull();
+  UrlSchema.parse(textAndMediaBlock.media);
 
-  await expect(imageWithButtonGridBlock.largeImage.url)
-    .not
-    .toBeNull();
+  UrlSchema.parse(imageWithButtonGridBlock.largeImage);
 
-  await expect(imageWithButtonGridBlock.smallImage.url)
-    .not
-    .toBeNull();
+  UrlSchema.parse(imageWithButtonGridBlock.smallImage);
 
-  await expect(mapCardBlock.image.url)
-    .not
-    .toBeNull();
+  UrlSchema.parse(mapCardBlock.image);
 }
 
 
