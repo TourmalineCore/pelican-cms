@@ -12,6 +12,7 @@ import {
   ShowBlocks,
   Indent,
   IndentBlock,
+  MediaEmbed,
 } from 'ckeditor5';
 
 import {
@@ -40,6 +41,7 @@ const withoutImagesPreset: Preset = {
       ShowBlocks,
       Indent,
       IndentBlock,
+      MediaEmbed
     ],
     toolbar: [
       'bold',
@@ -93,9 +95,36 @@ const CKEConfig = (): PluginConfig => ({
           'outdent',
           'indent',
           '|',
+          'mediaEmbed',
+          '|',
           'undo',
           'redo'
         ],
+        mediaEmbed: {
+          previewsInData: true,
+          extraProviders: [
+            {
+              // Adding the configuration so that CKEditor can work with links from vk
+              name: 'vk',
+              // We allow only links from VK, and only to videos
+              url: /https?:\/\/(vk\.ru|vkvideo\.ru)\/video[^\s]+/,
+              html: (match: RegExpMatchArray) => {
+                let videoUrl = match[0];
+                // Disabling autoplay video
+                videoUrl = videoUrl.replace(/[?&]autoplay=1/, '');
+
+                // In the iframe, using the sandbox and allow parameters, we give only the necessary access for the video to work, and prohibit everything else for additional security
+                return `<iframe
+                  src=${videoUrl}
+                  frameborder="0"
+                  allow="fullscreen *; encrypted-media; picture-in-picture; screen-wake-lock;"
+                  sandbox="allow-scripts allow-same-origin"
+                  allowFullScreen
+                ></iframe>`;
+              }
+            }
+          ]
+        }
       },
     },
     withoutImagesPreset,
