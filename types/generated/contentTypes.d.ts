@@ -753,13 +753,13 @@ export interface ApiNewsCollectionNewsCollection
           preset: 'defaultHtml';
         }
       >;
+    isPinned: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::news-collection.news-collection'
     > &
       Schema.Attribute.Private;
-    pin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     publishedAt: Schema.Attribute.DateTime;
     seo: Schema.Attribute.Component<'shared.seo', false>;
     slug: Schema.Attribute.String;

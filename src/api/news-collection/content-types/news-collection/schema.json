@@ -52,7 +52,7 @@
       },
       "required": true
     },
-    "pin": {
+    "isPinned": {
       "type": "boolean",
       "default": false
     },
