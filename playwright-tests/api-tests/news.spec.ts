@@ -47,7 +47,7 @@ async function checkNewsResponseTest({
       slug: '2025/02/15/api-smoke-v-zooparke-poyavilsya-amurskij-tigr',
       date: DATE,
       seo: MOCK_SEO,
-      // isPinned: true
+      isPinned: true
     }
   ];
 
@@ -79,7 +79,7 @@ async function createNews({
           innerContent: INNER_CONTENT,
           date: DATE,
           seo: MOCK_SEO,
-          // isPinned: true
+          isPinned: true
         }
       }
     });
