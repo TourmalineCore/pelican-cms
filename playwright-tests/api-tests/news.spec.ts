@@ -67,7 +67,7 @@ async function createNews({
   apiRequest: ApiTestFixtures['apiRequest'];
 }) {
   try {
-    console.log('CREATE DATA', NEWS_TITLE,, DESCRIPTION, INNER_CONTENT, DATE, MOCK_SEO)
+    console.log('CREATE DATA', NEWS_TITLE, DESCRIPTION, INNER_CONTENT, DATE, MOCK_SEO)
     console.log('FILE', await getFileIdByName({
       apiRequest
     }))
