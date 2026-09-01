@@ -47,7 +47,7 @@ async function checkNewsResponseTest({
       slug: '2025/02/15/api-smoke-v-zooparke-poyavilsya-amurskij-tigr',
       date: DATE,
       seo: MOCK_SEO,
-      isPinned: true
+      // isPinned: true
     }
   ];
 
@@ -67,11 +67,6 @@ async function createNews({
   apiRequest: ApiTestFixtures['apiRequest'];
 }) {
   try {
-    console.log('CREATE DATA', NEWS_TITLE, DESCRIPTION, INNER_CONTENT, DATE, MOCK_SEO)
-    console.log('FILE', await getFileIdByName({
-      apiRequest
-    }))
-
     const response = await apiRequest(ENDPOINT, {
       method: 'POST',
       data: {
@@ -84,7 +79,7 @@ async function createNews({
           innerContent: INNER_CONTENT,
           date: DATE,
           seo: MOCK_SEO,
-          isPinned: true
+          // isPinned: true
         }
       }
     });
