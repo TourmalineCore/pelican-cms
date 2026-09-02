@@ -54,6 +54,7 @@
     },
     "isPinned": {
       "type": "boolean",
+      "required": true,
       "default": false
     },
     "slug": {
