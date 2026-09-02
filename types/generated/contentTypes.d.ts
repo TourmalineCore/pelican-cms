@@ -753,6 +753,9 @@ export interface ApiNewsCollectionNewsCollection
           preset: 'defaultHtml';
         }
       >;
+    isPinned: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

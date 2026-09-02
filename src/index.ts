@@ -1,3 +1,5 @@
+import { Core } from "@strapi/strapi";
+
 export default {
   /**
    * An asynchronous register function that runs before
@@ -78,8 +80,39 @@ export default {
     // Enable destroy
     _public.permissions['plugin::upload'].controllers['content-api'].destroy.enabled = true;
 
+    await setDefaultIsPinnedForExistingNews({
+      strapi
+    })
+
     await strapi
       .service("plugin::users-permissions.role")
       .updateRole(_public.id, _public);
   },
 };
+
+async function setDefaultIsPinnedForExistingNews({
+  strapi
+}: {
+  strapi: Core.Strapi
+}) {
+  const newsList = await strapi.db.query('api::news-collection.news-collection')
+    .findMany({
+      select: [
+        'id',
+        'isPinned'
+      ]
+    });
+
+  for (const news of newsList) {
+    if (news.isPinned === null) {
+      await strapi.db.query('api::news-collection.news-collection').update({
+        where: {
+          id: news.id
+        },
+        data: {
+          isPinned: false
+        }
+      });
+    }
+  }
+}
