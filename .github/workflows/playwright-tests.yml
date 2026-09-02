@@ -49,6 +49,8 @@ jobs:
             export KUBECONFIG=$(pwd)/.pelican-cluster-kubeconfig
 
             helmfile --environment local --namespace local -f deploy/helmfile.yaml apply
+
+            kubectl describe deployment pelican-cms -n local
           push: never
 
       - name: Checkout repository
