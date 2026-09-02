@@ -53,6 +53,9 @@ jobs:
             kubectl describe deployment pelican-cms -n local
           push: never
 
+      - name: check image tag in values
+        run: cat deploy/values-cms.yaml.gotmpl
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
