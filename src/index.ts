@@ -95,24 +95,12 @@ async function setDefaultIsPinnedForExistingNews({
 }: {
   strapi: Core.Strapi
 }) {
-  const newsList = await strapi.db.query('api::news-collection.news-collection')
-    .findMany({
-      select: [
-        'id',
-        'isPinned'
-      ]
-    });
-
-  for (const news of newsList) {
-    if (news.isPinned === null) {
-      await strapi.db.query('api::news-collection.news-collection').update({
-        where: {
-          id: news.id
-        },
-        data: {
-          isPinned: false
-        }
-      });
+  await strapi.db.query('api::news-collection.news-collection').updateMany({
+    where: {
+      isPinned: null
+    },
+    data: {
+      isPinned: false
     }
-  }
+  });
 }
