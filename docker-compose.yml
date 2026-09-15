@@ -14,7 +14,7 @@ services:
 
   minio:
     container_name: minio
-    image: minio/minio
+    image: bitnamilegacy/minio
     profiles: ['minio-s3-only', 'db-and-minio-s3', 'local-run']
     ports:
       - "9000:9000"
@@ -29,7 +29,7 @@ services:
     command: server --console-address ":9001" /data
 
   minio-setup:
-    image: minio/mc:latest
+    image: bitnamilegacy/minio-client
     container_name: minio-setup
     depends_on:
       - minio
